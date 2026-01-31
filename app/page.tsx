@@ -1754,17 +1754,17 @@ export default function Home() {
                 </motion.a>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-stretch">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
                 {[
-                  { value: '£161bn', label: <>UK Digital Sector GVA (2023)<sup><a href="#source-4">[4]</a></sup></>, large: true },
-                  { value: '62k+', label: <>Surrey enterprises (2024)<sup><a href="#source-5">[5]</a></sup></>, large: true },
-                  { value: 'Pioneering', label: <>FE software venture<sup><a href="#fe-precedents">*</a></sup></>, large: false },
+                  { value: '£161bn', label: <>UK Digital Sector GVA (2023)<sup><a href="#source-4">[4]</a></sup></> },
+                  { value: '62k+', label: <>Surrey enterprises (2024)<sup><a href="#source-5">[5]</a></sup></> },
+                  { value: 'Pioneering', label: <>FE software venture<sup><a href="#fe-precedents">*</a></sup></> },
                 ].map((stat, i) => (
                   <div
                     key={i}
-                    className="text-center px-5 py-6 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 hover:border-[#14B8A6]/50 transition-colors flex flex-col justify-center gap-3 min-h-[110px]"
+                    className="text-center px-8 py-6 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 hover:border-[#14B8A6]/50 transition-colors flex flex-col justify-center gap-3 min-h-[110px]"
                   >
-                    <p className={`font-black text-[#14B8A6] whitespace-nowrap leading-none ${stat.large ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl'}`}>{stat.value}</p>
+                    <p className="text-2xl md:text-3xl font-black text-[#14B8A6] whitespace-nowrap leading-none">{stat.value}</p>
                     <p className="text-xs text-white/90 font-medium leading-relaxed">{stat.label}</p>
                   </div>
                 ))}
@@ -1775,7 +1775,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-              className="relative"
+              className="relative lg:translate-x-6"
             >
               <div className="aspect-square rounded-3xl bg-gradient-to-br from-[#2d1f4e] via-[#3a2866] to-[#4a2570] border border-white/20 p-8 relative overflow-hidden shadow-2xl">
                 {/* Animated gradient orbs */}
