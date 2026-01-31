@@ -18,7 +18,12 @@ declare global {
 // Dynamically import Plotly to avoid SSR issues
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
-const PASSWORD = 'nescotpitch2026'
+// Passwords: college staff, external/investors, admin (no analytics)
+const PASSWORDS = {
+  college: 'nescot2026',
+  investor: 'investor2026', 
+  admin: 'richey2026'
+}
 
 /* ═══════════════════════════════════════════════════════════════
    COMPONENTS
@@ -1278,6 +1283,7 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(false)
   const [showNav, setShowNav] = useState(true)
   const [showTop, setShowTop] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const lastScrollY = useRef(0)
 
   useEffect(() => {
@@ -1293,10 +1299,17 @@ export default function Home() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (input.trim() === PASSWORD) {
+    const trimmed = input.trim()
+    const validPassword = Object.values(PASSWORDS).includes(trimmed)
+    
+    if (validPassword) {
+      // Disable analytics for admin
+      if (trimmed === PASSWORDS.admin) {
+        setIsAdmin(true)
+        window.localStorage.setItem('va_disable', 'true')
+      }
       setAuthenticated(true)
       setShowSplash(true)
-      // Auto-dismiss splash after 2.5 seconds
       setTimeout(() => {
         setShowSplash(false)
       }, 2500)
