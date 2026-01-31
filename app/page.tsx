@@ -1754,7 +1754,7 @@ export default function Home() {
                 </motion.a>
               </div>
 
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-stretch">
                 {[
                   { value: '£161bn', label: <>UK Digital Sector GVA (2023)<sup><a href="#source-4">[4]</a></sup></> },
                   { value: '62k+', label: <>Surrey enterprises (2024)<sup><a href="#source-5">[5]</a></sup></> },
@@ -1762,10 +1762,10 @@ export default function Home() {
                 ].map((stat, i) => (
                   <div
                     key={i}
-                    className="text-center p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#14B8A6]/50 transition-colors"
+                    className="text-center p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 hover:border-[#14B8A6]/50 transition-colors flex flex-col justify-center"
                   >
-                    <p className="text-2xl md:text-3xl font-black text-[#14B8A6]">{stat.value}</p>
-                    <p className="text-xs text-white/90 font-medium">{stat.label}</p>
+                    <p className="text-2xl md:text-3xl font-black text-[#14B8A6] whitespace-nowrap md:whitespace-normal">{stat.value}</p>
+                    <p className="text-sm md:text-xs text-white/90 font-medium leading-snug mt-1">{stat.label}</p>
                   </div>
                 ))}
               </div>
