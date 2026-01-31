@@ -1,0 +1,12 @@
+{
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_FLAG_STAFF_LOGIN": "true",
+      "NEXT_PUBLIC_FLAG_EXEC_LOGIN": "false"
+    }
+  },
+  "env": {
+    "NEXT_PUBLIC_FLAG_STAFF_LOGIN": "true",
+    "NEXT_PUBLIC_FLAG_EXEC_LOGIN": "false"
+  }
+}
