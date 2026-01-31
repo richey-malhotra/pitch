@@ -299,14 +299,14 @@ function LearningOrbit() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   
-  // Floating labels - positioned around edges to avoid center card
+  // Floating labels - positioned in close orbit around center card
   const nodes = useMemo(() => [
-    { label: 'T Level Digital', icon: '🎓', x: 8, y: 12 },
-    { label: 'Industry Partners', icon: '🤝', x: 82, y: 8 },
-    { label: 'AI & Machine Learning', icon: '🤖', x: 5, y: 85 },
-    { label: 'Cloud Certifications', icon: '☁️', x: 75, y: 88 },
-    { label: 'Innovation Hub', icon: '🚀', x: 92, y: 45 },
-    { label: 'Future Skills', icon: '🧠', x: 3, y: 50 },
+    { label: 'T Level Digital', icon: '🎓', x: 18, y: 22 },
+    { label: 'Industry Partners', icon: '🤝', x: 72, y: 18 },
+    { label: 'AI & Machine Learning', icon: '🤖', x: 12, y: 72 },
+    { label: 'Cloud Certifications', icon: '☁️', x: 68, y: 78 },
+    { label: 'Innovation Hub', icon: '🚀', x: 82, y: 48 },
+    { label: 'Future Skills', icon: '🧠', x: 8, y: 45 },
   ], [])
 
   useEffect(() => {
