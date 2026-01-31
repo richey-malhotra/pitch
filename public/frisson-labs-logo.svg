@@ -1,59 +1,106 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
-  <defs>
-    <linearGradient id="pixelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#14B8A6"/>
-      <stop offset="50%" style="stop-color:#5B2D86"/>
-      <stop offset="100%" style="stop-color:#3b1d5a"/>
-    </linearGradient>
-  </defs>
-  
-  <!-- Pixelated Lion Head - Abstract Digital Style -->
-  <g transform="translate(2, 2)">
-    <!-- Mane pixels - scattered digital effect -->
-    <rect x="4" y="4" width="4" height="4" fill="#14B8A6" opacity="0.9"/>
-    <rect x="10" y="2" width="4" height="4" fill="#14B8A6" opacity="0.85"/>
-    <rect x="16" y="0" width="4" height="4" fill="#14B8A6" opacity="0.8"/>
-    <rect x="22" y="0" width="4" height="4" fill="#2dd4bf" opacity="0.9"/>
-    <rect x="28" y="2" width="4" height="4" fill="#14B8A6" opacity="0.7"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 50">
+  <!-- Pixelated Lion Head - Clear Face Design -->
+  <g transform="translate(0, 3) scale(0.95)">
+    <!-- Outer Mane - Teal accent pixels -->
+    <rect x="6" y="4" width="4" height="4" fill="#14B8A6"/>
+    <rect x="10" y="0" width="4" height="4" fill="#14B8A6"/>
+    <rect x="14" y="0" width="4" height="4" fill="#2dd4bf"/>
+    <rect x="18" y="0" width="4" height="4" fill="#14B8A6"/>
+    <rect x="22" y="0" width="4" height="4" fill="#2dd4bf"/>
+    <rect x="26" y="0" width="4" height="4" fill="#14B8A6"/>
+    <rect x="30" y="0" width="4" height="4" fill="#14B8A6"/>
+    <rect x="34" y="4" width="4" height="4" fill="#14B8A6"/>
     
-    <rect x="2" y="10" width="4" height="4" fill="#14B8A6" opacity="0.8"/>
-    <rect x="8" y="8" width="4" height="4" fill="#5B2D86" opacity="0.7"/>
-    <rect x="0" y="16" width="4" height="4" fill="#14B8A6" opacity="0.6"/>
-    <rect x="4" y="20" width="4" height="4" fill="#5B2D86" opacity="0.5"/>
-    <rect x="0" y="26" width="4" height="4" fill="#14B8A6" opacity="0.4"/>
+    <rect x="2" y="8" width="4" height="4" fill="#14B8A6"/>
+    <rect x="38" y="8" width="4" height="4" fill="#14B8A6"/>
     
-    <!-- Face - pixelated blocks -->
-    <rect x="14" y="10" width="6" height="6" fill="#5B2D86"/>
-    <rect x="20" y="8" width="6" height="6" fill="#5B2D86"/>
-    <rect x="26" y="10" width="6" height="6" fill="#4a2570"/>
-    <rect x="32" y="14" width="6" height="6" fill="#3b1d5a"/>
+    <rect x="0" y="12" width="4" height="4" fill="#2dd4bf"/>
+    <rect x="0" y="16" width="4" height="4" fill="#14B8A6"/>
+    <rect x="40" y="12" width="4" height="4" fill="#14B8A6"/>
+    <rect x="40" y="16" width="4" height="4" fill="#2dd4bf"/>
     
-    <rect x="12" y="16" width="6" height="6" fill="#5B2D86"/>
-    <rect x="18" y="16" width="6" height="6" fill="#5B2D86"/>
-    <rect x="24" y="16" width="6" height="6" fill="#4a2570"/>
-    <rect x="30" y="20" width="6" height="6" fill="#3b1d5a"/>
+    <rect x="2" y="20" width="4" height="4" fill="#14B8A6"/>
+    <rect x="38" y="20" width="4" height="4" fill="#14B8A6"/>
     
-    <rect x="14" y="22" width="6" height="6" fill="#5B2D86"/>
-    <rect x="20" y="22" width="6" height="6" fill="#4a2570"/>
-    <rect x="26" y="24" width="6" height="6" fill="#3b1d5a"/>
+    <rect x="4" y="24" width="4" height="4" fill="#2dd4bf"/>
+    <rect x="36" y="24" width="4" height="4" fill="#2dd4bf"/>
     
-    <rect x="16" y="28" width="6" height="6" fill="#5B2D86"/>
-    <rect x="22" y="30" width="6" height="6" fill="#4a2570"/>
+    <!-- Inner Mane - Purple gradient -->
+    <rect x="6" y="8" width="4" height="4" fill="#7c3aed"/>
+    <rect x="10" y="4" width="4" height="4" fill="#8b5cf6"/>
+    <rect x="14" y="4" width="4" height="4" fill="#7c3aed"/>
+    <rect x="18" y="4" width="4" height="4" fill="#8b5cf6"/>
+    <rect x="22" y="4" width="4" height="4" fill="#7c3aed"/>
+    <rect x="26" y="4" width="4" height="4" fill="#8b5cf6"/>
+    <rect x="30" y="4" width="4" height="4" fill="#7c3aed"/>
+    <rect x="34" y="8" width="4" height="4" fill="#7c3aed"/>
     
-    <rect x="18" y="34" width="6" height="6" fill="#5B2D86" opacity="0.9"/>
+    <rect x="6" y="12" width="4" height="4" fill="#6d28d9"/>
+    <rect x="34" y="12" width="4" height="4" fill="#6d28d9"/>
     
-    <!-- Eye - bright pixel -->
-    <rect x="20" y="18" width="4" height="4" fill="#0f172a"/>
-    <rect x="22" y="19" width="2" height="2" fill="#14B8A6"/>
+    <rect x="6" y="16" width="4" height="4" fill="#5B2D86"/>
+    <rect x="34" y="16" width="4" height="4" fill="#5B2D86"/>
     
-    <!-- Digital accent pixels -->
-    <rect x="34" y="12" width="3" height="3" fill="#14B8A6" opacity="0.9"/>
-    <rect x="36" y="8" width="2" height="2" fill="#2dd4bf" opacity="0.7"/>
-    <rect x="30" y="6" width="2" height="2" fill="#14B8A6" opacity="0.6"/>
+    <rect x="8" y="20" width="4" height="4" fill="#5B2D86"/>
+    <rect x="32" y="20" width="4" height="4" fill="#5B2D86"/>
+    
+    <!-- Face Base - Main purple -->
+    <rect x="10" y="8" width="4" height="4" fill="#5B2D86"/>
+    <rect x="14" y="8" width="4" height="4" fill="#6d28d9"/>
+    <rect x="18" y="8" width="4" height="4" fill="#5B2D86"/>
+    <rect x="22" y="8" width="4" height="4" fill="#6d28d9"/>
+    <rect x="26" y="8" width="4" height="4" fill="#5B2D86"/>
+    <rect x="30" y="8" width="4" height="4" fill="#5B2D86"/>
+    
+    <rect x="10" y="12" width="4" height="4" fill="#5B2D86"/>
+    <rect x="14" y="12" width="4" height="4" fill="#5B2D86"/>
+    <rect x="18" y="12" width="4" height="4" fill="#5B2D86"/>
+    <rect x="22" y="12" width="4" height="4" fill="#5B2D86"/>
+    <rect x="26" y="12" width="4" height="4" fill="#5B2D86"/>
+    <rect x="30" y="12" width="4" height="4" fill="#5B2D86"/>
+    
+    <!-- Eyes - Left -->
+    <rect x="12" y="16" width="4" height="4" fill="#0f172a"/>
+    <rect x="13" y="17" width="2" height="2" fill="#14B8A6"/>
+    
+    <!-- Eyes - Right -->
+    <rect x="28" y="16" width="4" height="4" fill="#0f172a"/>
+    <rect x="29" y="17" width="2" height="2" fill="#14B8A6"/>
+    
+    <!-- Face middle -->
+    <rect x="16" y="16" width="4" height="4" fill="#5B2D86"/>
+    <rect x="20" y="16" width="4" height="4" fill="#5B2D86"/>
+    <rect x="24" y="16" width="4" height="4" fill="#5B2D86"/>
+    
+    <!-- Snout/Nose area -->
+    <rect x="12" y="20" width="4" height="4" fill="#4a2570"/>
+    <rect x="16" y="20" width="4" height="4" fill="#5B2D86"/>
+    <rect x="20" y="20" width="4" height="4" fill="#0f172a"/>
+    <rect x="24" y="20" width="4" height="4" fill="#5B2D86"/>
+    <rect x="28" y="20" width="4" height="4" fill="#4a2570"/>
+    
+    <!-- Mouth/Chin -->
+    <rect x="14" y="24" width="4" height="4" fill="#5B2D86"/>
+    <rect x="18" y="24" width="4" height="4" fill="#4a2570"/>
+    <rect x="22" y="24" width="4" height="4" fill="#4a2570"/>
+    <rect x="26" y="24" width="4" height="4" fill="#5B2D86"/>
+    
+    <!-- Chin bottom -->
+    <rect x="16" y="28" width="4" height="4" fill="#5B2D86"/>
+    <rect x="20" y="28" width="4" height="4" fill="#5B2D86"/>
+    <rect x="24" y="28" width="4" height="4" fill="#5B2D86"/>
+    
+    <!-- Whisker dots -->
+    <rect x="8" y="22" width="2" height="2" fill="#14B8A6" opacity="0.8"/>
+    <rect x="34" y="22" width="2" height="2" fill="#14B8A6" opacity="0.8"/>
+    
+    <!-- Ear tufts -->
+    <rect x="4" y="6" width="2" height="2" fill="#14B8A6"/>
+    <rect x="38" y="6" width="2" height="2" fill="#14B8A6"/>
   </g>
   
   <!-- Text -->
-  <text x="48" y="28" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="20" fill="#1e293b" letter-spacing="-0.5">Frisson</text>
-  <text x="122" y="28" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="20" fill="#64748b" letter-spacing="-0.5">Labs</text>
-  <text x="48" y="42" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="7" fill="#14B8A6" letter-spacing="1.5">STUDENT-POWERED INNOVATION</text>
+  <text x="52" y="24" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="20" fill="#1e293b" letter-spacing="-0.5">Frisson</text>
+  <text x="126" y="24" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="20" fill="#64748b" letter-spacing="-0.5">Labs</text>
+  <text x="52" y="38" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="7" fill="#14B8A6" letter-spacing="1.5">STUDENT-POWERED INNOVATION</text>
 </svg>
