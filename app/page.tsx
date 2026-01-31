@@ -1756,15 +1756,15 @@ export default function Home() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-stretch">
                 {[
-                  { value: '£161bn', label: <>UK Digital Sector GVA (2023)<sup><a href="#source-4">[4]</a></sup></> },
-                  { value: '62k+', label: <>Surrey enterprises (2024)<sup><a href="#source-5">[5]</a></sup></> },
-                  { value: 'Pioneering', label: <>FE software venture<sup><a href="#fe-precedents">*</a></sup></> },
+                  { value: '£161bn', label: <>UK Digital Sector GVA (2023)<sup><a href="#source-4">[4]</a></sup></>, large: true },
+                  { value: '62k+', label: <>Surrey enterprises (2024)<sup><a href="#source-5">[5]</a></sup></>, large: true },
+                  { value: 'Pioneering', label: <>FE software venture<sup><a href="#fe-precedents">*</a></sup></>, large: false },
                 ].map((stat, i) => (
                   <div
                     key={i}
                     className="text-center px-5 py-6 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 hover:border-[#14B8A6]/50 transition-colors flex flex-col justify-center gap-3 min-h-[110px]"
                   >
-                    <p className="text-2xl md:text-3xl font-black text-[#14B8A6] whitespace-nowrap leading-none">{stat.value}</p>
+                    <p className={`font-black text-[#14B8A6] whitespace-nowrap leading-none ${stat.large ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl'}`}>{stat.value}</p>
                     <p className="text-xs text-white/90 font-medium leading-relaxed">{stat.label}</p>
                   </div>
                 ))}
