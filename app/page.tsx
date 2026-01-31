@@ -303,8 +303,8 @@ function LearningOrbit() {
   const nodes = useMemo(() => [
     { label: 'T Level Digital', icon: '🎓', x: 28, y: 32 },
     { label: 'Industry Partners', icon: '🤝', x: 72, y: 32 },
-    { label: 'Future Skills', icon: '🧠', x: 20, y: 50 },
-    { label: 'Innovation Hub', icon: '🚀', x: 80, y: 50 },
+    { label: 'Future Skills', icon: '🧠', x: 28, y: 50 },
+    { label: 'Innovation Hub', icon: '🚀', x: 72, y: 50 },
     { label: 'AI & Machine Learning', icon: '🤖', x: 28, y: 68 },
     { label: 'Cloud Certifications', icon: '☁️', x: 72, y: 68 },
   ], [])
@@ -3922,20 +3922,7 @@ export default function Home() {
           </div>
         </footer>
 
-        {/* Scroll to Top Button */}
-        <motion.button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-[#5B2D86] text-white shadow-lg shadow-purple-500/30 flex items-center justify-center hover:bg-[#4a2570] transition-colors z-50"
-          aria-label="Scroll to top"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
-          </svg>
-        </motion.button>
+
       </main>
     </>
   )
