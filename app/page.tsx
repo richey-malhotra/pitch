@@ -609,8 +609,25 @@ function MermaidDiagram({ chart, className = '' }: { chart: string; className?: 
 // Interactive Timeline
 function Timeline({ items }: { items: { date: string; title: string; desc: string }[] }) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [hasUserInteracted, setHasUserInteracted] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-100px' })
+  const inView = useInView(ref, { once: false, margin: '-20%' })
+
+  // Auto-cycle through timeline items when in view and user hasn't interacted
+  useEffect(() => {
+    if (!inView || hasUserInteracted) return
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % items.length)
+    }, 2500)
+    return () => clearInterval(timer)
+  }, [inView, hasUserInteracted, items.length])
+
+  const handleItemClick = (index: number) => {
+    setActiveIndex(index)
+    setHasUserInteracted(true)
+    // Resume auto-cycling after 10 seconds of inactivity
+    setTimeout(() => setHasUserInteracted(false), 10000)
+  }
 
   return (
     <div ref={ref} className="relative">
@@ -630,7 +647,7 @@ function Timeline({ items }: { items: { date: string; title: string; desc: strin
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: i * 0.1, duration: 0.4 }}
             className="relative cursor-pointer group"
-            onClick={() => setActiveIndex(i)}
+            onClick={() => handleItemClick(i)}
           >
             <div className="flex justify-center mb-3">
               <motion.div
@@ -2312,7 +2329,7 @@ export default function Home() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   {[
                     { icon: '💼', stat: '20+', label: 'Years Industry Experience', desc: 'Enterprise software, startups, and consultancy' },
-                    { icon: '🎓', stat: '5', label: 'Computing Degrees', desc: 'Including PGCE for qualified teacher status' },
+                    { icon: '🎓', stat: '4', label: 'Computing Degrees', desc: 'Including PGCE for qualified teacher status' },
                     { icon: '🤖', stat: 'AI', label: 'Solution Delivery Expert', desc: 'ML pipelines, LLMs, automation at scale' },
                     { icon: '🚀', stat: '3+', label: 'Startups Founded', desc: 'From ideation to acquisition' },
                   ].map((item, i) => (
@@ -2345,7 +2362,7 @@ export default function Home() {
                 </h3>
                 <div className="space-y-3">
                   {[
-                    { level: 'KS3-KS4', desc: 'Secondary computing curriculum delivery' },
+                    { level: 'KS3-KS5', desc: 'Secondary & sixth form computing curriculum' },
                     { level: 'Post-16 / FE', desc: 'T Level & BTEC digital pathways' },
                     { level: 'Undergraduate', desc: 'University guest lectures and project supervision' },
                     { level: 'Postgraduate', desc: 'MSc AI and software engineering modules' },
@@ -3845,13 +3862,13 @@ export default function Home() {
                     status: 'pending',
                     item: 'Get a Client Interested',
                     desc: 'Find a local business willing to sign a "letter of intent" saying they\'d commission work from Frisson Labs. This proves there\'s real demand before we invest.',
-                    owner: 'CEO',
+                    owner: 'Richey / BD Lead',
                   },
                   {
                     status: 'pending',
                     item: 'Get Insurance Quotes',
                     desc: 'Check what insurance we need (professional indemnity, cyber liability) and how much it costs. Standard step for any new commercial venture.',
-                    owner: 'Finance',
+                    owner: 'Finance Team',
                   },
                   {
                     status: 'pending',
@@ -3863,25 +3880,25 @@ export default function Home() {
                     status: 'pending',
                     item: 'Staff Union Briefing',
                     desc: 'Brief union reps (if applicable) to clarify this doesn\'t affect existing staff jobs — students are learners, not employees.',
-                    owner: 'HR',
+                    owner: 'HR Lead',
                   },
                   {
-                    status: 'done',
+                    status: 'pending',
                     item: 'Governance Structure',
-                    desc: 'Defined who sits on the board, how decisions are made, and how Nescot maintains oversight. Already complete.',
-                    owner: '✓',
+                    desc: 'Define who sits on the board, how decisions are made, and how Nescot maintains oversight.',
+                    owner: 'SMT / Board',
                   },
                   {
-                    status: 'done',
+                    status: 'pending',
                     item: 'Safeguarding Framework',
-                    desc: 'Created comprehensive student safety protocols covering supervision, welfare checks, and escalation routes. Already complete.',
-                    owner: '✓',
+                    desc: 'Create comprehensive student safety protocols covering supervision, welfare checks, and escalation routes.',
+                    owner: 'DSL / Safeguarding',
                   },
                   {
-                    status: 'done',
+                    status: 'pending',
                     item: 'Financial Projections',
-                    desc: 'Built 5-year financial model showing when we break even and what returns Nescot can expect. Already complete.',
-                    owner: '✓',
+                    desc: 'Build 5-year financial model showing when we break even and what returns Nescot can expect.',
+                    owner: 'Richey / Finance',
                   },
                 ].map((row, i) => (
                   <div key={i} className={`grid grid-cols-12 gap-4 p-4 items-center text-sm ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} ${row.status === 'done' ? 'opacity-60' : ''}`}>
