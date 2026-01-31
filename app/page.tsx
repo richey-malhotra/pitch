@@ -299,14 +299,14 @@ function LearningOrbit() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   
-  // Floating labels - positioned in close orbit around center card
+  // Floating labels - symmetrically positioned in tight orbit around center card
   const nodes = useMemo(() => [
-    { label: 'T Level Digital', icon: '🎓', x: 18, y: 22 },
-    { label: 'Industry Partners', icon: '🤝', x: 72, y: 18 },
-    { label: 'AI & Machine Learning', icon: '🤖', x: 12, y: 72 },
-    { label: 'Cloud Certifications', icon: '☁️', x: 68, y: 78 },
-    { label: 'Innovation Hub', icon: '🚀', x: 82, y: 48 },
-    { label: 'Future Skills', icon: '🧠', x: 8, y: 45 },
+    { label: 'T Level Digital', icon: '🎓', x: 28, y: 32 },
+    { label: 'Industry Partners', icon: '🤝', x: 72, y: 32 },
+    { label: 'Future Skills', icon: '🧠', x: 20, y: 50 },
+    { label: 'Innovation Hub', icon: '🚀', x: 80, y: 50 },
+    { label: 'AI & Machine Learning', icon: '🤖', x: 28, y: 68 },
+    { label: 'Cloud Certifications', icon: '☁️', x: 72, y: 68 },
   ], [])
 
   useEffect(() => {
@@ -442,10 +442,10 @@ function LearningOrbit() {
           key={i}
           className="absolute"
           style={{ left: `${node.x}%`, top: `${node.y}%` }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.9 }}
+          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+          animate={{ opacity: 0.9, scale: 1, y: 0 }}
           transition={{
-            duration: 0.8,
+            duration: 0.6,
             delay: i * 0.15,
             ease: 'easeOut'
           }}
@@ -474,35 +474,24 @@ function LearningOrbit() {
   )
 }
 
-// Typewriter Effect - Fixed to prevent layout shifts
+// Typewriter Effect - Smooth fade-in instead of character-by-character
 function Typewriter({ text, speed = 50 }: { text: string; speed?: number }) {
-  const [visibleChars, setVisibleChars] = useState(0)
-  const [done, setDone] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    let i = 0
-    const timer = setInterval(() => {
-      if (i < text.length) {
-        i++
-        setVisibleChars(i)
-      } else {
-        setDone(true)
-        clearInterval(timer)
-      }
-    }, speed)
-    return () => clearInterval(timer)
-  }, [text, speed])
+    const timer = setTimeout(() => setIsVisible(true), 300)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
-    <span className="relative inline-block">
-      {/* Invisible text to reserve space and prevent layout shift */}
-      <span className="invisible" aria-hidden="true">{text}</span>
-      {/* Visible animated text positioned absolutely */}
-      <span className="absolute inset-0">
-        <span>{text.slice(0, visibleChars)}</span>
-        {!done && <span className="animate-pulse ml-0.5">|</span>}
-      </span>
-    </span>
+    <motion.span
+      initial={{ opacity: 0, y: 10 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      className="inline-block"
+    >
+      {text}
+    </motion.span>
   )
 }
 
@@ -1576,9 +1565,9 @@ export default function Home() {
 
       {/* Floating Badge - For Julie */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.5 }}
+        initial={{ opacity: 0, y: 20, scale: 0.8 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ delay: 3, duration: 0.6, ease: 'easeOut' }}
         className="fixed bottom-6 right-6 z-50 hidden lg:block"
       >
         <motion.div
@@ -1630,7 +1619,7 @@ export default function Home() {
             href="#cta"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-5 py-2.5 rounded-full text-white text-sm font-bold bg-[#5B2D86] hover:bg-[#4a2570] transition-colors shadow-lg shadow-purple-500/20"
+            className="px-5 py-2.5 rounded-full text-white text-sm font-bold bg-[#5B2D86] hover:bg-[#4a2570] transition-colors shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30"
           >
             Let&apos;s Talk
           </motion.a>
@@ -1677,7 +1666,7 @@ export default function Home() {
                   href="#solution"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 rounded-full font-bold text-white bg-[#14B8A6] hover:bg-[#0d9488] transition-colors inline-flex items-center gap-2"
+                  className="px-8 py-4 rounded-full font-bold text-white bg-[#14B8A6] hover:bg-[#0d9488] transition-colors inline-flex items-center gap-2 shadow-lg shadow-[#14B8A6]/30"
                 >
                   Explore the Vision
                   <span>↓</span>
@@ -1686,7 +1675,7 @@ export default function Home() {
                   href="#cta"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 rounded-full font-bold border-2 border-white/30 text-white hover:bg-white/10 transition-colors"
+                  className="px-8 py-4 rounded-full font-bold border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all"
                 >
                   Schedule Meeting
                 </motion.a>
@@ -1846,10 +1835,10 @@ export default function Home() {
               ].map((card, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.1, duration: 0.6, ease: 'easeOut' }}
                   whileHover={{ y: -10, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.15)' }}
                   className="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 card-lift"
                 >
@@ -1872,9 +1861,10 @@ export default function Home() {
 
             {/* Comparison Slider */}
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
             >
               <h3 className="text-2xl font-bold text-center mb-8">The Fundamental Problem with Traditional Education</h3>
               <ComparisonSlider />
@@ -1887,9 +1877,10 @@ export default function Home() {
         <section id="solution" className="py-24 md:py-32">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="text-center max-w-3xl mx-auto mb-16"
             >
               <span className="inline-block px-4 py-2 bg-[#14B8A6]/10 text-[#14B8A6] rounded-full text-sm font-bold mb-4">
@@ -1997,10 +1988,10 @@ export default function Home() {
                       ].map((item, i) => (
                         <motion.div
                           key={i}
-                          initial={{ opacity: 0 }}
-                          whileInView={{ opacity: 1 }}
+                          initial={{ opacity: 0, y: 15 }}
+                          whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
-                          transition={{ delay: i * 0.05 }}
+                          transition={{ delay: i * 0.05, duration: 0.5, ease: 'easeOut' }}
                           className="bg-white p-6 rounded-2xl border border-slate-200 hover:shadow-lg hover:border-[#5B2D86]/30 transition-all card-lift"
                         >
                           <span className="text-4xl">{item.icon}</span>
@@ -2033,10 +2024,10 @@ export default function Home() {
                           ].map((item, i) => (
                             <motion.div
                               key={i}
-                              initial={{ opacity: 0 }}
-                              whileInView={{ opacity: 1 }}
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
                               viewport={{ once: true }}
-                              transition={{ delay: i * 0.1 }}
+                              transition={{ delay: i * 0.1, duration: 0.5, ease: 'easeOut' }}
                               className="flex items-start gap-4 p-4 bg-slate-50 rounded-xl"
                             >
                               <span className="text-2xl">{item.icon}</span>
@@ -2130,9 +2121,9 @@ export default function Home() {
                             <motion.div
                               key={i}
                               initial={{ opacity: 0, y: 10 }}
-                              whileInView={{ opacity: 1 }}
+                              whileInView={{ opacity: 1, y: 0 }}
                               viewport={{ once: true }}
-                              transition={{ delay: i * 0.1 }}
+                              transition={{ delay: i * 0.1, duration: 0.5, ease: 'easeOut' }}
                               className="p-4 bg-slate-50 rounded-xl"
                             >
                               <div className="flex justify-between items-start mb-2">
@@ -2218,9 +2209,10 @@ export default function Home() {
           
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="text-center mb-12"
             >
               <span className="inline-block px-4 py-2 bg-[#14B8A6]/20 text-[#14B8A6] rounded-full text-sm font-bold mb-4 border border-[#14B8A6]/30">
@@ -2389,9 +2381,10 @@ export default function Home() {
             </div>
 
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="mt-12 bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 text-center"
             >
               <p className="text-white/60 text-sm mb-2">From Nescot&apos;s New Year Honours announcement (5 Jan 2026)<sup><a href="#source-6">[6]</a></sup></p>
@@ -2472,9 +2465,10 @@ export default function Home() {
         <section id="evidence" className="py-24 md:py-32 bg-slate-50">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="text-center max-w-3xl mx-auto mb-16"
             >
               <span className="inline-block px-4 py-2 bg-[#5B2D86]/10 text-[#5B2D86] rounded-full text-sm font-bold mb-4">
@@ -3512,9 +3506,10 @@ export default function Home() {
         <section id="budget" className="py-24 md:py-32">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="text-center max-w-3xl mx-auto mb-16"
             >
               <span className="inline-block px-4 py-2 bg-[#14B8A6]/10 text-[#14B8A6] rounded-full text-sm font-bold mb-4">
@@ -3572,9 +3567,10 @@ export default function Home() {
         <section id="faq" className="py-24 md:py-32 bg-slate-50">
           <div className="max-w-4xl mx-auto px-6">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="text-center mb-16"
             >
               <span className="inline-block px-4 py-2 bg-[#5B2D86]/10 text-[#5B2D86] rounded-full text-sm font-bold mb-4">
@@ -3766,7 +3762,7 @@ export default function Home() {
                   <div className="col-span-3">Item</div>
                   <div className="col-span-4">Description</div>
                   <div className="col-span-2">Owner</div>
-                  <div className="col-span-2">Target</div>
+                  <div className="col-span-2">Deadline</div>
                 </div>
                 {[
                   {
@@ -3774,49 +3770,49 @@ export default function Home() {
                     item: 'Client Letter of Intent',
                     desc: 'Secure a conditional LoI from at least one Surrey-based business (e.g., local SME, council, or NHS trust) confirming interest in commissioning student-delivered AI/software projects. This demonstrates market demand exists before launch and de-risks the commercial model. Target: 1-2 LoIs at £5-15k project value.',
                     owner: 'Proposed CEO',
-                    target: 'Pre-board',
+                    target: 'Feb 2026',
                   },
                   {
                     status: 'pending',
                     item: 'Insurance Quotations',
                     desc: 'Obtain indicative quotes for: (1) Professional Indemnity cover at £1m minimum for software delivery errors; (2) Cyber liability for data breaches; (3) Confirmation that existing College public liability extends to supervised student commercial work. Budget allowance: £3-5k/year. Key contacts: Nescot insurance broker, specialist tech PI providers.',
                     owner: 'Finance / CEO',
-                    target: 'Pre-board',
+                    target: 'Feb 2026',
                   },
                   {
                     status: 'pending',
                     item: 'Legal Review',
                     desc: 'Engage FE-specialist solicitor to review: (1) Draft Articles of Association for Frisson Labs Ltd; (2) Shareholder Agreement covering 50/50 split, voting rights, buyback provisions; (3) Student Welfare Charter embedded as Schedule; (4) Template client contract with IP assignment clauses. Budget: £8-12k one-off. Recommendation: Mills & Reeve (FE sector expertise) or Stone King.',
                     owner: 'College Secretary',
-                    target: 'Post-approval',
+                    target: 'Apr 2026',
                   },
                   {
                     status: 'pending',
                     item: 'Union Briefing',
                     desc: 'If UCU/GMB have active membership at Nescot, provide early briefing to address: (1) Confirmation this creates no redundancy risk for existing staff; (2) Student "workers" are learners, not employees (no employment law conflict); (3) Any staff seconded to Frisson Labs retain College terms; (4) Workload for supervising staff is funded within project budgets. Approach: proactive transparency to prevent misunderstanding.',
                     owner: 'HR Director',
-                    target: 'Pre-board',
+                    target: 'Feb 2026',
                   },
                   {
                     status: 'done',
                     item: 'Governance Structure',
                     desc: 'Completed: 5-person board defined (Nescot Deputy CEO as Chair, Frisson CEO, Head of Digital, independent industry advisor, independent finance/legal). Voting rights, quorum rules, reserved matters (student welfare veto), and annual reporting cadence all documented in governance framework.',
                     owner: 'Project Lead',
-                    target: 'Complete',
+                    target: '✓ Done',
                   },
                   {
                     status: 'done',
                     item: 'Safeguarding Framework',
                     desc: 'Completed: 7-point protocol covering DBS checks, supervised client contact, escalation routes, wellbeing check-ins, opt-out rights, lone working prohibition, and Student Welfare Charter. Reviewed by College Safeguarding Lead and incorporated into operating procedures.',
                     owner: 'Safeguarding Lead',
-                    target: 'Complete',
+                    target: '✓ Done',
                   },
                   {
                     status: 'done',
                     item: 'Financial Projections',
                     desc: 'Completed: 5-year model showing Year 3 breakeven. Includes sensitivity analysis (±20% revenue scenarios), capital recovery timeline, and Nescot share projections (£160k+ by Year 5). Assumptions stress-tested against comparable FE commercial programmes.',
                     owner: 'Finance',
-                    target: 'Complete',
+                    target: '✓ Done',
                   },
                 ].map((row, i) => (
                   <div key={i} className={`grid grid-cols-12 gap-4 p-4 items-center text-sm ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} ${row.status === 'done' ? 'opacity-60' : ''}`}>
@@ -3842,7 +3838,7 @@ export default function Home() {
               </div>
 
               <p className="text-center text-slate-500 text-xs mt-4">
-                3 of 7 items complete • 4 items pending before board approval
+                3 of 7 items complete • 4 items pending before Mar 2026 board meeting
               </p>
             </motion.div>
 
@@ -3919,19 +3915,28 @@ export default function Home() {
               </div>
 
               <div>
-                <h4 className="font-bold mb-4">Presentation</h4>
-                <p className="text-slate-400 text-sm mb-2">Demo password:</p>
-                <code className="bg-slate-800 px-3 py-1.5 rounded text-[#14B8A6] text-sm">nescotpitch2026</code>
+                <h4 className="font-bold mb-4">Contact</h4>
+                <p className="text-slate-400 text-sm mb-3">Ready to discuss?</p>
+                <a href="#cta" className="inline-flex items-center gap-2 bg-[#14B8A6] hover:bg-[#0d9488] text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
+                  <span>Let&apos;s Talk</span>
+                  <span>→</span>
+                </a>
               </div>
             </div>
 
             <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-slate-500 text-sm">
-                © {new Date().getFullYear()} Frisson Labs. All rights reserved.
+                © {new Date().getFullYear()} Frisson Labs × Nescot College. All rights reserved.
               </p>
-              <p className="text-slate-500 text-sm">
-                Crafted with 💜 for T Level excellence
-              </p>
+              <div className="flex items-center gap-4">
+                <p className="text-slate-500 text-sm">
+                  Crafted with 💜 for T Level excellence
+                </p>
+                <span className="text-slate-700">|</span>
+                <p className="text-slate-600 text-sm font-medium">
+                  v1.0 • Jan 2026
+                </p>
+              </div>
             </div>
           </div>
         </footer>
