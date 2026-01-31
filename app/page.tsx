@@ -1349,110 +1349,95 @@ export default function Home() {
           transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
           className="text-center relative z-10"
         >
-          {/* AI Lion - Dissolving Pixel Effect */}
+          {/* Neural Network Logo - Hexagon with connections */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mb-8"
           >
-            <svg viewBox="0 0 120 60" className="w-40 h-20 mx-auto">
-              {/* Scattered dissolving pixels - animate in from nothing */}
+            <svg viewBox="0 0 50 50" className="w-20 h-20 mx-auto">
+              <defs>
+                <linearGradient id="neuralGradAnim" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#14B8A6' }}/>
+                  <stop offset="50%" style={{ stopColor: '#2dd4bf' }}/>
+                  <stop offset="100%" style={{ stopColor: '#a78bfa' }}/>
+                </linearGradient>
+                <linearGradient id="pulseGradAnim" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style={{ stopColor: '#14B8A6' }}/>
+                  <stop offset="50%" style={{ stopColor: '#c4b5fd' }}/>
+                  <stop offset="100%" style={{ stopColor: '#a78bfa' }}/>
+                </linearGradient>
+              </defs>
+              
+              {/* Outer hexagon frame */}
+              <motion.polygon 
+                points="25,2 45,14 45,38 25,50 5,38 5,14" 
+                fill="none" 
+                stroke="url(#neuralGradAnim)" 
+                strokeWidth="2"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 0.9 }}
+                transition={{ delay: 0.3, duration: 0.8 }}
+              />
+              
+              {/* Pulse rings */}
+              <motion.circle cx="25" cy="26" r="14" fill="none" stroke="#2dd4bf" strokeWidth="0.5"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 0.5 }}
+                transition={{ delay: 0.5, duration: 0.4 }}
+              />
+              <motion.circle cx="25" cy="26" r="20" fill="none" stroke="#a78bfa" strokeWidth="0.3"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 0.4 }}
+                transition={{ delay: 0.6, duration: 0.4 }}
+              />
+              
+              {/* Neural connections from center */}
               {[
-                // Far scattered
-                { x: 2, y: 22, s: 2, op: 0.3, d: 0.3 }, { x: 6, y: 14, s: 2, op: 0.25, d: 0.35 },
-                { x: 4, y: 34, s: 2, op: 0.2, d: 0.4 }, { x: 8, y: 10, s: 2, op: 0.35, d: 0.32 },
-                { x: 3, y: 42, s: 2, op: 0.25, d: 0.45 }, { x: 10, y: 38, s: 2, op: 0.3, d: 0.38 },
-                { x: 7, y: 26, s: 2.5, op: 0.4, d: 0.36 }, { x: 1, y: 30, s: 1.5, op: 0.2, d: 0.5 },
-                // Mid scattered  
-                { x: 14, y: 16, s: 2.5, op: 0.45, d: 0.42 }, { x: 16, y: 8, s: 2, op: 0.4, d: 0.44 },
-                { x: 13, y: 30, s: 3, op: 0.5, d: 0.46 }, { x: 17, y: 24, s: 2.5, op: 0.55, d: 0.48 },
-                { x: 15, y: 40, s: 2, op: 0.4, d: 0.5 }, { x: 18, y: 12, s: 2.5, op: 0.5, d: 0.47 },
-                // Closer - denser
-                { x: 22, y: 10, s: 3, op: 0.6, d: 0.52 }, { x: 23, y: 20, s: 3, op: 0.7, d: 0.54 },
-                { x: 21, y: 30, s: 3.5, op: 0.75, d: 0.56 }, { x: 24, y: 38, s: 3, op: 0.6, d: 0.58 },
-                { x: 25, y: 14, s: 2.5, op: 0.65, d: 0.55 }, { x: 26, y: 26, s: 3, op: 0.7, d: 0.57 },
-                // Dense transition
-                { x: 29, y: 8, s: 3, op: 0.8, d: 0.6 }, { x: 30, y: 18, s: 3.5, op: 0.9, d: 0.62 },
-                { x: 28, y: 26, s: 4, op: 0.95, d: 0.64 }, { x: 31, y: 34, s: 3.5, op: 0.85, d: 0.66 },
-                { x: 29, y: 42, s: 3, op: 0.7, d: 0.68 }, { x: 32, y: 12, s: 3, op: 0.85, d: 0.63 },
-              ].map((p, i) => (
-                <motion.rect key={`pixel-${i}`} x={p.x} y={p.y} width={p.s} height={p.s}
-                  fill={i % 3 === 0 ? '#2dd4bf' : '#5eead4'}
-                  initial={{ opacity: 0, scale: 0, x: 20 }}
-                  animate={{ opacity: p.op, scale: 1, x: 0 }}
-                  transition={{ delay: p.d, type: 'spring', stiffness: 150, damping: 12 }}
+                { x2: 25, y2: 10, w: 2.5, d: 0.7 },  // up
+                { x2: 38, y2: 16, w: 2, d: 0.75 },   // upper right
+                { x2: 38, y2: 26, w: 2.5, d: 0.8 },  // right
+                { x2: 25, y2: 42, w: 2.5, d: 0.85 }, // down
+                { x2: 12, y2: 36, w: 2, d: 0.9 },    // lower left
+              ].map((line, i) => (
+                <motion.line key={`line-${i}`}
+                  x1="25" y1="26" x2={line.x2} y2={line.y2}
+                  stroke="url(#pulseGradAnim)" strokeWidth={line.w} strokeLinecap="round"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ delay: line.d, duration: 0.3 }}
                 />
               ))}
               
-              {/* Lion head - smooth curves */}
-              <motion.g transform="translate(32, 5)"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.7, duration: 0.5, ease: 'easeOut' }}
-              >
-                {/* Main silhouette */}
-                <motion.path d="
-                  M 10 26
-                  C 8 22, 8 17, 12 12
-                  C 16 7, 24 5, 31 7
-                  L 33 5 C 35 4, 37 6, 35 9 L 33 12
-                  C 40 14, 45 19, 48 26
-                  C 50 22, 55 20, 60 22
-                  L 62 20 C 64 18, 66 20, 64 22
-                  C 62 24, 60 26, 57 26
-                  C 62 28, 64 33, 62 38
-                  C 60 43, 52 45, 45 43
-                  C 42 48, 35 50, 28 48
-                  C 21 46, 14 39, 12 32
-                  C 10 29, 10 27, 10 26 Z
-                " fill="#a78bfa"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                />
-                
-                {/* Inner face */}
-                <path d="
-                  M 17 26 C 17 22, 22 17, 28 17 C 34 17, 40 21, 42 26
-                  C 44 24, 49 24, 52 26 C 54 28, 54 33, 52 36
-                  C 49 38, 42 40, 35 38 C 28 40, 21 38, 17 32 C 15 29, 17 26, 17 26 Z
-                " fill="#c4b5fd" opacity="0.5"/>
-                
-                {/* Eye */}
-                <motion.ellipse cx="35" cy="22" rx="3.5" ry="3" fill="#1e1b4b"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  transition={{ delay: 1.1, type: 'spring', stiffness: 300 }}
-                />
-                <motion.ellipse cx="36" cy="21.5" rx="1.5" ry="1.2" fill="#5eead4"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  transition={{ delay: 1.2, type: 'spring', stiffness: 400 }}
-                />
-                
-                {/* Nose */}
-                <motion.circle cx="58" cy="26" r="2.5" fill="#8b5cf6"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  transition={{ delay: 1.3, type: 'spring', stiffness: 300 }}
-                />
-                
-                {/* Ear accent */}
-                <motion.path d="M 31 7 L 35 3 L 37 7 Z" fill="#c4b5fd"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  transition={{ delay: 1, duration: 0.3 }}
-                />
-                
-                {/* Brow line */}
-                <motion.path d="M 25 16 Q 32 12, 42 16" stroke="#8b5cf6" stroke-width="1.5" fill="none"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ delay: 1.4, duration: 0.4 }}
-                />
-                
-                {/* Jaw accent */}
-                <motion.path d="M 28 44 Q 38 46, 48 42" stroke="#5eead4" stroke-width="1" fill="none" opacity="0.7"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ delay: 1.5, duration: 0.3 }}
-                />
-              </motion.g>
+              {/* Central node */}
+              <motion.circle cx="25" cy="26" r="5" fill="url(#neuralGradAnim)"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.65, type: 'spring', stiffness: 300 }}
+              />
+              
+              {/* End nodes */}
+              <motion.circle cx="25" cy="10" r="3.5" fill="#2dd4bf"
+                initial={{ scale: 0 }} animate={{ scale: 1 }}
+                transition={{ delay: 1, type: 'spring', stiffness: 300 }}
+              />
+              <motion.circle cx="38" cy="16" r="3" fill="#5eead4"
+                initial={{ scale: 0 }} animate={{ scale: 1 }}
+                transition={{ delay: 1.05, type: 'spring', stiffness: 300 }}
+              />
+              <motion.circle cx="38" cy="26" r="3" fill="#a78bfa"
+                initial={{ scale: 0 }} animate={{ scale: 1 }}
+                transition={{ delay: 1.1, type: 'spring', stiffness: 300 }}
+              />
+              <motion.circle cx="25" cy="42" r="3.5" fill="#2dd4bf"
+                initial={{ scale: 0 }} animate={{ scale: 1 }}
+                transition={{ delay: 1.15, type: 'spring', stiffness: 300 }}
+              />
+              <motion.circle cx="12" cy="36" r="2.5" fill="#c4b5fd"
+                initial={{ scale: 0 }} animate={{ scale: 1 }}
+                transition={{ delay: 1.2, type: 'spring', stiffness: 300 }}
+              />
             </svg>
           </motion.div>
           
