@@ -674,9 +674,11 @@ function ComparisonSlider() {
   const [position, setPosition] = useState(50)
   const containerRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
+  const hasInteracted = useRef(false)
 
   const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current || !isDragging.current) return
+    hasInteracted.current = true // User has taken control
     const rect = containerRef.current.getBoundingClientRect()
     const x = Math.max(0, Math.min(clientX - rect.left, rect.width))
     setPosition((x / rect.width) * 100)
@@ -699,6 +701,39 @@ function ComparisonSlider() {
       window.removeEventListener('touchmove', handleTouchMove)
     }
   }, [handleMove])
+
+  // Auto-animation to demonstrate interactivity
+  useEffect(() => {
+    let animationFrame: number
+    let startTime: number | null = null
+    
+    const animate = (timestamp: number) => {
+      if (hasInteracted.current || isDragging.current) return // Stop if user interacts
+      
+      if (!startTime) startTime = timestamp
+      const elapsed = timestamp - startTime
+      
+      // Gentle sine wave animation: 50 ± 25 over 3 seconds, then pause
+      const cycle = 4000 // 4 second full cycle
+      const progress = (elapsed % cycle) / cycle
+      
+      // Smooth easing: move from 50 to 25, back to 50, to 75, back to 50
+      const wave = Math.sin(progress * Math.PI * 2) * 25
+      setPosition(50 + wave)
+      
+      animationFrame = requestAnimationFrame(animate)
+    }
+    
+    // Start auto-animation after a brief delay
+    const timeout = setTimeout(() => {
+      animationFrame = requestAnimationFrame(animate)
+    }, 1500)
+    
+    return () => {
+      clearTimeout(timeout)
+      cancelAnimationFrame(animationFrame)
+    }
+  }, [])
 
   return (
     <div
@@ -775,6 +810,23 @@ function StatCard({ icon, value, suffix, prefix, label, delay = 0 }: { icon: str
 // FAQ Accordion with animation
 function FAQ({ items }: { items: { q: string; a: React.ReactNode }[] }) {
   const [open, setOpen] = useState<number | null>(null)
+  const hasInteracted = useRef(false)
+  
+  // Auto-expand first item to demonstrate interactivity
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!hasInteracted.current) {
+        setOpen(0) // Open first FAQ
+      }
+    }, 2000)
+    return () => clearTimeout(timeout)
+  }, [])
+  
+  const handleClick = (i: number) => {
+    hasInteracted.current = true
+    setOpen(open === i ? null : i)
+  }
+  
   return (
     <div className="space-y-3">
       {items.map((item, i) => (
@@ -787,7 +839,7 @@ function FAQ({ items }: { items: { q: string; a: React.ReactNode }[] }) {
           className="border border-slate-200 rounded-xl overflow-hidden bg-white"
         >
           <button
-            onClick={() => setOpen(open === i ? null : i)}
+            onClick={() => handleClick(i)}
             className="w-full flex justify-between items-center p-5 text-left font-medium hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14B8A6] transition-colors"
             aria-expanded={open === i}
           >
@@ -1889,7 +1941,13 @@ export default function Home() {
             >
               <h3 className="text-2xl font-bold text-center mb-8">The Fundamental Problem with Traditional Education</h3>
               <ComparisonSlider />
-              <p className="text-center text-sm text-slate-500 mt-4">← Drag to compare approaches →</p>
+              <motion.p 
+                className="text-center text-sm text-slate-500 mt-4"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                ← Drag slider to compare approaches →
+              </motion.p>
             </motion.div>
           </div>
         </section>
