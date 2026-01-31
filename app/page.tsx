@@ -1349,100 +1349,71 @@ export default function Home() {
           transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
           className="text-center relative z-10"
         >
-          {/* AI Lion - Dissolving Pixel Effect */}
+          {/* Ultra-minimal Lion - Simple geometric shapes */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mb-8"
           >
-            <svg viewBox="0 0 120 60" className="w-40 h-20 mx-auto">
-              {/* Scattered dissolving pixels - animate in from nothing */}
+            <svg viewBox="0 0 80 50" className="w-32 h-20 mx-auto">
+              {/* Dissolving pixels - monochrome */}
               {[
-                // Far scattered
-                { x: 2, y: 22, s: 2, op: 0.3, d: 0.3 }, { x: 6, y: 14, s: 2, op: 0.25, d: 0.35 },
-                { x: 4, y: 34, s: 2, op: 0.2, d: 0.4 }, { x: 8, y: 10, s: 2, op: 0.35, d: 0.32 },
-                { x: 3, y: 42, s: 2, op: 0.25, d: 0.45 }, { x: 10, y: 38, s: 2, op: 0.3, d: 0.38 },
-                { x: 7, y: 26, s: 2.5, op: 0.4, d: 0.36 }, { x: 1, y: 30, s: 1.5, op: 0.2, d: 0.5 },
-                // Mid scattered  
-                { x: 14, y: 16, s: 2.5, op: 0.45, d: 0.42 }, { x: 16, y: 8, s: 2, op: 0.4, d: 0.44 },
-                { x: 13, y: 30, s: 3, op: 0.5, d: 0.46 }, { x: 17, y: 24, s: 2.5, op: 0.55, d: 0.48 },
-                { x: 15, y: 40, s: 2, op: 0.4, d: 0.5 }, { x: 18, y: 12, s: 2.5, op: 0.5, d: 0.47 },
-                // Closer - denser
-                { x: 22, y: 10, s: 3, op: 0.6, d: 0.52 }, { x: 23, y: 20, s: 3, op: 0.7, d: 0.54 },
-                { x: 21, y: 30, s: 3.5, op: 0.75, d: 0.56 }, { x: 24, y: 38, s: 3, op: 0.6, d: 0.58 },
-                { x: 25, y: 14, s: 2.5, op: 0.65, d: 0.55 }, { x: 26, y: 26, s: 3, op: 0.7, d: 0.57 },
-                // Dense transition
-                { x: 29, y: 8, s: 3, op: 0.8, d: 0.6 }, { x: 30, y: 18, s: 3.5, op: 0.9, d: 0.62 },
-                { x: 28, y: 26, s: 4, op: 0.95, d: 0.64 }, { x: 31, y: 34, s: 3.5, op: 0.85, d: 0.66 },
-                { x: 29, y: 42, s: 3, op: 0.7, d: 0.68 }, { x: 32, y: 12, s: 3, op: 0.85, d: 0.63 },
+                { x: 0, y: 22, s: 2, op: 0.2, d: 0.3 },
+                { x: 4, y: 16, s: 2, op: 0.25, d: 0.33 },
+                { x: 3, y: 28, s: 2, op: 0.2, d: 0.36 },
+                { x: 7, y: 12, s: 2.5, op: 0.3, d: 0.39 },
+                { x: 6, y: 24, s: 2.5, op: 0.35, d: 0.42 },
+                { x: 8, y: 34, s: 2, op: 0.25, d: 0.45 },
+                { x: 11, y: 8, s: 3, op: 0.4, d: 0.48 },
+                { x: 10, y: 20, s: 3, op: 0.45, d: 0.51 },
+                { x: 12, y: 32, s: 3, op: 0.4, d: 0.54 },
+                { x: 15, y: 14, s: 3.5, op: 0.55, d: 0.57 },
+                { x: 14, y: 26, s: 3.5, op: 0.6, d: 0.6 },
+                { x: 18, y: 10, s: 4, op: 0.7, d: 0.63 },
+                { x: 17, y: 22, s: 4, op: 0.75, d: 0.66 },
+                { x: 19, y: 34, s: 3.5, op: 0.6, d: 0.69 },
               ].map((p, i) => (
                 <motion.rect key={`pixel-${i}`} x={p.x} y={p.y} width={p.s} height={p.s}
-                  fill={i % 3 === 0 ? '#2dd4bf' : '#5eead4'}
-                  initial={{ opacity: 0, scale: 0, x: 20 }}
+                  fill="#a78bfa"
+                  initial={{ opacity: 0, scale: 0, x: 10 }}
                   animate={{ opacity: p.op, scale: 1, x: 0 }}
-                  transition={{ delay: p.d, type: 'spring', stiffness: 150, damping: 12 }}
+                  transition={{ delay: p.d, type: 'spring', stiffness: 150 }}
                 />
               ))}
               
-              {/* Lion head - smooth curves */}
-              <motion.g transform="translate(32, 5)"
-                initial={{ opacity: 0, x: 20 }}
+              {/* Lion head - simple shapes */}
+              <motion.g
+                initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.7, duration: 0.5, ease: 'easeOut' }}
+                transition={{ delay: 0.7, duration: 0.4 }}
               >
-                {/* Main silhouette */}
-                <motion.path d="
-                  M 10 26
-                  C 8 22, 8 17, 12 12
-                  C 16 7, 24 5, 31 7
-                  L 33 5 C 35 4, 37 6, 35 9 L 33 12
-                  C 40 14, 45 19, 48 26
-                  C 50 22, 55 20, 60 22
-                  L 62 20 C 64 18, 66 20, 64 22
-                  C 62 24, 60 26, 57 26
-                  C 62 28, 64 33, 62 38
-                  C 60 43, 52 45, 45 43
-                  C 42 48, 35 50, 28 48
-                  C 21 46, 14 39, 12 32
-                  C 10 29, 10 27, 10 26 Z
-                " fill="#a78bfa"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
+                {/* Ear - triangle */}
+                <motion.polygon points="28,10 32,2 36,10" fill="#a78bfa"
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8, type: 'spring' }}
                 />
                 
-                {/* Inner face */}
-                <path d="
-                  M 17 26 C 17 22, 22 17, 28 17 C 34 17, 40 21, 42 26
-                  C 44 24, 49 24, 52 26 C 54 28, 54 33, 52 36
-                  C 49 38, 42 40, 35 38 C 28 40, 21 38, 17 32 C 15 29, 17 26, 17 26 Z
-                " fill="#c4b5fd" opacity="0.5"/>
-                
-                {/* Eye */}
-                <motion.ellipse cx="35" cy="22" rx="3.5" ry="3" fill="#1e1b4b"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  transition={{ delay: 1.1, type: 'spring', stiffness: 300 }}
-                />
-                <motion.ellipse cx="36" cy="21.5" rx="1.5" ry="1.2" fill="#5eead4"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  transition={{ delay: 1.2, type: 'spring', stiffness: 400 }}
+                {/* Head - circle */}
+                <motion.circle cx="34" cy="25" r="16" fill="#a78bfa"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.75, type: 'spring', stiffness: 200 }}
                 />
                 
-                {/* Nose */}
-                <circle cx="60" cy="26" r="2.5" fill="#8b5cf6"/>
+                {/* Snout - rounded rect */}
+                <motion.rect x="44" y="20" width="14" height="10" rx="3" fill="#a78bfa"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.85, duration: 0.3 }}
+                />
                 
-                {/* Ear */}
-                <path d="M 31 7 L 35 2 L 37 7 Z" fill="#c4b5fd"/>
-                
-                {/* Brow line */}
-                <path d="M 26 17 Q 33 12, 42 17" stroke="#8b5cf6" strokeWidth="1.5" fill="none"/>
-                
-                {/* Jaw accent */}
-                <motion.path d="M 28 44 Q 38 46, 48 40" stroke="#5eead4" strokeWidth="1.5" fill="none"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 0.7 }}
-                  transition={{ delay: 1.3, duration: 0.4 }}
+                {/* Eye - white dot */}
+                <motion.circle cx="40" cy="22" r="3" fill="#1e1b4b"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 1, type: 'spring', stiffness: 300 }}
                 />
               </motion.g>
             </svg>
