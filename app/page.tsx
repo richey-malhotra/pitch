@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo, useId } from 'react'
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { track } from '@vercel/analytics'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 
@@ -1304,19 +1303,14 @@ export default function Home() {
     const validPassword = Object.values(PASSWORDS).includes(trimmed)
     
     if (validPassword) {
-      // Determine visitor type and track
-      let visitorType = 'unknown'
-      if (trimmed === PASSWORDS.college) visitorType = 'college-staff'
-      else if (trimmed === PASSWORDS.investor) visitorType = 'investor'
-      else if (trimmed === PASSWORDS.admin) visitorType = 'admin'
-      
-      // Disable analytics for admin, track for others
+      // Disable analytics for admin
       if (trimmed === PASSWORDS.admin) {
         setIsAdmin(true)
         window.localStorage.setItem('va_disable', 'true')
       } else {
-        // Track the login event with visitor type
-        track('login', { visitor_type: visitorType })
+        // Add URL flag for free analytics tracking (shows in page paths)
+        const visitorFlag = trimmed === PASSWORDS.college ? 'staff' : 'investor'
+        window.history.replaceState({}, '', `/?v=${visitorFlag}`)
       }
       
       setAuthenticated(true)
