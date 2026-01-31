@@ -299,15 +299,15 @@ function LearningOrbit() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   
-  // Floating labels - positioned in circular orbit around center card
-  // Using polar coordinates converted to percentages for true circular arrangement
+  // Floating labels - positioned in tight elliptical orbit around center card
+  // Tighter horizontal spread for cohesive grouping with login card
   const nodes = useMemo(() => [
-    { label: 'T Level Digital', icon: '🎓', x: 50, y: 18 },           // Top center
-    { label: 'Industry Partners', icon: '🤝', x: 82, y: 35 },         // Top right
-    { label: 'Innovation Hub', icon: '🚀', x: 82, y: 65 },            // Bottom right  
-    { label: 'Cloud Certifications', icon: '☁️', x: 50, y: 82 },      // Bottom center
-    { label: 'AI & Machine Learning', icon: '🤖', x: 18, y: 65 },     // Bottom left
-    { label: 'Future Skills', icon: '🧠', x: 18, y: 35 },             // Top left
+    { label: 'T Level Digital', icon: '🎓', x: 50, y: 15 },           // Top center
+    { label: 'Industry Partners', icon: '🤝', x: 78, y: 32 },         // Top right
+    { label: 'Innovation Hub', icon: '🚀', x: 78, y: 68 },            // Bottom right  
+    { label: 'Cloud Certifications', icon: '☁️', x: 50, y: 85 },      // Bottom center
+    { label: 'AI & Machine Learning', icon: '🤖', x: 22, y: 68 },     // Bottom left
+    { label: 'Future Skills', icon: '🧠', x: 22, y: 32 },             // Top left
   ], [])
 
   useEffect(() => {
@@ -1504,6 +1504,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, type: 'spring' }}
           className="w-full max-w-md bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl text-white border border-white/20 relative z-10"
+          style={{ boxShadow: '0 0 60px rgba(20, 184, 166, 0.15), 0 25px 50px -12px rgba(0, 0, 0, 0.4)' }}
         >
           <div className="flex items-center gap-4 mb-8">
             <Image src="/nescot-logo.svg" alt="Nescot" width={100} height={30} className="h-10 w-auto" />
@@ -1523,9 +1524,11 @@ export default function Home() {
             />
             <motion.button
               type="submit"
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(20, 184, 166, 0.5)' }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-4 rounded-xl font-bold bg-[#14B8A6] hover:bg-[#0d9488] transition-colors shadow-lg shadow-teal-500/25"
+              animate={{ boxShadow: ['0 0 20px rgba(20, 184, 166, 0.3)', '0 0 35px rgba(20, 184, 166, 0.5)', '0 0 20px rgba(20, 184, 166, 0.3)'] }}
+              transition={{ boxShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut' } }}
+              className="w-full py-4 rounded-xl font-bold bg-[#14B8A6] hover:bg-[#0d9488] transition-colors"
             >
               Access Presentation →
             </motion.button>
