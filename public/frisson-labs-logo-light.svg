@@ -1,11 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 50" role="img" aria-label="Frisson Labs logo">
-  <title>Frisson Labs</title>
-  <desc>Monochrome outlined FL letters with 4px gap (light).</desc>
-
-  <g fill="none" stroke="#f8fafc" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke">
-    <text x="36" y="34" text-anchor="middle" font-family="\"Orbitron\", \"Rajdhani\", \"Exo 2\", \"Eurostile\", \"Bank Gothic\", Arial, sans-serif" font-weight="600" font-size="34" stroke-width="2.4">
-      <tspan>F</tspan>
-      <tspan dx="4">L</tspan>
-    </text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Ultra-minimal Lion: Simple geometric shapes only (light version) -->
+  <g fill="#a78bfa">
+    <!-- Dissolving pixels - left to right, small to large, fading in -->
+    <rect x="0" y="22" width="2" height="2" opacity="0.25"/>
+    <rect x="4" y="18" width="2" height="2" opacity="0.3"/>
+    <rect x="3" y="28" width="2" height="2" opacity="0.25"/>
+    <rect x="7" y="14" width="2.5" height="2.5" opacity="0.35"/>
+    <rect x="6" y="24" width="2.5" height="2.5" opacity="0.4"/>
+    <rect x="8" y="32" width="2" height="2" opacity="0.3"/>
+    <rect x="11" y="10" width="3" height="3" opacity="0.45"/>
+    <rect x="10" y="20" width="3" height="3" opacity="0.5"/>
+    <rect x="12" y="30" width="3" height="3" opacity="0.45"/>
+    <rect x="11" y="38" width="2.5" height="2.5" opacity="0.35"/>
+    <rect x="15" y="6" width="3" height="3" opacity="0.55"/>
+    <rect x="14" y="16" width="3.5" height="3.5" opacity="0.6"/>
+    <rect x="16" y="26" width="3.5" height="3.5" opacity="0.65"/>
+    <rect x="15" y="36" width="3" height="3" opacity="0.5"/>
+    <rect x="19" y="12" width="4" height="4" opacity="0.75"/>
+    <rect x="18" y="22" width="4" height="4" opacity="0.8"/>
+    <rect x="20" y="32" width="4" height="4" opacity="0.7"/>
+    
+    <!-- Lion head - simple triangle + circle + rectangles -->
+    <!-- Ear - triangle pointing up -->
+    <polygon points="28,8 32,2 36,8"/>
+    
+    <!-- Head - circle -->
+    <circle cx="34" cy="22" r="14"/>
+    
+    <!-- Snout - simple rectangle extending right -->
+    <rect x="42" y="18" width="10" height="8" rx="2"/>
   </g>
+  
+  <!-- Eye - simple dot -->
+  <circle cx="38" cy="19" r="2.5" fill="#1e1b4b"/>
+  
+  <!-- Text (light for dark bg) -->
+  <text x="60" y="24" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="18" fill="#f8fafc" letter-spacing="-0.5">Frisson</text>
+  <text x="126" y="24" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="18" fill="#cbd5e1" letter-spacing="-0.5">Labs</text>
+  <text x="60" y="38" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="6" fill="#a78bfa" letter-spacing="1.5">STUDENT-POWERED INNOVATION</text>
 </svg>

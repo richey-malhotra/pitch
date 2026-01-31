@@ -1349,21 +1349,74 @@ export default function Home() {
           transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
           className="text-center relative z-10"
         >
-          {/* FL logo */}
+          {/* Ultra-minimal Lion - Simple geometric shapes */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mb-8"
           >
-            <Image
-              src="/frisson-labs-logo-light.svg"
-              alt="Frisson Labs"
-              width={160}
-              height={56}
-              className="h-14 w-auto mx-auto"
-              priority
-            />
+            <svg viewBox="0 0 80 50" className="w-32 h-20 mx-auto">
+              {/* Dissolving pixels - monochrome */}
+              {[
+                { x: 0, y: 22, s: 2, op: 0.2, d: 0.3 },
+                { x: 4, y: 16, s: 2, op: 0.25, d: 0.33 },
+                { x: 3, y: 28, s: 2, op: 0.2, d: 0.36 },
+                { x: 7, y: 12, s: 2.5, op: 0.3, d: 0.39 },
+                { x: 6, y: 24, s: 2.5, op: 0.35, d: 0.42 },
+                { x: 8, y: 34, s: 2, op: 0.25, d: 0.45 },
+                { x: 11, y: 8, s: 3, op: 0.4, d: 0.48 },
+                { x: 10, y: 20, s: 3, op: 0.45, d: 0.51 },
+                { x: 12, y: 32, s: 3, op: 0.4, d: 0.54 },
+                { x: 15, y: 14, s: 3.5, op: 0.55, d: 0.57 },
+                { x: 14, y: 26, s: 3.5, op: 0.6, d: 0.6 },
+                { x: 18, y: 10, s: 4, op: 0.7, d: 0.63 },
+                { x: 17, y: 22, s: 4, op: 0.75, d: 0.66 },
+                { x: 19, y: 34, s: 3.5, op: 0.6, d: 0.69 },
+              ].map((p, i) => (
+                <motion.rect key={`pixel-${i}`} x={p.x} y={p.y} width={p.s} height={p.s}
+                  fill="#a78bfa"
+                  initial={{ opacity: 0, scale: 0, x: 10 }}
+                  animate={{ opacity: p.op, scale: 1, x: 0 }}
+                  transition={{ delay: p.d, type: 'spring', stiffness: 150 }}
+                />
+              ))}
+              
+              {/* Lion head - simple shapes */}
+              <motion.g
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.7, duration: 0.4 }}
+              >
+                {/* Ear - triangle */}
+                <motion.polygon points="28,10 32,2 36,10" fill="#a78bfa"
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8, type: 'spring' }}
+                />
+                
+                {/* Head - circle */}
+                <motion.circle cx="34" cy="25" r="16" fill="#a78bfa"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.75, type: 'spring', stiffness: 200 }}
+                />
+                
+                {/* Snout - rounded rect */}
+                <motion.rect x="44" y="20" width="14" height="10" rx="3" fill="#a78bfa"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.85, duration: 0.3 }}
+                />
+                
+                {/* Eye - white dot */}
+                <motion.circle cx="40" cy="22" r="3" fill="#1e1b4b"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 1, type: 'spring', stiffness: 300 }}
+                />
+              </motion.g>
+            </svg>
           </motion.div>
           
           <motion.h1
