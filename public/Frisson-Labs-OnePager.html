@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Engine Room - Frisson Labs | One-Pager</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --purple: #5B2D86;
+      --teal: #14B8A6;
+      --dark: #0f172a;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: white;
+      color: var(--dark);
+      line-height: 1.5;
+    }
+    
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 15mm;
+      margin: 0 auto;
+      background: white;
+    }
+    
+    @media print {
+      .page {
+        width: 100%;
+        min-height: auto;
+        padding: 10mm;
+      }
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--teal);
+      margin-bottom: 20px;
+    }
+    
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo-nescot {
+      height: 35px;
+      width: auto;
+    }
+    
+    .logo-x {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--teal);
+    }
+    
+    .logo-frisson {
+      height: 40px;
+      width: auto;
+    }
+    
+    .tagline {
+      text-align: right;
+      font-size: 11px;
+      color: #64748b;
+    }
+    
+    .tagline strong {
+      display: block;
+      font-size: 13px;
+      color: var(--purple);
+    }
+    
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--purple) 0%, #3b1d5a 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .hero h1 {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    
+    .hero p {
+      font-size: 13px;
+      opacity: 0.9;
+      max-width: 80%;
+    }
+    
+    .hero-stats {
+      display: flex;
+      gap: 30px;
+      margin-top: 15px;
+    }
+    
+    .hero-stat {
+      text-align: center;
+    }
+    
+    .hero-stat .value {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--teal);
+    }
+    
+    .hero-stat .label {
+      font-size: 10px;
+      opacity: 0.7;
+    }
+    
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .card {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 15px;
+      border-left: 4px solid var(--purple);
+    }
+    
+    .card.teal {
+      border-left-color: var(--teal);
+    }
+    
+    .card h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .card.teal h3 {
+      color: var(--teal);
+    }
+    
+    .card p, .card li {
+      font-size: 11px;
+      color: #475569;
+    }
+    
+    .card ul {
+      padding-left: 15px;
+    }
+    
+    .card li {
+      margin-bottom: 3px;
+    }
+    
+    /* AI Solutions */
+    .ai-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .ai-section h2 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    
+    .ai-item {
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .ai-item .icon {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    
+    .ai-item .title {
+      font-size: 10px;
+      font-weight: 700;
+    }
+    
+    .ai-item .impact {
+      font-size: 9px;
+      color: var(--teal);
+      margin-top: 3px;
+    }
+    
+    /* Investment */
+    .investment {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .invest-box {
+      flex: 1;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    
+    .invest-box.purple {
+      background: var(--purple);
+      color: white;
+    }
+    
+    .invest-box.teal {
+      background: var(--teal);
+      color: white;
+    }
+    
+    .invest-box .amount {
+      font-size: 28px;
+      font-weight: 900;
+    }
+    
+    .invest-box .label {
+      font-size: 11px;
+      opacity: 0.9;
+    }
+    
+    .invest-box .sub {
+      font-size: 9px;
+      opacity: 0.7;
+      margin-top: 3px;
+    }
+    
+    /* Timeline */
+    .timeline {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 10px;
+    }
+    
+    .timeline-item {
+      text-align: center;
+      flex: 1;
+      position: relative;
+    }
+    
+    .timeline-item:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -5px;
+      top: 10px;
+      color: var(--teal);
+      font-weight: bold;
+    }
+    
+    .timeline-item .quarter {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--purple);
+    }
+    
+    .timeline-item .title {
+      font-size: 10px;
+      font-weight: 600;
+    }
+    
+    /* Partners */
+    .partners {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      background: #f1f5f9;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .partner {
+      font-size: 10px;
+      font-weight: 700;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .partner .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    
+    /* CTA */
+    .cta {
+      background: var(--purple);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    
+    .cta h2 {
+      font-size: 18px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    
+    .cta p {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-bottom: 15px;
+    }
+    
+    .cta-contacts {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    
+    .cta-contact {
+      text-align: center;
+    }
+    
+    .cta-contact .icon {
+      font-size: 18px;
+      margin-bottom: 3px;
+    }
+    
+    .cta-contact .label {
+      font-size: 9px;
+      opacity: 0.7;
+    }
+    
+    .cta-contact .value {
+      font-size: 11px;
+      font-weight: 700;
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 9px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-group">
+        <img src="nescot-logo.svg" alt="Nescot" class="logo-nescot">
+        <span class="logo-x">×</span>
+        <img src="frisson-labs-logo.svg" alt="Frisson Labs" class="logo-frisson">
+      </div>
+      <div class="tagline">
+        <strong>Strategic Proposal 2026</strong>
+        UK's First AI-Focused FE Venture
+      </div>
+    </header>
+    
+    <!-- Hero -->
+    <section class="hero">
+      <h1>The Engine Room</h1>
+      <p>A public-private partnership that transforms T Level education into a revenue-generating AI innovation engine — delivering grassroots AI transformation for local businesses whilst creating a nationally-recognised model for skills development.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="value">£178bn</div>
+          <div class="label">UK Digital Economy</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value">9,400+</div>
+          <div class="label">Surrey SMEs Need AI</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value">1st</div>
+          <div class="label">AI-Focused FE Venture</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value">50/50</div>
+          <div class="label">Public-Private Model</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Main Grid -->
+    <div class="grid">
+      <div class="card">
+        <h3>🎯 The Opportunity</h3>
+        <ul>
+          <li>T Level students lack real commercial experience</li>
+          <li>Local SMEs can't afford enterprise AI consultants</li>
+          <li>FE colleges need new revenue streams</li>
+          <li>Gap between education and employer needs widening</li>
+        </ul>
+      </div>
+      
+      <div class="card teal">
+        <h3>💡 The Solution</h3>
+        <ul>
+          <li>Internal AI/software company staffed by T Level students</li>
+          <li>Real client projects at affordable SME pricing</li>
+          <li>Industry certifications (AWS, Azure, Google Cloud)</li>
+          <li>800+ hours commercial experience per student</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>🤝 Partnership Model</h3>
+        <p><strong>Nescot provides:</strong> Space, students, academic support, brand credibility</p>
+        <p style="margin-top: 8px;"><strong>CEO Partner provides:</strong> Commercial leadership, client acquisition, industry mentorship, operational funding</p>
+        <p style="margin-top: 8px;"><strong>Revenue split:</strong> 50/50 from all client projects</p>
+      </div>
+      
+      <div class="card teal">
+        <h3>📈 Projected Returns</h3>
+        <ul>
+          <li>Year 1: £40k revenue (break-even)</li>
+          <li>Year 3: £150k revenue</li>
+          <li>Year 5: £300k+ revenue</li>
+          <li>Nescot's 50% share: £100k+ annually by Year 5</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- AI Solutions Section -->
+    <section class="ai-section">
+      <h2>🚀 Grassroots AI Impact — Affordable AI for Every Local Business</h2>
+      <div class="ai-grid">
+        <div class="ai-item">
+          <div class="icon">🎙️</div>
+          <div class="title">AI Voice Receptionist</div>
+          <div class="impact">Save £25k/year</div>
+        </div>
+        <div class="ai-item">
+          <div class="icon">📧</div>
+          <div class="title">Smart Email Automation</div>
+          <div class="impact">80% less admin</div>
+        </div>
+        <div class="ai-item">
+          <div class="icon">💬</div>
+          <div class="title">AI Help Portals</div>
+          <div class="impact">70% fewer tickets</div>
+        </div>
+        <div class="ai-item">
+          <div class="icon">🎯</div>
+          <div class="title">Personalised Websites</div>
+          <div class="impact">3x conversion</div>
+        </div>
+        <div class="ai-item">
+          <div class="icon">📊</div>
+          <div class="title">Predictive Analytics</div>
+          <div class="impact">20% revenue uplift</div>
+        </div>
+        <div class="ai-item">
+          <div class="icon">📝</div>
+          <div class="title">Document Intelligence</div>
+          <div class="impact">90% faster processing</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Partners -->
+    <div class="partners">
+      <div class="partner"><span class="dot" style="background: #FF9900;"></span> AWS</div>
+      <div class="partner"><span class="dot" style="background: #0078D4;"></span> Microsoft Azure</div>
+      <div class="partner"><span class="dot" style="background: #4285F4;"></span> Google Cloud AI</div>
+      <div class="partner"><span class="dot" style="background: #FF3621;"></span> Databricks</div>
+      <div class="partner"><span class="dot" style="background: #10A37F;"></span> OpenAI</div>
+    </div>
+    
+    <!-- Investment -->
+    <div class="investment">
+      <div class="invest-box purple">
+        <div class="amount">£200k</div>
+        <div class="label">Initial Investment</div>
+        <div class="sub">Capital bid funded fit-out</div>
+      </div>
+      <div class="invest-box teal">
+        <div class="amount">£100k+</div>
+        <div class="label">Annual Return (Yr 5)</div>
+        <div class="sub">Nescot's 50% share alone</div>
+      </div>
+    </div>
+    
+    <!-- Timeline -->
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="quarter">Q1 2026</div>
+        <div class="title">Board Approval</div>
+      </div>
+      <div class="timeline-item">
+        <div class="quarter">Q2 2026</div>
+        <div class="title">Space Fit-out</div>
+      </div>
+      <div class="timeline-item">
+        <div class="quarter">Q3 2026</div>
+        <div class="title">First Cohort</div>
+      </div>
+      <div class="timeline-item">
+        <div class="quarter">Q4 2026</div>
+        <div class="title">First Revenue</div>
+      </div>
+    </div>
+    
+    <!-- CTA -->
+    <section class="cta">
+      <h2>Let's Build Something Extraordinary</h2>
+      <p>60 minutes to walk through the full business case, governance model, and implementation timeline.</p>
+      <div class="cta-contacts">
+        <div class="cta-contact">
+          <div class="icon">📧</div>
+          <div class="label">Email</div>
+          <div class="value">rmalhotra@nescot.ac.uk</div>
+        </div>
+        <div class="cta-contact">
+          <div class="icon">💬</div>
+          <div class="label">Teams</div>
+          <div class="value">@FrissonLabs</div>
+        </div>
+        <div class="cta-contact">
+          <div class="icon">📍</div>
+          <div class="label">Location</div>
+          <div class="value">Nescot College, Epsom</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+      © 2026 Nescot College × Frisson Labs | Confidential Strategic Proposal | UK's First AI-Focused FE Venture
+    </footer>
+  </div>
+</body>
+</html>
