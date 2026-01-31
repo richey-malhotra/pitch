@@ -1794,7 +1794,7 @@ export default function Home() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="absolute top-4 right-4 bg-gradient-to-r from-[#14B8A6] to-[#0d9488] text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg shadow-[#14B8A6]/30 z-20 flex items-center gap-2"
+                  className="absolute top-4 right-4 bg-gradient-to-r from-[#14B8A6] to-[#0d9488] text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-[#14B8A6]/30 z-20 flex items-center gap-2 whitespace-nowrap"
                 >
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
