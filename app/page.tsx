@@ -3752,67 +3752,59 @@ export default function Home() {
                 <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-xs font-bold mb-3">
                   📋 Pre-Approval Checklist
                 </span>
-                <h3 className="text-2xl font-bold">Outstanding Actions Before Board Approval</h3>
-                <p className="text-slate-400 text-sm mt-2">Transparent tracking of items to complete before formal approval</p>
+                <h3 className="text-2xl font-bold">What We Still Need To Do</h3>
+                <p className="text-slate-400 text-sm mt-2">A simple checklist of tasks to complete before we can move forward</p>
               </div>
 
               <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
                 <div className="grid grid-cols-12 gap-4 p-4 bg-white/5 border-b border-white/10 text-xs font-bold uppercase tracking-wide text-slate-400">
-                  <div className="col-span-1">Status</div>
-                  <div className="col-span-3">Item</div>
-                  <div className="col-span-4">Description</div>
-                  <div className="col-span-2">Owner</div>
-                  <div className="col-span-2">Deadline</div>
+                  <div className="col-span-1"></div>
+                  <div className="col-span-4">Task</div>
+                  <div className="col-span-5">What This Means</div>
+                  <div className="col-span-2">Who</div>
                 </div>
                 {[
                   {
                     status: 'pending',
-                    item: 'Client Letter of Intent',
-                    desc: 'Secure a conditional LoI from at least one Surrey-based business (e.g., local SME, council, or NHS trust) confirming interest in commissioning student-delivered AI/software projects. This demonstrates market demand exists before launch and de-risks the commercial model. Target: 1-2 LoIs at £5-15k project value.',
-                    owner: 'Proposed CEO',
-                    target: 'Feb 2026',
+                    item: 'Get a Client Interested',
+                    desc: 'Find a local business willing to sign a "letter of intent" saying they\'d commission work from Frisson Labs. This proves there\'s real demand before we invest.',
+                    owner: 'CEO',
                   },
                   {
                     status: 'pending',
-                    item: 'Insurance Quotations',
-                    desc: 'Obtain indicative quotes for: (1) Professional Indemnity cover at £1m minimum for software delivery errors; (2) Cyber liability for data breaches; (3) Confirmation that existing College public liability extends to supervised student commercial work. Budget allowance: £3-5k/year. Key contacts: Nescot insurance broker, specialist tech PI providers.',
-                    owner: 'Finance / CEO',
-                    target: 'Feb 2026',
+                    item: 'Get Insurance Quotes',
+                    desc: 'Check what insurance we need (professional indemnity, cyber liability) and how much it costs. Standard step for any new commercial venture.',
+                    owner: 'Finance',
                   },
                   {
                     status: 'pending',
-                    item: 'Legal Review',
-                    desc: 'Engage FE-specialist solicitor to review: (1) Draft Articles of Association for Frisson Labs Ltd; (2) Shareholder Agreement covering 50/50 split, voting rights, buyback provisions; (3) Student Welfare Charter embedded as Schedule; (4) Template client contract with IP assignment clauses. Budget: £8-12k one-off. Recommendation: Mills & Reeve (FE sector expertise) or Stone King.',
+                    item: 'Legal Paperwork',
+                    desc: 'Have a solicitor review the company setup documents, shareholder agreement, and client contract templates. One-off cost.',
                     owner: 'College Secretary',
-                    target: 'Apr 2026',
                   },
                   {
                     status: 'pending',
-                    item: 'Union Briefing',
-                    desc: 'If UCU/GMB have active membership at Nescot, provide early briefing to address: (1) Confirmation this creates no redundancy risk for existing staff; (2) Student "workers" are learners, not employees (no employment law conflict); (3) Any staff seconded to Frisson Labs retain College terms; (4) Workload for supervising staff is funded within project budgets. Approach: proactive transparency to prevent misunderstanding.',
-                    owner: 'HR Director',
-                    target: 'Feb 2026',
+                    item: 'Staff Union Briefing',
+                    desc: 'Brief union reps (if applicable) to clarify this doesn\'t affect existing staff jobs — students are learners, not employees.',
+                    owner: 'HR',
                   },
                   {
                     status: 'done',
                     item: 'Governance Structure',
-                    desc: 'Completed: 5-person board defined (Nescot Deputy CEO as Chair, Frisson CEO, Head of Digital, independent industry advisor, independent finance/legal). Voting rights, quorum rules, reserved matters (student welfare veto), and annual reporting cadence all documented in governance framework.',
-                    owner: 'Project Lead',
-                    target: '✓ Done',
+                    desc: 'Defined who sits on the board, how decisions are made, and how Nescot maintains oversight. Already complete.',
+                    owner: '✓',
                   },
                   {
                     status: 'done',
                     item: 'Safeguarding Framework',
-                    desc: 'Completed: 7-point protocol covering DBS checks, supervised client contact, escalation routes, wellbeing check-ins, opt-out rights, lone working prohibition, and Student Welfare Charter. Reviewed by College Safeguarding Lead and incorporated into operating procedures.',
-                    owner: 'Safeguarding Lead',
-                    target: '✓ Done',
+                    desc: 'Created comprehensive student safety protocols covering supervision, welfare checks, and escalation routes. Already complete.',
+                    owner: '✓',
                   },
                   {
                     status: 'done',
                     item: 'Financial Projections',
-                    desc: 'Completed: 5-year model showing Year 3 breakeven. Includes sensitivity analysis (±20% revenue scenarios), capital recovery timeline, and Nescot share projections (£160k+ by Year 5). Assumptions stress-tested against comparable FE commercial programmes.',
-                    owner: 'Finance',
-                    target: '✓ Done',
+                    desc: 'Built 5-year financial model showing when we break even and what returns Nescot can expect. Already complete.',
+                    owner: '✓',
                   },
                 ].map((row, i) => (
                   <div key={i} className={`grid grid-cols-12 gap-4 p-4 items-center text-sm ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} ${row.status === 'done' ? 'opacity-60' : ''}`}>
@@ -3823,23 +3815,12 @@ export default function Home() {
                         <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-xs">○</span>
                       )}
                     </div>
-                    <div className="col-span-3 font-medium">{row.item}</div>
-                    <div className="col-span-4 text-slate-400 text-xs">{row.desc}</div>
-                    <div className="col-span-2 text-slate-300">{row.owner}</div>
-                    <div className="col-span-2">
-                      <span className={`text-xs px-2 py-1 rounded-full ${
-                        row.status === 'done' ? 'bg-green-500/20 text-green-300' : 'bg-amber-500/20 text-amber-300'
-                      }`}>
-                        {row.target}
-                      </span>
-                    </div>
+                    <div className="col-span-4 font-medium">{row.item}</div>
+                    <div className="col-span-5 text-slate-400 text-xs leading-relaxed">{row.desc}</div>
+                    <div className="col-span-2 text-slate-300 text-sm">{row.owner}</div>
                   </div>
                 ))}
               </div>
-
-              <p className="text-center text-slate-500 text-xs mt-4">
-                3 of 7 items complete • 4 items pending before Mar 2026 board meeting
-              </p>
             </motion.div>
 
             <div className="mt-12 text-center">
@@ -3926,7 +3907,7 @@ export default function Home() {
 
             <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-slate-500 text-sm">
-                © {new Date().getFullYear()} Frisson Labs × Nescot College. All rights reserved.
+                © {new Date().getFullYear()} Frisson Labs. All rights reserved.
               </p>
               <div className="flex items-center gap-4">
                 <p className="text-slate-500 text-sm">
