@@ -3862,7 +3862,7 @@ export default function Home() {
                     status: 'pending',
                     item: 'Get a Client Interested',
                     desc: 'Find a local business willing to sign a "letter of intent" saying they\'d commission work from Frisson Labs. This proves there\'s real demand before we invest.',
-                    owner: 'Richey / BD Lead',
+                    owner: 'FL CEO / BD Lead',
                   },
                   {
                     status: 'pending',
@@ -3898,7 +3898,7 @@ export default function Home() {
                     status: 'pending',
                     item: 'Financial Projections',
                     desc: 'Build 5-year financial model showing when we break even and what returns Nescot can expect.',
-                    owner: 'Richey / Finance',
+                    owner: 'FL CEO / Finance',
                   },
                 ].map((row, i) => (
                   <div key={i} className={`grid grid-cols-12 gap-4 p-4 items-center text-sm ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} ${row.status === 'done' ? 'opacity-60' : ''}`}>
