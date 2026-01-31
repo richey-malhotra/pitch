@@ -1344,91 +1344,75 @@ export default function Home() {
           transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
           className="text-center relative z-10"
         >
-          {/* Pixelated Lion Logo Mark - Clear Face Design */}
+          {/* Minimalist Geometric Lion - Side Profile */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mb-8"
           >
-            <svg viewBox="0 0 100 100" className="w-32 h-32 mx-auto">
-              <g transform="translate(6, 8) scale(2)">
-                {/* Outer Mane - Teal accent pixels */}
+            <svg viewBox="0 0 90 80" className="w-28 h-24 mx-auto">
+              <g transform="translate(0, 5)">
+                {/* Mane - Flowing teal pixels (back to front) */}
                 {[
-                  { x: 6, y: 4, delay: 0.3 }, { x: 10, y: 0, delay: 0.32 }, { x: 14, y: 0, delay: 0.34 },
-                  { x: 18, y: 0, delay: 0.36 }, { x: 22, y: 0, delay: 0.38 }, { x: 26, y: 0, delay: 0.4 },
-                  { x: 30, y: 0, delay: 0.42 }, { x: 34, y: 4, delay: 0.44 },
-                  { x: 2, y: 8, delay: 0.35 }, { x: 38, y: 8, delay: 0.45 },
-                  { x: 0, y: 12, delay: 0.4 }, { x: 0, y: 16, delay: 0.45 },
-                  { x: 40, y: 12, delay: 0.42 }, { x: 40, y: 16, delay: 0.47 },
-                  { x: 2, y: 20, delay: 0.5 }, { x: 38, y: 20, delay: 0.52 },
-                  { x: 4, y: 24, delay: 0.55 }, { x: 36, y: 24, delay: 0.57 },
+                  { x: 0, y: 24, delay: 0.3, op: 0.4 }, { x: 0, y: 36, delay: 0.32, op: 0.5 }, { x: 0, y: 48, delay: 0.34, op: 0.4 },
+                  { x: 10, y: 12, delay: 0.36, op: 0.6 }, { x: 10, y: 24, delay: 0.38, op: 0.7 }, { x: 10, y: 36, delay: 0.4, op: 0.8 },
+                  { x: 10, y: 48, delay: 0.42, op: 0.7 }, { x: 10, y: 60, delay: 0.44, op: 0.5 },
+                  { x: 20, y: 4, delay: 0.46, op: 0.7 }, { x: 20, y: 16, delay: 0.48, op: 0.9 }, { x: 20, y: 28, delay: 0.5, op: 1 },
+                  { x: 20, y: 40, delay: 0.52, op: 1 }, { x: 20, y: 52, delay: 0.54, op: 0.9 }, { x: 20, y: 64, delay: 0.56, op: 0.6 },
                 ].map((p, i) => (
-                  <motion.rect key={`mane-${i}`} x={p.x} y={p.y} width="4" height="4"
-                    fill={i % 3 === 0 ? '#2dd4bf' : '#14B8A6'}
+                  <motion.rect key={`mane-${i}`} x={p.x} y={p.y} width="10" height="10"
+                    fill={i % 2 === 0 ? '#14B8A6' : '#2dd4bf'}
                     initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    animate={{ opacity: p.op, scale: 1 }}
                     transition={{ delay: p.delay, type: 'spring', stiffness: 200 }}
                   />
                 ))}
                 
-                {/* Inner Mane - Purple */}
+                {/* Head/Face - Purple gradient pixels */}
                 {[
-                  { x: 6, y: 8 }, { x: 10, y: 4 }, { x: 14, y: 4 }, { x: 18, y: 4 },
-                  { x: 22, y: 4 }, { x: 26, y: 4 }, { x: 30, y: 4 }, { x: 34, y: 8 },
-                  { x: 6, y: 12 }, { x: 34, y: 12 }, { x: 6, y: 16 }, { x: 34, y: 16 },
-                  { x: 8, y: 20 }, { x: 32, y: 20 },
+                  { x: 30, y: 8, fill: '#c4b5fd', op: 0.9 }, { x: 30, y: 20, fill: '#a78bfa' }, { x: 30, y: 32, fill: '#8b5cf6' },
+                  { x: 30, y: 44, fill: '#a78bfa' }, { x: 30, y: 56, fill: '#c4b5fd', op: 0.8 },
+                  { x: 40, y: 12, fill: '#a78bfa' }, { x: 40, y: 24, fill: '#8b5cf6' }, { x: 40, y: 36, fill: '#8b5cf6' }, { x: 40, y: 48, fill: '#a78bfa' },
+                  { x: 50, y: 16, fill: '#a78bfa' }, { x: 50, y: 28, fill: '#8b5cf6' }, { x: 50, y: 40, fill: '#8b5cf6' }, { x: 50, y: 52, fill: '#a78bfa', op: 0.8 },
                 ].map((p, i) => (
-                  <motion.rect key={`innermane-${i}`} x={p.x} y={p.y} width="4" height="4"
-                    fill={i < 8 ? '#a78bfa' : '#8b5cf6'}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5 + i * 0.02, type: 'spring', stiffness: 150 }}
-                  />
-                ))}
-                
-                {/* Face Base */}
-                {[
-                  { x: 10, y: 8 }, { x: 14, y: 8 }, { x: 18, y: 8 }, { x: 22, y: 8 }, { x: 26, y: 8 }, { x: 30, y: 8 },
-                  { x: 10, y: 12 }, { x: 14, y: 12 }, { x: 18, y: 12 }, { x: 22, y: 12 }, { x: 26, y: 12 }, { x: 30, y: 12 },
-                  { x: 16, y: 16 }, { x: 20, y: 16 }, { x: 24, y: 16 },
-                  { x: 12, y: 20 }, { x: 16, y: 20 }, { x: 24, y: 20 }, { x: 28, y: 20 },
-                  { x: 14, y: 24 }, { x: 18, y: 24 }, { x: 22, y: 24 }, { x: 26, y: 24 },
-                  { x: 16, y: 28 }, { x: 20, y: 28 }, { x: 24, y: 28 },
-                ].map((p, i) => (
-                  <motion.rect key={`face-${i}`} x={p.x} y={p.y} width="4" height="4"
-                    fill={i < 12 ? '#a78bfa' : '#8b5cf6'}
+                  <motion.rect key={`face-${i}`} x={p.x} y={p.y} width="10" height="10"
+                    fill={p.fill} opacity={p.op || 1}
                     initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 + i * 0.015, type: 'spring', stiffness: 150 }}
+                    animate={{ opacity: p.op || 1, scale: 1 }}
+                    transition={{ delay: 0.6 + i * 0.025, type: 'spring', stiffness: 150 }}
                   />
                 ))}
                 
-                {/* Eyes */}
-                <motion.rect x="12" y="16" width="4" height="4" fill="#1e1b4b"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} />
-                <motion.rect x="13" y="17" width="2" height="2" fill="#14B8A6"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1, type: 'spring' }} />
-                <motion.rect x="28" y="16" width="4" height="4" fill="#1e1b4b"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.92 }} />
-                <motion.rect x="29" y="17" width="2" height="2" fill="#14B8A6"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.02, type: 'spring' }} />
+                {/* Snout */}
+                {[
+                  { x: 60, y: 24, fill: '#8b5cf6' }, { x: 60, y: 36, fill: '#7c3aed' }, { x: 60, y: 48, fill: '#8b5cf6', op: 0.8 },
+                  { x: 70, y: 28, fill: '#7c3aed' }, { x: 70, y: 40, fill: '#6d28d9' },
+                  { x: 80, y: 32, fill: '#6d28d9' },
+                ].map((p, i) => (
+                  <motion.rect key={`snout-${i}`} x={p.x} y={p.y} width="10" height="10"
+                    fill={p.fill} opacity={p.op || 1}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: p.op || 1, x: 0 }}
+                    transition={{ delay: 0.85 + i * 0.04, type: 'spring', stiffness: 120 }}
+                  />
+                ))}
                 
-                {/* Nose */}
-                <motion.rect x="20" y="20" width="4" height="4" fill="#1e1b4b"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.95 }} />
+                {/* Eye - Single bright teal */}
+                <motion.rect x="46" y="24" width="8" height="8" fill="#5eead4"
+                  initial={{ scale: 0 }} animate={{ scale: 1 }}
+                  transition={{ delay: 1.1, type: 'spring', stiffness: 300 }}
+                />
                 
-                {/* Whisker accents */}
-                <motion.rect x="8" y="22" width="2" height="2" fill="#5eead4" opacity="0.9"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.1, type: 'spring' }} />
-                <motion.rect x="34" y="22" width="2" height="2" fill="#5eead4" opacity="0.9"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.12, type: 'spring' }} />
-                
-                {/* Ear tufts */}
-                <motion.rect x="4" y="6" width="2" height="2" fill="#5eead4"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.15, type: 'spring' }} />
-                <motion.rect x="38" y="6" width="2" height="2" fill="#5eead4"
-                  initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.17, type: 'spring' }} />
+                {/* Crown accent */}
+                <motion.rect x="34" y="0" width="6" height="6" fill="#5eead4"
+                  initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2, type: 'spring' }}
+                />
+                <motion.rect x="44" y="4" width="4" height="4" fill="#99f6e4" opacity="0.8"
+                  initial={{ opacity: 0 }} animate={{ opacity: 0.8 }}
+                  transition={{ delay: 1.3 }}
+                />
               </g>
             </svg>
           </motion.div>
