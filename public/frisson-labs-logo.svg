@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" role="img" aria-label="Frisson Labs logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 50" role="img" aria-label="Frisson Labs logo">
   <title>Frisson Labs</title>
   <desc>Monochrome outlined FL letters with 4px gap.</desc>
 
   <g fill="none" stroke="#0b0b0b" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke">
-    <text x="80" y="34" font-family="\"Orbitron\", \"Rajdhani\", \"Exo 2\", \"Eurostile\", \"Bank Gothic\", Arial, sans-serif" font-weight="600" font-size="34" stroke-width="2.4" letter-spacing="0.5">
+    <text x="36" y="34" text-anchor="middle" font-family="\"Orbitron\", \"Rajdhani\", \"Exo 2\", \"Eurostile\", \"Bank Gothic\", Arial, sans-serif" font-weight="600" font-size="34" stroke-width="2.4">
       <tspan>F</tspan>
       <tspan dx="4">L</tspan>
     </text>

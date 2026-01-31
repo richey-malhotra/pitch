@@ -1349,80 +1349,21 @@ export default function Home() {
           transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
           className="text-center relative z-10"
         >
-          {/* FL Monogram - Outlined, with pixel dissolve */}
+          {/* FL logo */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mb-8"
           >
-            <svg viewBox="0 0 70 50" className="w-28 h-20 mx-auto">
-              {/* Dissolving pixels - outlined squares */}
-              {[
-                { x: 0, y: 20, s: 2, op: 0.2, d: 0.3 },
-                { x: 3, y: 12, s: 2, op: 0.25, d: 0.33 },
-                { x: 2, y: 28, s: 2, op: 0.2, d: 0.36 },
-                { x: 5, y: 6, s: 2.5, op: 0.3, d: 0.39 },
-                { x: 4, y: 22, s: 2.5, op: 0.35, d: 0.42 },
-                { x: 6, y: 34, s: 2, op: 0.25, d: 0.45 },
-                { x: 8, y: 10, s: 3, op: 0.4, d: 0.48 },
-                { x: 7, y: 24, s: 3, op: 0.5, d: 0.51 },
-                { x: 9, y: 38, s: 2.5, op: 0.35, d: 0.54 },
-                { x: 11, y: 4, s: 3, op: 0.5, d: 0.57 },
-                { x: 10, y: 18, s: 3.5, op: 0.6, d: 0.6 },
-                { x: 12, y: 32, s: 3, op: 0.5, d: 0.63 },
-                { x: 14, y: 12, s: 3.5, op: 0.65, d: 0.66 },
-                { x: 13, y: 26, s: 4, op: 0.7, d: 0.69 },
-              ].map((p, i) => (
-                <motion.rect key={`pixel-${i}`} x={p.x} y={p.y} width={p.s} height={p.s}
-                  fill="none" stroke="#a78bfa" strokeWidth="0.8"
-                  initial={{ opacity: 0, scale: 0, x: 10 }}
-                  animate={{ opacity: p.op, scale: 1, x: 0 }}
-                  transition={{ delay: p.d, type: 'spring', stiffness: 150 }}
-                />
-              ))}
-              
-              {/* FL Monogram - outlined strokes */}
-              <motion.g fill="none" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-              >
-                {/* Vertical spine */}
-                <motion.line x1="38" y1="8" x2="38" y2="42"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 0.75, duration: 0.4 }}
-                />
-                
-                {/* F top arm (backwards) */}
-                <motion.line x1="38" y1="8" x2="24" y2="8"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 0.85, duration: 0.3 }}
-                />
-                
-                {/* F middle arm (backwards) */}
-                <motion.line x1="38" y1="24" x2="28" y2="24"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 0.95, duration: 0.25 }}
-                />
-                
-                {/* L bottom arm */}
-                <motion.line x1="38" y1="42" x2="54" y2="42"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 1.05, duration: 0.3 }}
-                />
-              </motion.g>
-              
-              {/* Corner accent pixels */}
-              <motion.rect x="22" y="4" width="2" height="2" fill="none" stroke="#a78bfa" strokeWidth="0.6"
-                initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 1.2 }} />
-              <motion.rect x="56" y="38" width="2" height="2" fill="none" stroke="#a78bfa" strokeWidth="0.6"
-                initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 1.25 }} />
-            </svg>
+            <Image
+              src="/frisson-labs-logo-light.svg"
+              alt="Frisson Labs"
+              width={160}
+              height={56}
+              className="h-14 w-auto mx-auto"
+              priority
+            />
           </motion.div>
           
           <motion.h1
