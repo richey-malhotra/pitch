@@ -1812,14 +1812,14 @@ export default function Home() {
                   <p className="text-white/70 text-lg mb-6">Where education meets innovation</p>
                   
                   {/* Key stats row */}
-                  <div className="grid grid-cols-2 gap-4 w-full max-w-xs mb-6">
-                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-sm md:max-w-md mb-8">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
                       <p className="text-2xl font-black text-[#14B8A6]">£320k</p>
-                      <p className="text-[10px] text-white/60 uppercase tracking-wide">Target revenue Yr 5</p>
+                      <p className="text-xs text-white/70 uppercase tracking-wide">Target revenue Yr 5</p>
                     </div>
-                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
                       <p className="text-2xl font-black text-[#14B8A6]">50/50</p>
-                      <p className="text-[10px] text-white/60 uppercase tracking-wide">JV equity split</p>
+                      <p className="text-xs text-white/70 uppercase tracking-wide">JV equity split</p>
                     </div>
                   </div>
                   
@@ -1937,7 +1937,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="mb-16"
             >
               <h3 className="text-2xl font-bold text-center mb-8">The Fundamental Problem with Traditional Education</h3>
               <ComparisonSlider />
@@ -2463,7 +2463,6 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="mt-12 bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 text-center"
             >
               <p className="text-white/60 text-sm mb-2">From Nescot&apos;s New Year Honours announcement (5 Jan 2026)<sup><a href="#source-6">[6]</a></sup></p>
@@ -2547,7 +2546,6 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="text-center max-w-3xl mx-auto mb-16"
             >
               <span className="inline-block px-4 py-2 bg-[#5B2D86]/10 text-[#5B2D86] rounded-full text-sm font-bold mb-4">
