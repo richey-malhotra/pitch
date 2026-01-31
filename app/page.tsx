@@ -1754,7 +1754,7 @@ export default function Home() {
                 </motion.a>
               </div>
 
-              <div className="flex flex-wrap justify-start gap-4">
+              <div className="grid grid-cols-3 gap-3">
                 {[
                   { value: '£161bn', label: <>UK Digital Sector GVA (2023)<sup><a href="#source-4">[4]</a></sup></> },
                   { value: '62k+', label: <>Surrey enterprises (2024)<sup><a href="#source-5">[5]</a></sup></> },
@@ -1762,10 +1762,10 @@ export default function Home() {
                 ].map((stat, i) => (
                   <div
                     key={i}
-                    className="text-center px-6 py-5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 hover:border-[#14B8A6]/50 transition-colors flex flex-col justify-center gap-2 min-w-[140px]"
+                    className="text-center px-4 py-5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 hover:border-[#14B8A6]/50 transition-colors flex flex-col justify-center items-center gap-2"
                   >
-                    <p className="text-2xl md:text-3xl font-black text-[#14B8A6] leading-none">{stat.value}</p>
-                    <p className="text-xs text-white/90 font-medium leading-tight whitespace-nowrap">{stat.label}</p>
+                    <p className="text-xl md:text-2xl font-black text-[#14B8A6] leading-none">{stat.value}</p>
+                    <p className="text-[10px] md:text-xs text-white/90 font-medium leading-tight text-center">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -1775,7 +1775,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-              className="relative lg:translate-x-6"
+              className="relative lg:translate-x-4 lg:-translate-y-8"
             >
               <div className="aspect-square rounded-3xl bg-gradient-to-br from-[#2d1f4e] via-[#3a2866] to-[#4a2570] border border-white/20 p-8 relative overflow-hidden shadow-2xl">
                 {/* Animated gradient orbs */}
