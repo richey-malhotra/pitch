@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 // Premium body font - clean, modern, highly legible
@@ -53,6 +54,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${manrope.variable} font-sans antialiased`}>
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-nescot-purple text-white px-4 py-2 rounded z-50">Skip to main content</a>
         {children}
+        <Analytics />
       </body>
     </html>
   );

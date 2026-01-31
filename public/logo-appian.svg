@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40">
+  <defs>
+    <linearGradient id="appianGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0066CC"/>
+      <stop offset="100%" style="stop-color:#0099FF"/>
+    </linearGradient>
+  </defs>
+  <!-- Appian "A" mark stylized -->
+  <g transform="translate(5, 5)">
+    <path d="M15 28 L8 8 L22 8 L15 28 Z" fill="url(#appianGrad)" opacity="0.9"/>
+    <rect x="10" y="18" width="10" height="3" fill="#fff"/>
+  </g>
+  <!-- Text -->
+  <text x="35" y="26" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="16" fill="#0066CC">appian</text>
+</svg>

@@ -1,71 +1,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
   <defs>
-    <!-- Neural network gradient -->
-    <linearGradient id="neuralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="pixelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#14B8A6"/>
-      <stop offset="50%" style="stop-color:#2dd4bf"/>
-      <stop offset="100%" style="stop-color:#5B2D86"/>
+      <stop offset="50%" style="stop-color:#5B2D86"/>
+      <stop offset="100%" style="stop-color:#3b1d5a"/>
     </linearGradient>
-    
-    <!-- Electric pulse gradient -->
-    <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#14B8A6"/>
-      <stop offset="50%" style="stop-color:#a78bfa"/>
-      <stop offset="100%" style="stop-color:#5B2D86"/>
-    </linearGradient>
-    
-    <!-- Glow filter -->
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    
-    <!-- Inner glow -->
-    <filter id="innerGlow">
-      <feGaussianBlur stdDeviation="1" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
   </defs>
   
-  <!-- Abstract neural/circuit mark -->
-  <g transform="translate(5, 5)">
-    <!-- Outer hexagon frame -->
-    <polygon points="20,2 38,12 38,32 20,42 2,32 2,12" fill="none" stroke="url(#neuralGrad)" stroke-width="2" opacity="0.8"/>
+  <!-- Pixelated Lion Head - Abstract Digital Style -->
+  <g transform="translate(2, 2)">
+    <!-- Mane pixels - scattered digital effect -->
+    <rect x="4" y="4" width="4" height="4" fill="#14B8A6" opacity="0.9"/>
+    <rect x="10" y="2" width="4" height="4" fill="#14B8A6" opacity="0.85"/>
+    <rect x="16" y="0" width="4" height="4" fill="#14B8A6" opacity="0.8"/>
+    <rect x="22" y="0" width="4" height="4" fill="#2dd4bf" opacity="0.9"/>
+    <rect x="28" y="2" width="4" height="4" fill="#14B8A6" opacity="0.7"/>
     
-    <!-- Inner abstract F shape - modernised -->
-    <g filter="url(#innerGlow)">
-      <!-- Central node -->
-      <circle cx="20" cy="22" r="4" fill="url(#neuralGrad)"/>
-      
-      <!-- Neural connections emanating from centre -->
-      <line x1="20" y1="22" x2="20" y2="8" stroke="url(#pulseGrad)" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="20" y1="22" x2="32" y2="14" stroke="url(#pulseGrad)" stroke-width="2" stroke-linecap="round"/>
-      <line x1="20" y1="22" x2="32" y2="22" stroke="url(#pulseGrad)" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="20" y1="22" x2="20" y2="36" stroke="url(#pulseGrad)" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="20" y1="22" x2="8" y2="30" stroke="url(#pulseGrad)" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-      
-      <!-- End nodes - neural network style -->
-      <circle cx="20" cy="8" r="3" fill="#14B8A6"/>
-      <circle cx="32" cy="14" r="2.5" fill="#2dd4bf"/>
-      <circle cx="32" cy="22" r="2.5" fill="#5B2D86"/>
-      <circle cx="20" cy="36" r="3" fill="#14B8A6"/>
-      <circle cx="8" cy="30" r="2" fill="#a78bfa" opacity="0.8"/>
-    </g>
+    <rect x="2" y="10" width="4" height="4" fill="#14B8A6" opacity="0.8"/>
+    <rect x="8" y="8" width="4" height="4" fill="#5B2D86" opacity="0.7"/>
+    <rect x="0" y="16" width="4" height="4" fill="#14B8A6" opacity="0.6"/>
+    <rect x="4" y="20" width="4" height="4" fill="#5B2D86" opacity="0.5"/>
+    <rect x="0" y="26" width="4" height="4" fill="#14B8A6" opacity="0.4"/>
     
-    <!-- Pulse rings -->
-    <circle cx="20" cy="22" r="12" fill="none" stroke="#14B8A6" stroke-width="0.5" opacity="0.4"/>
-    <circle cx="20" cy="22" r="18" fill="none" stroke="#5B2D86" stroke-width="0.3" opacity="0.3"/>
+    <!-- Face - pixelated blocks -->
+    <rect x="14" y="10" width="6" height="6" fill="#5B2D86"/>
+    <rect x="20" y="8" width="6" height="6" fill="#5B2D86"/>
+    <rect x="26" y="10" width="6" height="6" fill="#4a2570"/>
+    <rect x="32" y="14" width="6" height="6" fill="#3b1d5a"/>
+    
+    <rect x="12" y="16" width="6" height="6" fill="#5B2D86"/>
+    <rect x="18" y="16" width="6" height="6" fill="#5B2D86"/>
+    <rect x="24" y="16" width="6" height="6" fill="#4a2570"/>
+    <rect x="30" y="20" width="6" height="6" fill="#3b1d5a"/>
+    
+    <rect x="14" y="22" width="6" height="6" fill="#5B2D86"/>
+    <rect x="20" y="22" width="6" height="6" fill="#4a2570"/>
+    <rect x="26" y="24" width="6" height="6" fill="#3b1d5a"/>
+    
+    <rect x="16" y="28" width="6" height="6" fill="#5B2D86"/>
+    <rect x="22" y="30" width="6" height="6" fill="#4a2570"/>
+    
+    <rect x="18" y="34" width="6" height="6" fill="#5B2D86" opacity="0.9"/>
+    
+    <!-- Eye - bright pixel -->
+    <rect x="20" y="18" width="4" height="4" fill="#0f172a"/>
+    <rect x="22" y="19" width="2" height="2" fill="#14B8A6"/>
+    
+    <!-- Digital accent pixels -->
+    <rect x="34" y="12" width="3" height="3" fill="#14B8A6" opacity="0.9"/>
+    <rect x="36" y="8" width="2" height="2" fill="#2dd4bf" opacity="0.7"/>
+    <rect x="30" y="6" width="2" height="2" fill="#14B8A6" opacity="0.6"/>
   </g>
   
-  <!-- FRISSON text - modern tech font style -->
-  <text x="52" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="800" fill="#0f172a" letter-spacing="2">FRISSON</text>
-  
-  <!-- LABS text with accent -->
-  <text x="52" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#64748b" letter-spacing="4">LABS</text>
-  
-  <!-- Accent line -->
-  <rect x="52" y="29" width="85" height="1.5" fill="url(#pulseGrad)" rx="0.75"/>
+  <!-- Text -->
+  <text x="48" y="28" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="20" fill="#1e293b" letter-spacing="-0.5">Frisson</text>
+  <text x="122" y="28" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="20" fill="#64748b" letter-spacing="-0.5">Labs</text>
+  <text x="48" y="42" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="7" fill="#14B8A6" letter-spacing="1.5">STUDENT-POWERED INNOVATION</text>
 </svg>

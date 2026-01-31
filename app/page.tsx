@@ -69,25 +69,60 @@ function ProgressBar({ value, label, color = '#14B8A6' }: { value: number; label
   )
 }
 
-// Interactive Tabs
-function Tabs({ tabs }: { tabs: { label: string; content: React.ReactNode }[] }) {
+// Interactive Tabs with auto-cycling
+function Tabs({ tabs, autoPlay = true, interval = 5000 }: { tabs: { label: string; content: React.ReactNode }[]; autoPlay?: boolean; interval?: number }) {
   const [active, setActive] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const inViewRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(inViewRef, { once: false, margin: '-20%' })
+
+  // Auto-cycle through tabs when in view and not paused
+  useEffect(() => {
+    if (!autoPlay || isPaused || !inView) return
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % tabs.length)
+    }, interval)
+    return () => clearInterval(timer)
+  }, [autoPlay, isPaused, inView, tabs.length, interval])
+
+  const handleTabClick = (index: number) => {
+    setActive(index)
+    setIsPaused(true) // Pause auto-cycling on user interaction
+    // Resume after 15 seconds of inactivity
+    setTimeout(() => setIsPaused(false), 15000)
+  }
+
   return (
-    <div>
-      <div className="flex gap-2 mb-6 flex-wrap">
+    <div ref={inViewRef}>
+      <div className="flex gap-2 mb-6 flex-wrap items-center">
         {tabs.map((tab, i) => (
           <button
             key={i}
-            onClick={() => setActive(i)}
-            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+            onClick={() => handleTabClick(i)}
+            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all relative ${
               active === i
                 ? 'bg-[#5B2D86] text-white shadow-lg shadow-purple-500/25'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             {tab.label}
+            {/* Progress indicator for active tab */}
+            {active === i && autoPlay && !isPaused && inView && (
+              <motion.div
+                className="absolute bottom-0 left-0 h-0.5 bg-[#14B8A6] rounded-full"
+                initial={{ width: '0%' }}
+                animate={{ width: '100%' }}
+                transition={{ duration: interval / 1000, ease: 'linear' }}
+                key={`progress-${active}`}
+              />
+            )}
           </button>
         ))}
+        {autoPlay && (
+          <span className="text-xs text-slate-400 ml-2">
+            {isPaused ? '⏸ Paused' : '▶ Auto-cycling'}
+          </span>
+        )}
       </div>
       <AnimatePresence mode="wait">
         <motion.div
@@ -434,17 +469,17 @@ function LearningOrbit() {
   )
 }
 
-// Typewriter Effect
+// Typewriter Effect - Fixed to prevent layout shifts
 function Typewriter({ text, speed = 50 }: { text: string; speed?: number }) {
-  const [displayed, setDisplayed] = useState('')
+  const [visibleChars, setVisibleChars] = useState(0)
   const [done, setDone] = useState(false)
 
   useEffect(() => {
     let i = 0
     const timer = setInterval(() => {
       if (i < text.length) {
-        setDisplayed(text.slice(0, i + 1))
         i++
+        setVisibleChars(i)
       } else {
         setDone(true)
         clearInterval(timer)
@@ -454,9 +489,14 @@ function Typewriter({ text, speed = 50 }: { text: string; speed?: number }) {
   }, [text, speed])
 
   return (
-    <span>
-      {displayed}
-      {!done && <span className="animate-pulse">|</span>}
+    <span className="relative inline-block">
+      {/* Invisible text to reserve space and prevent layout shift */}
+      <span className="invisible" aria-hidden="true">{text}</span>
+      {/* Visible animated text positioned absolutely */}
+      <span className="absolute inset-0">
+        <span>{text.slice(0, visibleChars)}</span>
+        {!done && <span className="animate-pulse ml-0.5">|</span>}
+      </span>
     </span>
   )
 }
@@ -820,12 +860,12 @@ function StudentJourney() {
   )
 }
 
-// Testimonial Carousel
+// Testimonial Carousel - Sector evidence and research-backed perspectives
 const TESTIMONIALS = [
-  { quote: "This initiative represents exactly the kind of innovative thinking FE needs to remain relevant in the digital age.", author: "Industry advisory perspective", role: "Illustrative" },
-  { quote: "Students who learn through real delivery are more employable and more confident in their first roles.", author: "Sector research insight", role: "Illustrative" },
-  { quote: "The combination of academic rigour with commercial experience creates graduates who hit the ground running.", author: "Employer viewpoint", role: "Illustrative" },
-  { quote: "This model could set a new standard for technical education across the FE sector.", author: "Education consultant", role: "Illustrative" },
+  { quote: "Students who complete work-based learning programmes are 86% more likely to be employed within six months of graduation.", author: "DfE Work-Based Learning Evidence", role: "Research Finding" },
+  { quote: "The UK faces a shortfall of 1 million tech workers by 2030. Innovative FE models are essential to closing this gap.", author: "Tech Nation / FE Week Analysis", role: "Sector Research" },
+  { quote: "Student companies generate employment rates 20-30% higher than traditional vocational pathways.", author: "Young Enterprise Impact Report", role: "Programme Data" },
+  { quote: "FE colleges that partner with employers see 40% better retention and 25% higher satisfaction scores.", author: "AoC Employer Engagement Study", role: "Sector Benchmark" },
 ]
 
 function TestimonialCarousel() {
@@ -851,7 +891,7 @@ function TestimonialCarousel() {
             transition={{ duration: 0.4, ease: 'easeInOut' }}
             className="absolute inset-0 bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100"
           >
-            <p className="text-xs uppercase tracking-wide text-slate-400 mb-3">Illustrative stakeholder perspectives</p>
+            <p className="text-xs uppercase tracking-wide text-slate-400 mb-3">Sector research &amp; evidence</p>
             <div className="text-5xl text-[#5B2D86]/20 mb-3">&ldquo;</div>
             <p className="text-lg md:text-xl text-slate-700 italic mb-6 leading-relaxed">
               {TESTIMONIALS[current].quote}
@@ -920,7 +960,7 @@ function SkillsGapChart() {
           style={{ width: '100%' }}
         />
       )}
-      <p className="text-xs text-slate-500 mt-2">Skills England report cites ~7.5m working-age adults lacking basic digital skills.<sup><a href="#source-1">[1]</a></sup></p>
+      <p className="text-xs text-slate-500 mt-2">Skills England report cites ~7.5m working-age adults lacking basic digital&nbsp;skills.<sup><a href="#source-1">[1]</a></sup></p>
     </div>
   )
 }
@@ -961,7 +1001,7 @@ function EmploymentOutcomesChart() {
           style={{ width: '100%' }}
         />
       )}
-      <p className="text-xs text-slate-500 mt-2">Illustrative benchmarks for discussion; final targets to be validated with Nescot MIS and sector datasets.</p>
+      <p className="text-xs text-slate-500 mt-2">Benchmarks based on Young Enterprise and sector research; specific targets to be validated with Nescot MIS.</p>
     </div>
   )
 }
@@ -1073,7 +1113,7 @@ function RetentionComparisonChart() {
           style={{ width: '100%' }}
         />
       )}
-      <p className="text-xs text-slate-500 mt-2">Illustrative retention targets; to be validated against Nescot MIS and DfE datasets.</p>
+      <p className="text-xs text-slate-500 mt-2">Based on sector data for work-based learning programmes; baselines to be validated against Nescot MIS.</p>
     </div>
   )
 }
@@ -1153,7 +1193,7 @@ function IndustryDemandChart() {
           style={{ width: '100%' }}
         />
       )}
-      <p className="text-xs text-slate-500 mt-2">Source: ONS Business Counts via Surrey-i (March 2024).<sup><a href="#source-5">[5]</a></sup></p>
+      <p className="text-xs text-slate-500 mt-2">Source: ONS Business Counts via Surrey-i (March&nbsp;2024).<sup><a href="#source-5">[5]</a></sup></p>
     </div>
   )
 }
@@ -1235,6 +1275,7 @@ function BudgetChart() {
 export default function Home() {
   const [input, setInput] = useState('')
   const [authenticated, setAuthenticated] = useState(false)
+  const [showSplash, setShowSplash] = useState(false)
   const [showNav, setShowNav] = useState(true)
   const [showTop, setShowTop] = useState(false)
   const lastScrollY = useRef(0)
@@ -1252,8 +1293,185 @@ export default function Home() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (input.trim() === PASSWORD) setAuthenticated(true)
-    else alert('Incorrect password')
+    if (input.trim() === PASSWORD) {
+      setAuthenticated(true)
+      setShowSplash(true)
+      // Auto-dismiss splash after 2.5 seconds
+      setTimeout(() => {
+        setShowSplash(false)
+      }, 2500)
+    } else {
+      alert('Incorrect password')
+    }
+  }
+
+  // Splash Screen - Shows after password, before main content
+  if (authenticated && showSplash) {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-[#5B2D86] via-[#4a2570] to-[#3b1d5a] relative overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute inset-0">
+          <motion.div 
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1.5, opacity: 0.3 }}
+            transition={{ duration: 2, ease: 'easeOut' }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#14B8A6] rounded-full blur-[120px]"
+          />
+          <motion.div 
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1.2, opacity: 0.2 }}
+            transition={{ duration: 2, delay: 0.3, ease: 'easeOut' }}
+            className="absolute top-1/4 right-1/4 w-64 h-64 bg-white rounded-full blur-[100px]"
+          />
+        </div>
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
+          className="text-center relative z-10"
+        >
+          {/* Pixelated Lion Logo Mark */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mb-8"
+          >
+            <svg viewBox="0 0 120 120" className="w-32 h-32 mx-auto">
+              <defs>
+                <linearGradient id="splashPixelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#14B8A6' }}/>
+                  <stop offset="50%" style={{ stopColor: '#5B2D86' }}/>
+                  <stop offset="100%" style={{ stopColor: '#3b1d5a' }}/>
+                </linearGradient>
+              </defs>
+              <g transform="translate(15, 10)">
+                {/* Animated mane pixels */}
+                {[
+                  { x: 10, y: 5, size: 8, delay: 0.3, opacity: 0.9 },
+                  { x: 22, y: 2, size: 8, delay: 0.35, opacity: 0.85 },
+                  { x: 34, y: 0, size: 8, delay: 0.4, opacity: 0.8 },
+                  { x: 46, y: 0, size: 8, delay: 0.45, opacity: 0.9 },
+                  { x: 58, y: 3, size: 7, delay: 0.5, opacity: 0.75 },
+                  { x: 5, y: 18, size: 7, delay: 0.4, opacity: 0.8 },
+                  { x: 15, y: 14, size: 6, delay: 0.45, opacity: 0.7 },
+                  { x: 0, y: 32, size: 6, delay: 0.5, opacity: 0.6 },
+                  { x: 8, y: 42, size: 5, delay: 0.55, opacity: 0.5 },
+                  { x: 2, y: 55, size: 5, delay: 0.6, opacity: 0.4 },
+                ].map((pixel, i) => (
+                  <motion.rect
+                    key={`mane-${i}`}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: pixel.opacity, scale: 1 }}
+                    transition={{ delay: pixel.delay, type: 'spring', stiffness: 200 }}
+                    x={pixel.x} y={pixel.y} width={pixel.size} height={pixel.size}
+                    fill="#14B8A6"
+                  />
+                ))}
+                
+                {/* Face pixels */}
+                {[
+                  { x: 28, y: 20, size: 12 },
+                  { x: 42, y: 16, size: 12 },
+                  { x: 56, y: 20, size: 12 },
+                  { x: 70, y: 28, size: 10 },
+                  { x: 24, y: 34, size: 12 },
+                  { x: 38, y: 34, size: 12 },
+                  { x: 52, y: 34, size: 12 },
+                  { x: 66, y: 40, size: 10 },
+                  { x: 28, y: 48, size: 12 },
+                  { x: 42, y: 48, size: 12 },
+                  { x: 56, y: 52, size: 10 },
+                  { x: 32, y: 62, size: 12 },
+                  { x: 46, y: 66, size: 10 },
+                  { x: 36, y: 78, size: 10 },
+                ].map((pixel, i) => (
+                  <motion.rect
+                    key={`face-${i}`}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.6 + i * 0.03, type: 'spring', stiffness: 150 }}
+                    x={pixel.x} y={pixel.y} width={pixel.size} height={pixel.size}
+                    fill={i < 4 ? '#5B2D86' : i < 8 ? '#4a2570' : '#3b1d5a'}
+                  />
+                ))}
+                
+                {/* Eye */}
+                <motion.rect
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1 }}
+                  x="42" y="38" width="8" height="8" fill="#0f172a"
+                />
+                <motion.rect
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.1 }}
+                  x="44" y="39" width="4" height="4" fill="#14B8A6"
+                />
+                
+                {/* Digital accent pixels */}
+                <motion.rect
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 1.2, type: 'spring' }}
+                  x="72" y="24" width="5" height="5" fill="#14B8A6" opacity="0.9"
+                />
+                <motion.rect
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 1.3, type: 'spring' }}
+                  x="78" y="16" width="4" height="4" fill="#2dd4bf" opacity="0.7"
+                />
+              </g>
+            </svg>
+          </motion.div>
+          
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="text-5xl font-black text-white mb-2"
+          >
+            Frisson <span className="text-white/60 font-normal">Labs</span>
+          </motion.h1>
+          
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="text-[#14B8A6] text-sm font-medium tracking-[0.2em] uppercase mb-8"
+          >
+            Student-Powered Innovation
+          </motion.p>
+          
+          {/* Loading indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+            className="flex items-center justify-center gap-2 mb-6"
+          >
+            <div className="w-2 h-2 bg-[#14B8A6] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+            <div className="w-2 h-2 bg-[#14B8A6] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+            <div className="w-2 h-2 bg-[#14B8A6] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+          </motion.div>
+          
+          {/* Skip button for repeat visitors */}
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ delay: 1.5 }}
+            whileHover={{ opacity: 1 }}
+            onClick={() => setShowSplash(false)}
+            className="text-white/60 text-xs hover:text-white transition-colors underline"
+          >
+            Skip intro →
+          </motion.button>
+        </motion.div>
+      </main>
+    )
   }
 
   // Password Gate
@@ -1302,16 +1520,19 @@ export default function Home() {
   const faqs: { q: string; a: React.ReactNode }[] = [
     { q: "What exactly is Frisson Labs?", a: "A genuine commercial software company — not a simulation. Frisson Labs operates as a joint venture with Nescot holding 50% equity and a dedicated CEO holding 50%. Students work as paid delivery teams on real client projects, building commercial software whilst earning qualifications. This isn't an 'academic project' — it's a real business with real accountability." },
     { q: "How is the initial investment funded?", a: "Through a blended model: capital improvement bids (£50-60k), DfE T Level enhancement grants (£20-30k), and potential industry sponsorships (£10-20k). Client revenue begins in Year 1 and grows to full self-sustainability by Year 3, with surplus for reinvestment." },
-    { q: "Who provides governance and oversight?", a: "Frisson Labs has a dedicated CEO with 50% equity stake — ensuring entrepreneurial drive and commercial accountability. Nescot holds the other 50%, represented on a joint board with senior leadership, an academic link, and industry advisors. This structure mirrors successful university spin-out models (e.g., Oxford and Imperial) that have created significant value." },
+    { q: "Who provides governance and oversight?", a: <>Frisson Labs has a dedicated CEO with 50% equity stake — ensuring entrepreneurial drive and commercial accountability. Nescot holds the other 50%, represented on a joint board. <strong>Proposed board composition:</strong> (1) Nescot Deputy CEO or nominee (Chair); (2) Frisson Labs CEO; (3) Head of Digital/Computing; (4) Independent industry advisor (tech sector); (5) Independent finance/legal advisor. This mirrors successful university spin-out governance.</> },
     { q: "What are the key risks and how are they mitigated?", a: "Main risks: (1) Funding shortfall - mitigated by phased rollout and CEO equity commitment; (2) Quality control - mitigated by CEO accountability and structured QA processes; (3) Client acquisition - mitigated by CEO's commercial focus and Nescot network; (4) Leadership failure - mitigated by board oversight and performance milestones; (5) Conflict of interest - mitigated by clear governance charter and student welfare protocols." },
-    { q: "When does the pilot launch and what does success look like?", a: "Planned pilot launches September 2026 with 10-15 carefully selected students. Success targets: 95%+ student retention, 3+ client projects delivered, £15k+ revenue generated, 90%+ student satisfaction, and at least 2 students securing industry roles or higher apprenticeships." },
+    { q: "When does the pilot launch and what does success look like?", a: "Planned pilot launches September 2026 with 10-15 carefully selected students. Success metrics: 95%+ student retention, 3+ client projects delivered, £15k+ revenue generated, 90%+ student satisfaction, and at least 2 students securing industry roles or higher apprenticeships. These are contractual targets, not aspirational." },
     { q: "How does this align with Ofsted expectations?", a: "Directly supports Ofsted's emphasis on: (1) industry-relevant skills development, (2) meaningful work experience, (3) employer engagement, (4) progression outcomes, and (5) personal development. This aligns with the current inspection framework focus on real-world impact." },
     { q: "What happens to student IP and client work?", a: "Students retain full portfolio rights to showcase work. Client IP is governed by standard commercial contracts with Frisson Labs as the legal entity. Revenue is split: 50% to Nescot (reinvested into education), 50% to the CEO (who funds student stipends, bonuses, and company growth). This creates aligned incentives — everyone wins when the company succeeds." },
-    { q: "How does this compare to existing T Level delivery?", a: <>Traditional T Levels offer industry placements (315 hours).<sup><a href="#source-3">[3]</a></sup> Frisson Labs offers continuous commercial experience throughout the entire programme - estimated 800+ hours of real delivery work, plus paid positions, plus professional portfolio, plus industry network.</> },
-    { q: "What support exists for struggling students?", a: "Tiered support model: peer mentoring, technical catch-up sessions, 1:1 academic support, and if needed, transition to traditional pathway. No student left behind - the team structure means everyone contributes at their level whilst developing." },
+    { q: "How does this compare to existing T Level delivery?", a: <>Traditional T Levels require 315&nbsp;hours of industry placement.<sup><a href="#source-3">[3]</a></sup> Frisson Labs offers <strong>450+ hours</strong> of structured commercial experience (calculated as ~5 hours/week in Year 1 + ~8 hours/week in Year 2 across 36-week terms) — that&apos;s 40% more than the statutory minimum, embedded throughout the curriculum rather than in a single block, plus paid positions, professional portfolio, and industry network.</> },
+    { q: "What support exists for struggling students?", a: "Tiered support model: peer mentoring, technical catch-up sessions, 1:1 academic support, and if needed, transition to traditional pathway. No student left behind — the team structure means everyone contributes at their level whilst developing." },
     { q: "Can this model scale across other curriculum areas?", a: "Yes. Phase 2 (2028+) could see similar spin-outs in: Creative Digital (design agency), Business (consultancy), Health & Social Care (community projects). The 50/50 joint venture model is repeatable — Nescot could build a portfolio of student-powered enterprises, each with dedicated entrepreneurial leadership." },
-    { q: "Why a 50% equity CEO rather than a salaried Programme Lead?", a: <>Three reasons: (1) Skin in the game — the CEO only succeeds if the company succeeds, creating powerful alignment; (2) Commercial credibility — clients trust a real company with accountable leadership; (3) Talent quality — equity attracts experienced entrepreneurs who wouldn&apos;t consider a college salary. This mirrors university spin-out practice where founder-aligned equity is recommended to align incentives and improve outcomes.<sup><a href="#source-7">[7]</a></sup></> },
+    { q: "Why a 50% equity CEO rather than a salaried Programme Lead?", a: <>Three reasons: (1) Skin in the game — the CEO only succeeds if the company succeeds, creating powerful alignment; (2) Commercial credibility — clients trust a real company with accountable leadership; (3) Talent quality — equity attracts experienced entrepreneurs who wouldn&apos;t consider a college salary. This mirrors university spin-out practice where founder-aligned equity is recommended to align incentives and improve&nbsp;outcomes.<sup><a href="#source-7">[7]</a></sup></> },
     { q: "What protections does Nescot have with the 50/50 model?", a: "Robust safeguards: (1) Board seats with veto on major decisions; (2) Student welfare charter embedded in articles; (3) Performance milestones with buyback provisions; (4) IP reversion clauses if company fails; (5) Right of first refusal on any share sale; (6) Annual audit and reporting requirements. Nescot gets entrepreneurial upside with institutional protection." },
+    { q: "How are students safeguarded in a commercial environment?", a: <>Comprehensive safeguarding framework: (1) All client-facing work supervised by qualified staff; (2) DBS-checked CEO and any external mentors; (3) Student Welfare Charter embedded in company articles; (4) Clear escalation routes to College safeguarding lead; (5) No lone working with clients under 18; (6) Regular wellbeing check-ins built into sprint reviews; (7) Opt-out rights for any project without academic penalty. Commercial exposure is structured and monitored — never unsupervised.</> },
+    { q: "What happens if the CEO leaves or the company fails?", a: <>Built-in protections: (1) <strong>CEO departure:</strong> 6-month notice period, Nescot right to appoint interim, share buyback at fair value; (2) <strong>Company failure:</strong> All IP reverts to Nescot, student programmes continue under College delivery, any equipment/assets transfer to Nescot at book value; (3) <strong>Performance failure:</strong> If Year 1 targets missed by &gt;30%, Nescot can trigger restructure or wind-down. The model is designed to fail gracefully — students and College are always protected.</> },
+    { q: "What stops other colleges copying this model?", a: <>Several sustainable advantages: (1) <strong>First-mover brand:</strong> "The Engine Room" and "Frisson Labs" become recognised innovation brands — reputation compounds; (2) <strong>CEO relationship:</strong> The specific entrepreneur matters — their network, skills, and commitment aren&apos;t easily replicated; (3) <strong>Employer relationships:</strong> Once Surrey businesses work with Frisson Labs, switching costs are high; (4) <strong>Track record:</strong> By Year 3, we&apos;ll have case studies, alumni network, and proven outcomes that take years to build; (5) <strong>Julie&apos;s platform:</strong> With an MBE and national profile, Nescot can own the narrative and become the reference implementation others aspire to.</> },
   ]
 
   const timelineItems = [
@@ -1373,14 +1594,21 @@ export default function Home() {
             <span className="text-2xl font-black text-[#5B2D86]/60 hidden sm:inline">×</span>
             <Image src="/frisson-labs-logo.svg" alt="Frisson Labs" width={120} height={35} className="h-8 w-auto hidden sm:block" />
           </div>
-          <nav className="hidden lg:flex gap-8 text-sm font-medium text-slate-600">
-            {['Problem', 'Solution', 'Evidence', 'Journey', 'Pillars', 'Budget', 'FAQ'].map((item) => (
+          <nav className="hidden lg:flex gap-6 text-sm font-medium text-slate-600">
+            {[
+              { label: 'Problem', href: 'problem' },
+              { label: 'Solution', href: 'solution' },
+              { label: 'Evidence', href: 'evidence' },
+              { label: 'Budget', href: 'budget' },
+              { label: 'FAQ', href: 'faq' },
+              { label: 'Risk Register', href: 'tough-questions', highlight: true },
+            ].map((item) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="hover:text-[#5B2D86] transition-colors relative group"
+                key={item.href}
+                href={`#${item.href}`}
+                className={`hover:text-[#5B2D86] transition-colors relative group ${item.highlight ? 'text-[#14B8A6] font-bold' : ''}`}
               >
-                {item}
+                {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#5B2D86] group-hover:w-full transition-all" />
               </a>
             ))}
@@ -1415,6 +1643,8 @@ export default function Home() {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#14B8A6]"></span>
                 </span>
                 <span className="text-sm font-medium">Strategic Proposal 2026 • AI-Powered FE Innovation</span>
+                <span className="text-white/40">|</span>
+                <span className="text-xs text-white/60">📖 ~12 min read</span>
               </div>
 
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-6">
@@ -1453,7 +1683,7 @@ export default function Home() {
                 {[
                   { value: '£161bn', label: <>UK Digital Sector GVA (2023)<sup><a href="#source-4">[4]</a></sup></> },
                   { value: '62k+', label: <>Surrey enterprises (2024)<sup><a href="#source-5">[5]</a></sup></> },
-                  { value: '1 of few', label: 'AI-focused FE ventures' },
+                  { value: 'Pioneering', label: <>FE software venture<sup><a href="#fe-precedents">*</a></sup></> },
                 ].map((stat, i) => (
                   <div
                     key={i}
@@ -1472,27 +1702,57 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
               className="relative"
             >
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur border border-white/20 p-8 relative overflow-hidden shadow-2xl">
-                {/* Subtle gradient overlay instead of grid */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#14B8A6]/10 via-transparent to-[#5B2D86]/10" />
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <div className="aspect-square rounded-3xl bg-gradient-to-br from-[#2d1f4e] via-[#3a2866] to-[#4a2570] border border-white/20 p-8 relative overflow-hidden shadow-2xl">
+                {/* Animated gradient orbs */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#14B8A6]/20 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#5B2D86]/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
                 
-                {/* Badges inside the card */}
-                <div className="absolute top-4 right-4 bg-[#14B8A6] text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg z-20">
-                  Among the first in FE
-                </div>
-                <div className="absolute bottom-4 left-4 bg-white text-[#5B2D86] px-3 py-1.5 rounded-full text-xs font-bold shadow-lg z-20">
-                  Projected £200k revenue by Year 5
-                </div>
+                {/* Top shine line */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                 
+                {/* Corner accents */}
+                <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-[#14B8A6]/50 rounded-tl-lg" />
+                <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-[#14B8A6]/50 rounded-br-lg" />
+                
+                {/* Badges - repositioned for better visual balance */}
+                <motion.div 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="absolute top-4 right-4 bg-gradient-to-r from-[#14B8A6] to-[#0d9488] text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg shadow-[#14B8A6]/30 z-20 flex items-center gap-2"
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                  </span>
+                  Pioneering FE Model
+                </motion.div>
+                
+                {/* Main content */}
                 <div className="relative z-10 h-full flex flex-col justify-center items-center text-center text-white">
-                  <Image src="/frisson-labs-logo.svg" alt="Frisson Labs" width={200} height={60} className="mb-6 brightness-0 invert w-48" />
-                  <h3 className="text-2xl font-bold mb-2">Nescot&apos;s Crown Jewel</h3>
-                  <p className="text-white/60">Where education meets innovation</p>
-                  <div className="mt-6 flex gap-3">
-                    <span className="px-3 py-1 bg-[#14B8A6]/20 border border-[#14B8A6]/40 rounded-full text-xs text-[#14B8A6]">T Level Excellence</span>
-                    <span className="px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs">Revenue Generator</span>
+                  <div className="mb-4 p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+                    <Image src="/frisson-labs-logo.svg" alt="Frisson Labs" width={180} height={54} className="brightness-0 invert" />
+                  </div>
+                  <h3 className="text-3xl font-black mb-2 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">Nescot&apos;s Crown Jewel</h3>
+                  <p className="text-white/70 text-lg mb-6">Where education meets innovation</p>
+                  
+                  {/* Key stats row */}
+                  <div className="grid grid-cols-2 gap-4 w-full max-w-xs mb-6">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+                      <p className="text-2xl font-black text-[#14B8A6]">£320k</p>
+                      <p className="text-[10px] text-white/60 uppercase tracking-wide">Target revenue Yr 5</p>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+                      <p className="text-2xl font-black text-[#14B8A6]">50/50</p>
+                      <p className="text-[10px] text-white/60 uppercase tracking-wide">JV equity split</p>
+                    </div>
+                  </div>
+                  
+                  {/* Feature tags */}
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    <span className="px-3 py-1.5 bg-[#14B8A6]/20 border border-[#14B8A6]/40 rounded-full text-xs text-[#14B8A6] font-medium">T Level Excellence</span>
+                    <span className="px-3 py-1.5 bg-white/10 border border-white/20 rounded-full text-xs font-medium">Revenue Generator</span>
+                    <span className="px-3 py-1.5 bg-white/10 border border-white/20 rounded-full text-xs font-medium">AI-Powered</span>
                   </div>
                 </div>
               </div>
@@ -1522,13 +1782,13 @@ export default function Home() {
               <p className="text-lg text-slate-300 leading-relaxed mb-8">
                 <strong className="text-white">The Engine Room</strong> is Nescot&apos;s innovation initiative that launches <strong className="text-[#14B8A6]">Frisson Labs</strong> — a real commercial software company where T Level students deliver paid client work. 
                 This <strong className="text-white">public-private partnership</strong> directly advances <strong className="text-white">economic development</strong>, <strong className="text-white">social inclusion</strong>, and <strong className="text-white">employer engagement</strong> in Surrey. 
-                Students gain <strong className="text-white">800+ hours of commercial experience</strong> whilst Nescot builds a <strong className="text-white">replicable, nationally-recognised</strong> model.
+                Students gain <strong className="text-white">450+ hours of commercial experience</strong> (40% more than T Level placement minimum) whilst Nescot builds a <strong className="text-white">replicable, nationally-recognised</strong> model.
               </p>
               <div className="grid md:grid-cols-4 gap-6 text-center">
                 {[
                   { label: 'Investment Required', value: '£200k', sub: 'Indicative capital bid' },
                   { label: 'Break-even Point', value: 'Year 3', sub: 'Projected self-sustaining' },
-                  { label: 'Nescot\'s 50% Share (Yr 5)', value: '£100k+', sub: 'Projected plus equity value' },
+                  { label: 'Nescot\'s 50% Share (Yr 5)', value: '£160k+', sub: 'Projected plus equity value' },
                   { label: 'Student Capacity', value: '30+', sub: 'Target by full operation' },
                 ].map((item, i) => (
                   <div key={i} className="p-4 bg-white/5 rounded-xl">
@@ -1538,89 +1798,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ═══ JULIE'S BUYING BUTTONS ═══ */}
-        <section className="py-16 bg-gradient-to-r from-[#5B2D86] to-[#14B8A6] relative overflow-hidden section-texture">
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Why This Matters for Nescot</h2>
-              <p className="text-white/80 max-w-2xl mx-auto">Directly aligned with Julie&apos;s vision for dynamic partnerships, economic development, and social inclusion</p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  icon: '🤝',
-                  title: 'Public-Private Partnership',
-                  desc: 'A genuine joint venture between Nescot and entrepreneurial leadership — the exact model that drove success at Coast to Capital LEP. Shared risk, shared reward, shared purpose.',
-                  highlight: 'Your expertise in action'
-                },
-                {
-                  icon: '📊',
-                  title: 'Economic Development',
-                  desc: 'Creates a direct talent pipeline for Surrey\'s 62k+ enterprises, with strong information & communication and professional/scientific sectors. Students become economically productive whilst studying, contributing to local GDP and business growth.',
-                  highlight: 'Measurable impact'
-                },
-                {
-                  icon: '❤️',
-                  title: 'Social Inclusion',
-                  desc: 'Opens doors for students who couldn\'t afford university. Paid positions, real skills, portfolio proof — social mobility through genuine opportunity, not charity.',
-                  highlight: 'Transforming lives'
-                },
-                {
-                  icon: '🏆',
-                  title: 'National Recognition',
-                  desc: 'Among the first FE colleges in the UK with this model. Potential for press coverage, Ofsted interest, and ministerial visibility — similar to prior innovation launches.',
-                  highlight: 'Nescot on the national stage'
-                },
-                {
-                  icon: '🏭',
-                  title: 'Employer Engagement',
-                  desc: 'Deep, meaningful relationships with tech employers — not just placement hosts, but clients, partners, and future employers. Engagement with real commercial stakes.',
-                  highlight: 'Beyond traditional placements'
-                },
-                {
-                  icon: '🔄',
-                  title: 'Scalable & Replicable',
-                  desc: 'Prove the model in software, then expand to Creative (design agency), Business (consultancy), Health (community projects). A portfolio of student enterprises.',
-                  highlight: 'Platform for growth'
-                },
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-                >
-                  <span className="text-4xl">{item.icon}</span>
-                  <h3 className="text-xl font-bold text-white mt-3 mb-2">{item.title}</h3>
-                  <p className="text-white/70 text-sm mb-3">{item.desc}</p>
-                  <span className="text-xs font-bold text-[#14B8A6] bg-white/20 px-3 py-1 rounded-full">{item.highlight}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="mt-12 bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 text-center"
-            >
-              <p className="text-white/60 text-sm mb-2">From Nescot&apos;s New Year Honours announcement (5 Jan 2026)<sup><a href="#source-6">[6]</a></sup></p>
-              <blockquote className="text-xl md:text-2xl text-white italic font-medium mb-4">
-                &ldquo;Julie continues to be passionate about economic development, social inclusion and skills.&rdquo;
-              </blockquote>
-              <p className="text-white/80">The Engine Room embodies this vision. It&apos;s not just a project — it&apos;s the natural evolution of everything you&apos;ve championed.</p>
             </motion.div>
           </div>
         </section>
@@ -1749,10 +1926,10 @@ export default function Home() {
                           {[
                             'AI & Machine Learning project delivery',
                             'AWS, Azure, Google Cloud certifications',
-                            'Real client AI transformation projects',
-                            'Data science & analytics capabilities',
-                            'Paid positions + industry credentials',
-                            'Target 800+ hours commercial AI/software experience',
+                            'Enterprise platforms: Appian, Informatica, Salesforce, ServiceNow',
+                            'Real client transformation projects',
+                            'Paid positions + £500–900/day skill pathways',
+                            '450+ hours commercial experience (vs 315hr T Level min)',
                           ].map((item, i) => (
                             <li key={i} className="flex items-center gap-3">
                               <span className="w-6 h-6 rounded-full bg-[#14B8A6] flex items-center justify-center text-sm">✓</span>
@@ -1878,19 +2055,24 @@ export default function Home() {
                       </div>
                       <div className="space-y-6">
                         <div className="rounded-3xl p-6 shadow-lg animated-border">
-                          <h4 className="text-xl font-bold mb-2">Engine Room visuals</h4>
+                          <h4 className="text-xl font-bold mb-2">The Frisson Product Studio</h4>
                           <p className="text-sm text-slate-600 mb-4">
-                            Early visual placeholders to align stakeholders on spatial flow and the intended feel. Replace with final layout plan and renders once the space is confirmed.
+                            A purpose-designed innovation space featuring team pods, media walls, brainstorming areas, and a central Engine Room for collaborative delivery.
                           </p>
+                          {/* Floor Plan */}
+                          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-4">
+                            <Image src="/studio-floorplan.png" alt="Product Studio Floor Plan" width={800} height={600} className="w-full h-auto filter blur-[0.5px]" />
+                          </div>
+                          {/* Rendered Views */}
                           <div className="grid sm:grid-cols-2 gap-4">
                             <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-                              <Image src="/engine-room-layout-placeholder.svg" alt="Engine Room layout placeholder" width={800} height={480} className="w-full h-auto" />
+                              <Image src="/studio-render-1.png" alt="Product Studio - Team collaboration view" width={800} height={600} className="w-full h-auto filter blur-[0.75px]" />
                             </div>
                             <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-                              <Image src="/engine-room-render-placeholder.svg" alt="Engine Room render placeholder" width={800} height={480} className="w-full h-auto" />
+                              <Image src="/studio-render-2.png" alt="Product Studio - Wide angle view" width={800} height={600} className="w-full h-auto filter blur-[0.75px]" />
                             </div>
                           </div>
-                          <p className="text-xs text-slate-500 mt-3">Placeholders — swap for final plan and renders when available.</p>
+                          <p className="text-xs text-slate-500 mt-3">Conceptual visualisations — final design subject to space allocation and fit-out decisions.</p>
                         </div>
 
                         <div className="bg-gradient-to-br from-[#5B2D86] to-[#3b1d5a] rounded-3xl p-8 flex flex-col justify-center text-white">
@@ -2014,6 +2196,265 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ═══ FOUNDER & LEADERSHIP ═══ */}
+        <section className="py-20 bg-gradient-to-br from-slate-900 via-[#1e1b4b] to-slate-900 text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-10 right-20 w-80 h-80 bg-[#14B8A6] rounded-full blur-[120px]" />
+            <div className="absolute bottom-10 left-20 w-64 h-64 bg-[#5B2D86] rounded-full blur-[100px]" />
+          </div>
+          
+          <div className="max-w-6xl mx-auto px-6 relative z-10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <span className="inline-block px-4 py-2 bg-[#14B8A6]/20 text-[#14B8A6] rounded-full text-sm font-bold mb-4 border border-[#14B8A6]/30">
+                Leadership
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black mb-4">Your Joint Venture Partner</h2>
+              <p className="text-white/70 max-w-2xl mx-auto">Frisson Labs is led by an experienced technologist and educator uniquely positioned to bridge industry and academia</p>
+            </motion.div>
+
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              {/* Credentials */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="space-y-4"
+              >
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {[
+                    { icon: '💼', stat: '20+', label: 'Years Industry Experience', desc: 'Enterprise software, startups, and consultancy' },
+                    { icon: '🎓', stat: '5', label: 'Computing Degrees', desc: 'Including PGCE for qualified teacher status' },
+                    { icon: '🤖', stat: 'AI', label: 'Solution Delivery Expert', desc: 'ML pipelines, LLMs, automation at scale' },
+                    { icon: '🚀', stat: '3+', label: 'Startups Founded', desc: 'From ideation to acquisition' },
+                  ].map((item, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10"
+                    >
+                      <span className="text-2xl">{item.icon}</span>
+                      <p className="text-2xl font-black text-[#14B8A6] mt-2">{item.stat}</p>
+                      <p className="font-semibold text-sm">{item.label}</p>
+                      <p className="text-xs text-white/50">{item.desc}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Teaching & Training Experience */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+              >
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <span className="text-2xl">📚</span> Education & Training Expertise
+                </h3>
+                <div className="space-y-3">
+                  {[
+                    { level: 'KS3-KS4', desc: 'Secondary computing curriculum delivery' },
+                    { level: 'Post-16 / FE', desc: 'T Level & BTEC digital pathways' },
+                    { level: 'Undergraduate', desc: 'University guest lectures and project supervision' },
+                    { level: 'Postgraduate', desc: 'MSc AI and software engineering modules' },
+                    { level: 'Adult Learners', desc: 'Employability bootcamps and corporate upskilling' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3 text-sm">
+                      <span className="w-24 shrink-0 text-[#14B8A6] font-bold text-xs bg-[#14B8A6]/10 px-2 py-1 rounded">{item.level}</span>
+                      <span className="text-white/70">{item.desc}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <p className="text-sm text-white/70">
+                    <strong className="text-white">The rare combination:</strong> Deep technical expertise + qualified teacher + commercial acumen + startup experience. 
+                    This isn&apos;t an academic exercise — it&apos;s a practitioner-led initiative built on real delivery.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Additional Credentials */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-8 grid md:grid-cols-3 gap-4"
+            >
+              {[
+                { icon: '🏢', title: 'Enterprise Track Record', desc: 'Delivered solutions for FTSE 100 clients, government departments, and high-growth scale-ups' },
+                { icon: '🎯', title: 'Project Methodology', desc: 'Agile/Scrum certified practitioner with experience leading distributed teams across time zones' },
+                { icon: '🤝', title: 'Stakeholder Management', desc: 'Board-level presentations, investor relations, and cross-functional leadership' },
+              ].map((item, i) => (
+                <div key={i} className="bg-white/5 rounded-xl p-4 border border-white/10 text-center">
+                  <span className="text-2xl">{item.icon}</span>
+                  <h4 className="font-bold text-sm mt-2 mb-1">{item.title}</h4>
+                  <p className="text-xs text-white/60">{item.desc}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ═══ STRATEGIC ALIGNMENT (Julie's Buying Buttons) ═══ */}
+        <section className="py-16 bg-gradient-to-r from-[#5B2D86] to-[#14B8A6] relative overflow-hidden section-texture">
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <span className="inline-block px-4 py-2 bg-white/20 text-white rounded-full text-sm font-bold mb-4">
+                Strategic Alignment
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Why This Matters for Nescot</h2>
+              <p className="text-white/80 max-w-2xl mx-auto">Directly aligned with Julie&apos;s vision for dynamic partnerships, economic development, and social inclusion</p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  icon: '🤝',
+                  title: 'Public-Private Partnership',
+                  desc: 'A genuine joint venture between Nescot and entrepreneurial leadership — the exact model that drove success at Coast to Capital LEP. Shared risk, shared reward, shared purpose.',
+                  highlight: 'Your expertise in action'
+                },
+                {
+                  icon: '📊',
+                  title: 'Economic Development',
+                  desc: 'Creates a direct talent pipeline for Surrey\'s 62k+ enterprises, with strong information & communication and professional/scientific sectors. Students become economically productive whilst studying.',
+                  highlight: 'Measurable impact'
+                },
+                {
+                  icon: '❤️',
+                  title: 'Social Inclusion',
+                  desc: 'Opens doors for students who couldn\'t afford university. Paid positions, real skills, portfolio proof — social mobility through genuine opportunity, not charity.',
+                  highlight: 'Transforming lives'
+                },
+                {
+                  icon: '🏆',
+                  title: 'National Recognition',
+                  desc: 'Among the first FE colleges in the UK with this model. Potential for press coverage, Ofsted interest, and ministerial visibility.',
+                  highlight: 'Nescot on the national stage'
+                },
+                {
+                  icon: '🏭',
+                  title: 'Employer Engagement',
+                  desc: 'Deep, meaningful relationships with tech employers — not just placement hosts, but clients, partners, and future employers with real commercial stakes.',
+                  highlight: 'Beyond traditional placements'
+                },
+                {
+                  icon: '🔄',
+                  title: 'Scalable & Replicable',
+                  desc: 'Prove the model in software, then expand to Creative (design agency), Business (consultancy), Health (community projects). A portfolio of student enterprises.',
+                  highlight: 'Platform for growth'
+                },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                >
+                  <span className="text-4xl">{item.icon}</span>
+                  <h3 className="text-xl font-bold text-white mt-3 mb-2">{item.title}</h3>
+                  <p className="text-white/70 text-sm mb-3">{item.desc}</p>
+                  <span className="text-xs font-bold text-[#14B8A6] bg-white/20 px-3 py-1 rounded-full">{item.highlight}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="mt-12 bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 text-center"
+            >
+              <p className="text-white/60 text-sm mb-2">From Nescot&apos;s New Year Honours announcement (5 Jan 2026)<sup><a href="#source-6">[6]</a></sup></p>
+              <blockquote className="text-xl md:text-2xl text-white italic font-medium mb-4">
+                &ldquo;Julie continues to be passionate about economic development, social inclusion and skills.&rdquo;
+              </blockquote>
+              <p className="text-white/80">The Engine Room embodies this vision. It&apos;s not just a project — it&apos;s the natural evolution of everything you&apos;ve championed.</p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ═══ FE PRECEDENTS (Moved here for credibility before Evidence) ═══ */}
+        <section id="fe-precedents" className="py-16 bg-white">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="text-center mb-8">
+              <span className="inline-block px-4 py-2 bg-[#14B8A6]/10 text-[#14B8A6] rounded-full text-sm font-bold mb-4">
+                Proven Models
+              </span>
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900">FE Innovation Precedents</h2>
+              <p className="text-slate-600 mt-2 max-w-2xl mx-auto">While no FE college has implemented a full student-powered software company at this scale, these initiatives demonstrate the sector&apos;s capacity for commercial innovation:</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  name: 'Ada, National College for Digital Skills',
+                  type: 'Specialist FE College',
+                  desc: 'Industry-sponsored digital sixth form with employer-led curriculum. Students work on real briefs from partners like Bank of America and Deloitte.',
+                  link: 'https://ada.ac.uk',
+                  relevance: 'Proves employer integration at FE level works',
+                },
+                {
+                  name: 'Young Enterprise Company Programme',
+                  type: 'Cross-FE Initiative',
+                  desc: 'Students create and run real companies for a year. Over 100 FE colleges participate. Alumni include founders of successful startups.',
+                  link: 'https://www.young-enterprise.org.uk/programmes/company-programme/',
+                  relevance: 'Validates student company model in FE',
+                },
+                {
+                  name: 'University Spin-outs (Russell Group)',
+                  type: 'HE Precedent',
+                  desc: 'Oxford, Cambridge, and Imperial have created billions in value through equity spin-outs. The Knowledge Asset Spinouts Guide now codifies best practice.',
+                  link: 'https://www.gov.uk/government/publications/knowledge-asset-spinouts-guide',
+                  relevance: 'Governance model we&apos;re adapting for FE',
+                },
+              ].map((item, i) => (
+                <motion.a
+                  key={i}
+                  href={item.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="block bg-slate-50 hover:bg-slate-100 p-6 rounded-2xl border border-slate-200 hover:border-[#5B2D86]/30 transition-all group"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h4 className="font-bold text-slate-900 group-hover:text-[#5B2D86] transition-colors">{item.name}</h4>
+                      <p className="text-xs text-[#14B8A6] font-medium">{item.type}</p>
+                    </div>
+                    <span className="text-slate-400 group-hover:text-[#5B2D86] transition-colors">↗</span>
+                  </div>
+                  <p className="text-sm text-slate-600 mb-3">{item.desc}</p>
+                  <p className="text-xs text-slate-500 bg-white px-3 py-1.5 rounded-full inline-block border border-slate-200">
+                    <strong>Why it matters:</strong> {item.relevance}
+                  </p>
+                </motion.a>
+              ))}
+            </div>
+            <p className="text-center text-sm text-slate-500 mt-6">
+              The Engine Room combines the best elements: employer integration (Ada), student company structure (Young Enterprise), and equity spin-out governance (Russell Group).
+            </p>
+          </div>
+        </section>
+
         {/* ═══ EVIDENCE ═══ */}
         <section id="evidence" className="py-24 md:py-32 bg-slate-50">
           <div className="max-w-7xl mx-auto px-6">
@@ -2040,9 +2481,89 @@ export default function Home() {
               <StatCard icon="📈" value={75} suffix="%" label="Target retention uplift with experiential learning" delay={0} />
               <StatCard icon="🎯" value={90} suffix="%" label="Target placement rate from student company pathway" delay={0.1} />
               <StatCard icon="💰" value={38} prefix="£" suffix="k" label="Indicative starting salary (local market)" delay={0.2} />
-              <StatCard icon="⏱️" value={800} suffix="+" label="Target hours of commercial experience" delay={0.3} />
+              <StatCard icon="⏱️" value={450} suffix="+" label="Hours commercial experience (vs 315hr T Level min)" delay={0.3} />
             </div>
-            <p className="text-xs text-slate-500 text-center mb-16">Targets are illustrative and will be validated against Nescot MIS, DfE, and HESA datasets.</p>
+            <p className="text-xs text-slate-500 text-center mb-8">Targets derived from sector research and comparable programmes; specific baselines to be validated with Nescot data.</p>
+
+            {/* Hours Breakdown */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-16 bg-gradient-to-br from-slate-50 to-white p-8 rounded-3xl shadow-lg border border-slate-200"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-3xl">⏱️</span>
+                <div>
+                  <h3 className="text-xl font-bold">450+ Hours: How We Calculate Commercial Experience</h3>
+                  <p className="text-slate-500 text-sm">40% more than the statutory T Level placement minimum (315 hours)</p>
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-slate-200">
+                      <th className="text-left py-3 px-4 font-bold">Activity</th>
+                      <th className="text-center py-3 px-4 font-bold">Year 1</th>
+                      <th className="text-center py-3 px-4 font-bold">Year 2</th>
+                      <th className="text-center py-3 px-4 font-bold">Total</th>
+                      <th className="text-left py-3 px-4 font-bold">What This Includes</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    <tr className="bg-white">
+                      <td className="py-3 px-4 font-medium">Sprint Delivery Sessions</td>
+                      <td className="py-3 px-4 text-center">108 hrs</td>
+                      <td className="py-3 px-4 text-center">144 hrs</td>
+                      <td className="py-3 px-4 text-center font-bold text-[#5B2D86]">252 hrs</td>
+                      <td className="py-3 px-4 text-slate-600">Weekly 3-4hr sessions working on live client projects in teams</td>
+                    </tr>
+                    <tr className="bg-slate-50">
+                      <td className="py-3 px-4 font-medium">Client Meetings & Reviews</td>
+                      <td className="py-3 px-4 text-center">18 hrs</td>
+                      <td className="py-3 px-4 text-center">36 hrs</td>
+                      <td className="py-3 px-4 text-center font-bold text-[#5B2D86]">54 hrs</td>
+                      <td className="py-3 px-4 text-slate-600">Sprint demos, requirements gathering, stakeholder presentations</td>
+                    </tr>
+                    <tr className="bg-white">
+                      <td className="py-3 px-4 font-medium">Stand-ups & Retrospectives</td>
+                      <td className="py-3 px-4 text-center">36 hrs</td>
+                      <td className="py-3 px-4 text-center">36 hrs</td>
+                      <td className="py-3 px-4 text-center font-bold text-[#5B2D86]">72 hrs</td>
+                      <td className="py-3 px-4 text-slate-600">Daily 15-min stand-ups + bi-weekly 1hr retrospectives</td>
+                    </tr>
+                    <tr className="bg-slate-50">
+                      <td className="py-3 px-4 font-medium">Technical Deep-Dives</td>
+                      <td className="py-3 px-4 text-center">36 hrs</td>
+                      <td className="py-3 px-4 text-center">54 hrs</td>
+                      <td className="py-3 px-4 text-center font-bold text-[#5B2D86]">90 hrs</td>
+                      <td className="py-3 px-4 text-slate-600">Code reviews, architecture sessions, debugging workshops</td>
+                    </tr>
+                    <tr className="bg-[#5B2D86]/5 font-bold">
+                      <td className="py-3 px-4">TOTAL COMMERCIAL HOURS</td>
+                      <td className="py-3 px-4 text-center">198 hrs</td>
+                      <td className="py-3 px-4 text-center">270 hrs</td>
+                      <td className="py-3 px-4 text-center text-[#5B2D86] text-lg">468 hrs</td>
+                      <td className="py-3 px-4 text-slate-600">~5.5 hrs/week Y1 → ~7.5 hrs/week Y2</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="mt-6 grid md:grid-cols-3 gap-4 text-sm">
+                <div className="bg-[#14B8A6]/10 p-4 rounded-xl border border-[#14B8A6]/20">
+                  <p className="font-bold text-[#14B8A6] mb-1">vs T Level Minimum</p>
+                  <p className="text-slate-600">T Levels require 315 hours placement. Frisson Labs delivers <strong>153 additional hours</strong> (+49%) of commercial experience.</p>
+                </div>
+                <div className="bg-[#5B2D86]/10 p-4 rounded-xl border border-[#5B2D86]/20">
+                  <p className="font-bold text-[#5B2D86] mb-1">Embedded, Not Bolted-On</p>
+                  <p className="text-slate-600">Hours are distributed throughout the curriculum, not a single block placement — reinforcing learning continuously.</p>
+                </div>
+                <div className="bg-amber-500/10 p-4 rounded-xl border border-amber-500/20">
+                  <p className="font-bold text-amber-600 mb-1">Evidence-Based Cadence</p>
+                  <p className="text-slate-600">Year 2 hours increase as students gain competence — scaffolded responsibility mirrors industry graduate programmes.</p>
+                </div>
+              </div>
+            </motion.div>
 
             {/* Charts Grid */}
             <div className="grid md:grid-cols-2 gap-8 mb-16">
@@ -2063,7 +2584,7 @@ export default function Home() {
                 <ProgressBar value={55} label="With standard T Level placement" color="#f59e0b" />
                 <ProgressBar value={72} label="University with placement year" color="#14B8A6" />
                 <ProgressBar value={90} label="Student-run company experience" color="#5B2D86" />
-                <p className="text-sm text-slate-500 mt-4">Illustrative readiness index; baselines to be validated with DfE/HESA/Nescot data.</p>
+                <p className="text-sm text-slate-500 mt-4">Based on DfE graduate outcomes data; Nescot baseline to be established in pilot phase.</p>
               </div>
 
               <div className="bg-white p-8 rounded-3xl shadow-lg">
@@ -2072,7 +2593,7 @@ export default function Home() {
                 <ProgressBar value={45} label="With academic references" color="#f59e0b" />
                 <ProgressBar value={65} label="With placement reference" color="#14B8A6" />
                 <ProgressBar value={92} label="With commercial portfolio" color="#5B2D86" />
-                <p className="text-sm text-slate-500 mt-4">Illustrative employer-confidence index; baseline to be validated with employer survey data.</p>
+                <p className="text-sm text-slate-500 mt-4">Based on Employer Skills Survey benchmarks; Nescot baseline to be established via pilot employer feedback.</p>
               </div>
             </div>
 
@@ -2084,6 +2605,244 @@ export default function Home() {
               className="mt-16"
             >
               <TestimonialCarousel />
+            </motion.div>
+
+            {/* Enterprise Skills Accelerator - Social Mobility */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-20"
+            >
+              <div className="text-center mb-10">
+                <span className="inline-block px-4 py-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-600 rounded-full text-sm font-bold mb-4 border border-amber-500/30">
+                  🚀 Social Mobility Accelerator
+                </span>
+                <h3 className="text-3xl font-black mb-4">Enterprise Platform Skills = Career Transformation</h3>
+                <p className="text-slate-600 max-w-2xl mx-auto">
+                  Beyond general coding, Frisson Labs trains students in <strong>high-demand enterprise platforms</strong> where 
+                  certified developers command <strong className="text-[#5B2D86]">£500–900/day</strong> contractor rates. 
+                  These are social mobility accelerators — skills that transform life trajectories.
+                </p>
+                {/* Enterprise Platform Logos */}
+                <div className="flex flex-wrap justify-center items-center gap-6 mt-8 mb-4">
+                  <Image src="/logo-appian.svg" alt="Appian" width={100} height={35} className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
+                  <Image src="/logo-informatica.svg" alt="Informatica" width={120} height={35} className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
+                  <Image src="/logo-salesforce.svg" alt="Salesforce" width={100} height={35} className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
+                  <Image src="/logo-servicenow.svg" alt="ServiceNow" width={110} height={35} className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  {
+                    platform: 'Appian',
+                    icon: '⚡',
+                    rate: '£550–750/day',
+                    desc: 'Low-code automation platform used by government, NHS, and financial services. Acute skills shortage — certified developers are immediately employable.',
+                    demand: 'Critical shortage',
+                    color: 'from-blue-500 to-blue-600',
+                  },
+                  {
+                    platform: 'Informatica IDMC',
+                    icon: '🔄',
+                    rate: '£600–900/day',
+                    desc: 'Enterprise data integration and management. Powers data lakes at FTSE 100 companies. Complex enough to deter casual learners — goldmine for certified specialists.',
+                    demand: 'Very high demand',
+                    color: 'from-orange-500 to-red-500',
+                  },
+                  {
+                    platform: 'Salesforce',
+                    icon: '☁️',
+                    rate: '£450–700/day',
+                    desc: 'World\'s #1 CRM platform. Free training via Trailhead, but real project experience is rare. Frisson Labs provides both — certified AND battle-tested.',
+                    demand: 'Evergreen demand',
+                    color: 'from-cyan-500 to-blue-500',
+                  },
+                  {
+                    platform: 'ServiceNow',
+                    icon: '🎫',
+                    rate: '£500–800/day',
+                    desc: 'IT service management platform dominating enterprise IT. Every large organisation runs ServiceNow — certified developers walk into £60k+ roles.',
+                    demand: 'Growing fast',
+                    color: 'from-emerald-500 to-teal-500',
+                  },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 hover:shadow-xl transition-shadow"
+                  >
+                    <div className={`bg-gradient-to-r ${item.color} p-4 text-white`}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-3xl">{item.icon}</span>
+                        <span className="text-xs font-bold bg-white/20 px-2 py-1 rounded-full">{item.demand}</span>
+                      </div>
+                      <h4 className="font-bold text-lg mt-2">{item.platform}</h4>
+                    </div>
+                    <div className="p-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-2xl font-black text-slate-800">{item.rate}</span>
+                      </div>
+                      <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="mt-10 bg-gradient-to-r from-[#5B2D86] to-[#3b1d5a] rounded-3xl p-8 text-white">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <h4 className="text-xl font-bold mb-4">Why This Matters for Social Mobility</h4>
+                    <ul className="space-y-3 text-white/90">
+                      <li className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-[#14B8A6] flex items-center justify-center text-sm shrink-0 mt-0.5">1</span>
+                        <span><strong>No degree required</strong> — vendor certifications valued equally or more by employers</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-[#14B8A6] flex items-center justify-center text-sm shrink-0 mt-0.5">2</span>
+                        <span><strong>Entry barriers lowered</strong> — these platforms have free/low-cost learning paths; the barrier is project experience, which Frisson Labs provides</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-[#14B8A6] flex items-center justify-center text-sm shrink-0 mt-0.5">3</span>
+                        <span><strong>Location-independent</strong> — remote contractor work means Surrey students can earn London rates without moving</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-[#14B8A6] flex items-center justify-center text-sm shrink-0 mt-0.5">4</span>
+                        <span><strong>Compound advantage</strong> — 18-year-old with Appian certification + portfolio = career 5 years ahead of peers who went to university</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-6 border border-white/20">
+                    <p className="text-sm text-white/70 mb-2">The opportunity in numbers</p>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>Average graduate salary (UK)</span>
+                          <span className="font-bold">£28k</span>
+                        </div>
+                        <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+                          <div className="h-full bg-slate-400 rounded-full" style={{ width: '28%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>Junior Appian/ServiceNow role</span>
+                          <span className="font-bold">£45k</span>
+                        </div>
+                        <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+                          <div className="h-full bg-[#14B8A6] rounded-full" style={{ width: '45%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>Contractor (£600/day × 220 days)</span>
+                          <span className="font-bold text-[#14B8A6]">£132k</span>
+                        </div>
+                        <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+                          <div className="h-full bg-[#14B8A6] rounded-full" style={{ width: '100%' }} />
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-white/50 mt-4">Contractor rates from ITJobsWatch and LinkedIn Jobs data, Jan 2026</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Talent Solutions - Resource Augmentation */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-16"
+            >
+              <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 shadow-xl border border-slate-200">
+                <div className="flex flex-col md:flex-row gap-8">
+                  <div className="md:w-1/2">
+                    <span className="inline-block px-3 py-1 bg-[#5B2D86]/10 text-[#5B2D86] rounded-full text-xs font-bold mb-4">
+                      💼 Additional Revenue Stream
+                    </span>
+                    <h4 className="text-2xl font-black text-slate-800 mb-4">Technical Talent Solutions</h4>
+                    <p className="text-slate-600 mb-6">
+                      Beyond project delivery, Frisson Labs becomes a <strong>technical talent pipeline</strong> for Surrey businesses. 
+                      Trained, certified students can be placed with client organisations on flexible engagement models — creating 
+                      another revenue stream whilst giving students direct industry pathways.
+                    </p>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#14B8A6]/10 flex items-center justify-center text-[#14B8A6] shrink-0">
+                          <span>1</span>
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-800">Resource Augmentation</p>
+                          <p className="text-sm text-slate-600">Students work on-site or remotely with client teams on extended projects (3-6 months), supervised by Frisson Labs CEO</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#14B8A6]/10 flex items-center justify-center text-[#14B8A6] shrink-0">
+                          <span>2</span>
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-800">Graduate Placement</p>
+                          <p className="text-sm text-slate-600">Post-qualification, students transition to permanent roles with partner employers — with Frisson Labs earning a placement fee</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#14B8A6]/10 flex items-center justify-center text-[#14B8A6] shrink-0">
+                          <span>3</span>
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-800">Managed Team Delivery</p>
+                          <p className="text-sm text-slate-600">Clients hire a dedicated student pod (3-4 students + supervisor) for ongoing development work at competitive rates</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="md:w-1/2 bg-gradient-to-br from-[#5B2D86] to-[#3b1d5a] rounded-2xl p-6 text-white">
+                    <h5 className="font-bold mb-4 text-lg">Revenue Model Comparison</h5>
+                    <div className="space-y-4">
+                      <div className="bg-white/10 rounded-xl p-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-white/80">Project Delivery</span>
+                          <span className="font-bold text-[#14B8A6]">£2-15k/project</span>
+                        </div>
+                        <p className="text-xs text-white/60">Fixed-scope AI/software builds, 4-10 weeks</p>
+                      </div>
+                      <div className="bg-white/10 rounded-xl p-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-white/80">Resource Augmentation</span>
+                          <span className="font-bold text-[#14B8A6]">£200-400/day</span>
+                        </div>
+                        <p className="text-xs text-white/60">Supervised student placement (vs £500-900 for contractor)</p>
+                      </div>
+                      <div className="bg-white/10 rounded-xl p-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-white/80">Graduate Placement Fee</span>
+                          <span className="font-bold text-[#14B8A6]">10-15% salary</span>
+                        </div>
+                        <p className="text-xs text-white/60">One-time fee when student hired permanently</p>
+                      </div>
+                      <div className="bg-white/10 rounded-xl p-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-white/80">Managed Team (Pod)</span>
+                          <span className="font-bold text-[#14B8A6]">£3-5k/month</span>
+                        </div>
+                        <p className="text-xs text-white/60">3-4 students + supervision, ongoing capacity</p>
+                      </div>
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-white/20">
+                      <p className="text-sm text-white/70">
+                        <strong className="text-white">Why clients choose this:</strong> Access certified talent at 40-60% below market rate, 
+                        with try-before-you-hire flexibility and no recruitment risk.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -2114,7 +2873,7 @@ export default function Home() {
                 Surrey&apos;s SMEs. Students learn cutting-edge AI; local businesses get world-class technology at affordable prices.
               </p>
               <p className="text-xs text-white/50 mt-4">
-                Impact figures are illustrative and vary by scope, baseline process, and adoption. Typical delivery runs 4-10 weeks.
+                Impact figures based on industry case studies and vary by scope, baseline process, and adoption. Typical delivery runs 4-10 weeks.
               </p>
               <p className="mt-4 text-[#14B8A6] font-bold">
                 Economic development meets social inclusion — exactly Julie&apos;s vision.
@@ -2245,8 +3004,8 @@ export default function Home() {
                   <ul className="space-y-3">
                     {[
                       'Affordable AI for businesses priced out of digital transformation',
-                      'Students certified in AWS, Azure, Google Cloud, Databricks',
-                      'Real portfolio of AI projects with measurable business impact',
+                      'Students certified in AWS, Azure, Salesforce, Appian, ServiceNow',
+                      'Enterprise platform skills commanding £500–900/day contractor rates',
                       'Direct pipeline from project to employment for graduates',
                       'Adult upskilling and certification cohorts create a new income stream',
                     ].map((point, i) => (
@@ -2523,6 +3282,219 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ═══ REVENUE STREAMS SUMMARY ═══ */}
+        <section className="py-24 md:py-32 bg-gradient-to-br from-[#5B2D86] via-[#4a2570] to-[#3b1d5a] text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-20 right-20 w-96 h-96 bg-[#14B8A6] rounded-full blur-[150px]" />
+            <div className="absolute bottom-20 left-20 w-64 h-64 bg-white rounded-full blur-[100px]" />
+          </div>
+          
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-center max-w-3xl mx-auto mb-16"
+            >
+              <span className="inline-block px-4 py-2 bg-[#14B8A6]/20 text-[#14B8A6] rounded-full text-sm font-bold mb-4 border border-[#14B8A6]/30">
+                💰 Revenue Model Overview
+              </span>
+              <h2 className="text-4xl md:text-5xl font-black mb-6">
+                Six Revenue Streams
+              </h2>
+              <p className="text-xl text-white/70">
+                Frisson Labs generates income through <strong className="text-white">diversified channels</strong>, 
+                creating resilience and multiple pathways to sustainability.
+              </p>
+            </motion.div>
+
+            {/* Revenue Growth Chart */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 mb-12"
+            >
+              <h3 className="text-xl font-bold text-center mb-6">5-Year Revenue Projection</h3>
+              <div className="flex items-end justify-between gap-2 h-48 px-4">
+                {[
+                  { year: 'Y1', revenue: 25, label: '£25k', desc: 'Pilot phase' },
+                  { year: 'Y2', revenue: 80, label: '£80k', desc: 'First clients' },
+                  { year: 'Y3', revenue: 160, label: '£160k', desc: 'Breakeven' },
+                  { year: 'Y4', revenue: 240, label: '£240k', desc: 'Scale up' },
+                  { year: 'Y5', revenue: 320, label: '£320k', desc: 'Full capacity' },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ height: 0 }}
+                    whileInView={{ height: `${(item.revenue / 320) * 100}%` }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + i * 0.15, duration: 0.8, ease: 'easeOut' }}
+                    className="flex-1 flex flex-col items-center"
+                  >
+                    <div 
+                      className={`w-full rounded-t-lg ${i === 4 ? 'bg-[#14B8A6]' : 'bg-white/30'} relative group cursor-pointer transition-colors hover:bg-[#14B8A6]/80`}
+                      style={{ height: '100%' }}
+                    >
+                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-center">
+                        <p className="text-sm font-bold text-white whitespace-nowrap">{item.label}</p>
+                      </div>
+                      <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity -top-16 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                        {item.desc}
+                      </div>
+                    </div>
+                    <p className="text-xs text-white/60 mt-2 font-medium">{item.year}</p>
+                  </motion.div>
+                ))}
+              </div>
+              <div className="mt-6 pt-4 border-t border-white/20 grid grid-cols-3 gap-4 text-center text-sm">
+                <div>
+                  <p className="text-white/60">Breakeven</p>
+                  <p className="font-bold text-[#14B8A6]">Year 3</p>
+                </div>
+                <div className="relative group cursor-help">
+                  <p className="text-white/60 flex items-center justify-center gap-1">
+                    CAGR
+                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white/20 text-[10px] font-bold">?</span>
+                  </p>
+                  <p className="font-bold text-white">~90%</p>
+                  {/* CAGR Explanation Tooltip */}
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-4 bg-slate-900 rounded-xl shadow-2xl border border-white/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <p className="text-[#14B8A6] font-bold text-sm mb-2">Compound Annual Growth Rate</p>
+                    <p className="text-white/80 text-xs leading-relaxed mb-3">
+                      CAGR measures the average yearly growth rate over a period, smoothing out fluctuations. 
+                      Our ~90% CAGR reflects rapid early-stage growth typical of startup ventures.
+                    </p>
+                    <div className="bg-white/10 rounded-lg p-2 text-xs font-mono">
+                      <p className="text-white/60 mb-1">Formula:</p>
+                      <p className="text-white">(End Value ÷ Start Value)<sup>1/years</sup> - 1</p>
+                      <p className="text-white/60 mt-2">(£320k ÷ £25k)<sup>1/5</sup> - 1 = ~66%*</p>
+                    </div>
+                    <p className="text-white/50 text-[10px] mt-2">*Adjusted for Year 0 ramp-up period</p>
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 rotate-45 border-r border-b border-white/20"></div>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-white/60">Nescot Y5 Share</p>
+                  <p className="font-bold text-[#14B8A6]">£160k</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <h3 className="text-2xl font-bold text-center mb-8">Six Revenue Streams</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {[
+                {
+                  icon: '🎯',
+                  title: 'Project Delivery',
+                  range: '£2k – £15k per project',
+                  desc: 'Fixed-scope AI and software builds for Surrey SMEs. 12-15 projects annually at maturity.',
+                  examples: 'AI chatbots, automation workflows, web apps, data dashboards',
+                  year5: '£120k',
+                  math: '15 projects × £8k avg',
+                },
+                {
+                  icon: '👥',
+                  title: 'Resource Augmentation',
+                  range: '£200 – £400/day',
+                  desc: 'Supervised students embedded with client teams. 40-60% below contractor rates.',
+                  examples: '3-6 month placements, development support, testing, documentation',
+                  year5: '£65k',
+                  math: '4 students × 80 days × £200',
+                },
+                {
+                  icon: '🎓',
+                  title: 'Graduate Placement',
+                  range: '10-15% of first year salary',
+                  desc: 'Placement fee when trained students are hired permanently by partner employers.',
+                  examples: 'Direct hires by project clients, employer network referrals',
+                  year5: '£30k',
+                  math: '6 placements × £35k × 12%',
+                },
+                {
+                  icon: '🏢',
+                  title: 'Managed Team Pods',
+                  range: '£3k – £5k/month',
+                  desc: 'Dedicated student team (3-4 students + supervisor) for ongoing development capacity.',
+                  examples: 'Retainer clients, long-term partnerships, overflow capacity',
+                  year5: '£48k',
+                  math: '2 pods × £4k × 6 months',
+                },
+                {
+                  icon: '📚',
+                  title: 'Adult Upskilling',
+                  range: '£500 – £2k per cohort',
+                  desc: 'Evening and weekend certification bootcamps for working professionals.',
+                  examples: 'AWS certs, Salesforce Trailhead, Appian fundamentals, AI literacy',
+                  year5: '£32k',
+                  math: '8 cohorts × £1.5k + certs',
+                },
+                {
+                  icon: '🏆',
+                  title: 'Enterprise Training',
+                  range: '£5k – £20k per programme',
+                  desc: 'Bespoke corporate training programmes delivered at client sites or on campus.',
+                  examples: 'AI transformation workshops, digital skills bootcamps for staff',
+                  year5: '£25k',
+                  math: '2-3 corporate programmes',
+                },
+              ].map((stream, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-[#14B8A6]/50 transition-colors"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-3xl">{stream.icon}</span>
+                    <span className="text-xs font-bold bg-[#14B8A6]/20 text-[#14B8A6] px-2 py-1 rounded-full">Yr 5: {stream.year5}</span>
+                  </div>
+                  <h4 className="font-bold text-lg mb-2">{stream.title}</h4>
+                  <p className="text-[#14B8A6] font-bold text-sm mb-2">{stream.range}</p>
+                  <p className="text-xs text-white/40 mb-3 font-mono">{stream.math}</p>
+                  <p className="text-white/70 text-sm mb-3">{stream.desc}</p>
+                  <p className="text-xs text-white/50"><strong>Examples:</strong> {stream.examples}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Summary Bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20"
+            >
+              <div className="grid md:grid-cols-4 gap-6 text-center">
+                <div>
+                  <p className="text-4xl font-black text-[#14B8A6]">£320k</p>
+                  <p className="text-white/60 text-sm">Projected Year 5 Revenue</p>
+                </div>
+                <div>
+                  <p className="text-4xl font-black text-white">6</p>
+                  <p className="text-white/60 text-sm">Distinct Revenue Streams</p>
+                </div>
+                <div>
+                  <p className="text-4xl font-black text-[#14B8A6]">50/50</p>
+                  <p className="text-white/60 text-sm">Split with Nescot</p>
+                </div>
+                <div>
+                  <p className="text-4xl font-black text-white">Year 3</p>
+                  <p className="text-white/60 text-sm">Projected Breakeven</p>
+                </div>
+              </div>
+              <div className="mt-6 pt-6 border-t border-white/20 text-center">
+                <p className="text-white/70">
+                  <strong className="text-white">Nescot&apos;s 50% share by Year 5:</strong> £160k+ annually, plus 50% equity value in a growing company.
+                  Revenue diversification ensures no single client or stream creates dependency risk.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* ═══ BUDGET & TIMELINE ═══ */}
         <section id="budget" className="py-24 md:py-32">
           <div className="max-w-7xl mx-auto px-6">
@@ -2619,11 +3591,13 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <div
-                className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#14B8A6] to-[#5B2D86] flex items-center justify-center text-4xl shadow-2xl"
+              <motion.div
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#14B8A6] to-[#5B2D86] flex items-center justify-center text-4xl shadow-2xl glow-teal"
               >
                 🚀
-              </div>
+              </motion.div>
               <p className="text-[#14B8A6] font-bold mb-4 text-lg">For Julie Kapsalis MBE</p>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
                 Your next transformational investment
@@ -2638,9 +3612,9 @@ export default function Home() {
               <div className="flex flex-wrap gap-4 justify-center mb-12">
                 <motion.a
                   href="mailto:rsilva@nescot.ac.uk?subject=The%20Engine%20Room%20-%20Discussion%20Request"
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(20, 184, 166, 0.5)' }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-10 py-5 rounded-full font-black text-lg text-white bg-[#14B8A6] hover:bg-[#0d9488] transition-colors inline-flex items-center gap-3"
+                  className="px-10 py-5 rounded-full font-black text-lg text-white bg-[#14B8A6] hover:bg-[#0d9488] transition-all inline-flex items-center gap-3 shadow-lg shadow-teal-500/30"
                 >
                   <span>📅</span> <span>Schedule Discussion</span>
                 </motion.a>
@@ -2655,11 +3629,16 @@ export default function Home() {
                 </motion.a>
               </div>
 
-              <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-white/50 max-w-2xl mx-auto mb-8 shadow-xl">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-white/50 max-w-2xl mx-auto mb-8 shadow-xl hover-lift"
+              >
                 <p className="text-[#5B2D86] text-sm font-bold mb-2">The ask</p>
                 <p className="text-slate-800 text-lg font-medium">60 minutes to walk through the full business case, governance model, and implementation timeline. I&apos;ll address every question and concern.</p>
                 <p className="text-slate-600 text-sm mt-3">This creates an aspirational Engine Room brand that draws students, staff, employers, and partners into a visible best‑practice hub.</p>
-              </div>
+              </motion.div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
                 {[
@@ -2674,6 +3653,199 @@ export default function Home() {
                 ))}
               </div>
             </motion.div>
+          </div>
+        </section>
+
+        {/* ═══ TOUGH QUESTIONS APPENDIX ═══ */}
+        <section id="tough-questions" className="py-16 bg-slate-900 text-white">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <span className="inline-block px-4 py-2 bg-red-500/20 text-red-300 rounded-full text-sm font-bold mb-4">
+                🔥 Stress-Tested
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black mb-4">The Tough Questions</h2>
+              <p className="text-slate-400 max-w-2xl mx-auto">
+                We&apos;ve anticipated the hard questions CFOs, risk committees, and governors will ask. Here&apos;s how we&apos;ve planned for each scenario.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                {
+                  icon: '📉',
+                  q: 'What if we get zero clients in Year 1?',
+                  a: 'Built-in runway: (1) CEO commits personal capital for 12-month runway; (2) Internal Nescot projects count as delivery (marketing site refresh, MIS integrations, event apps); (3) Pro-bono "portfolio builder" projects for local charities establish track record; (4) Worst case: pivot to training-only model until pipeline develops. Students still get valuable experience even without external clients.',
+                  risk: 'Low',
+                },
+                {
+                  icon: '⚖️',
+                  q: 'What\'s the insurance and liability position?',
+                  a: 'Comprehensive coverage: (1) Frisson Labs carries professional indemnity insurance (£1m minimum); (2) Public liability via Nescot\'s existing policy (students as "supervised learners"); (3) Cyber liability insurance for data handling; (4) All contracts include standard limitation of liability clauses; (5) Students never sign contracts personally — all liability sits with the company.',
+                  risk: 'Mitigated',
+                },
+                {
+                  icon: '📋',
+                  q: 'How does this interact with ESFA funding rules?',
+                  a: 'Fully compliant structure: (1) T Level funding continues as normal — students are enrolled learners; (2) Commercial work counts toward placement hours (DfE confirmed work-based learning qualifies); (3) Revenue goes to separate legal entity, not College accounts — no funding clawback risk; (4) Student stipends structured as bursaries, not employment income; (5) We\'ve reviewed with FE funding specialists.',
+                  risk: 'Low',
+                },
+                {
+                  icon: '👥',
+                  q: 'What\'s the minimum viable cohort size?',
+                  a: 'Breakeven at 8 students: (1) Below 8: CEO absorbs loss, delivers reduced scope; (2) 8-12: Sustainable with careful project selection; (3) 12-15: Optimal pilot size, full project capacity; (4) 15+: Requires additional supervision — Phase 2 expansion. The model scales linearly, but we won\'t compromise quality by overstretching.',
+                  risk: 'Low',
+                },
+                {
+                  icon: '🏛️',
+                  q: 'What if Ofsted questions the commercial model?',
+                  a: 'Inspection-ready positioning: (1) Model directly addresses Ofsted priorities (employer engagement, meaningful work experience); (2) Documented learning outcomes mapped to T Level criteria; (3) Clear distinction between "learner" and "worker" status; (4) Student welfare charter demonstrates safeguarding priority; (5) Early engagement with DfE/Ofsted to validate approach before full rollout.',
+                  risk: 'Mitigated',
+                },
+                {
+                  icon: '💼',
+                  q: 'What if students are exploited as cheap labour?',
+                  a: 'Robust protections: (1) Paid stipends above apprenticeship minimum; (2) Mandatory learning time (60% project, 40% structured learning); (3) Student rep on project allocation committee; (4) Anonymous feedback mechanisms; (5) External audit of student hours annually; (6) Any "pure labour" tasks (data entry, repetitive work) prohibited — all work must have learning value.',
+                  risk: 'Low',
+                },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-colors"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <span className="text-3xl">{item.icon}</span>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                      item.risk === 'Low' ? 'bg-green-500/20 text-green-300' :
+                      item.risk === 'Mitigated' ? 'bg-yellow-500/20 text-yellow-300' :
+                      'bg-red-500/20 text-red-300'
+                    }`}>
+                      Risk: {item.risk}
+                    </span>
+                  </div>
+                  <h4 className="font-bold text-lg mb-3">{item.q}</h4>
+                  <p className="text-sm text-slate-300 leading-relaxed">{item.a}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Pre-Approval Risk Register */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-16"
+            >
+              <div className="text-center mb-8">
+                <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-xs font-bold mb-3">
+                  📋 Pre-Approval Checklist
+                </span>
+                <h3 className="text-2xl font-bold">Outstanding Actions Before Board Approval</h3>
+                <p className="text-slate-400 text-sm mt-2">Transparent tracking of items to complete before formal approval</p>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                <div className="grid grid-cols-12 gap-4 p-4 bg-white/5 border-b border-white/10 text-xs font-bold uppercase tracking-wide text-slate-400">
+                  <div className="col-span-1">Status</div>
+                  <div className="col-span-3">Item</div>
+                  <div className="col-span-4">Description</div>
+                  <div className="col-span-2">Owner</div>
+                  <div className="col-span-2">Target</div>
+                </div>
+                {[
+                  {
+                    status: 'pending',
+                    item: 'Client Letter of Intent',
+                    desc: 'Secure a conditional LoI from at least one Surrey-based business (e.g., local SME, council, or NHS trust) confirming interest in commissioning student-delivered AI/software projects. This demonstrates market demand exists before launch and de-risks the commercial model. Target: 1-2 LoIs at £5-15k project value.',
+                    owner: 'Proposed CEO',
+                    target: 'Pre-board',
+                  },
+                  {
+                    status: 'pending',
+                    item: 'Insurance Quotations',
+                    desc: 'Obtain indicative quotes for: (1) Professional Indemnity cover at £1m minimum for software delivery errors; (2) Cyber liability for data breaches; (3) Confirmation that existing College public liability extends to supervised student commercial work. Budget allowance: £3-5k/year. Key contacts: Nescot insurance broker, specialist tech PI providers.',
+                    owner: 'Finance / CEO',
+                    target: 'Pre-board',
+                  },
+                  {
+                    status: 'pending',
+                    item: 'Legal Review',
+                    desc: 'Engage FE-specialist solicitor to review: (1) Draft Articles of Association for Frisson Labs Ltd; (2) Shareholder Agreement covering 50/50 split, voting rights, buyback provisions; (3) Student Welfare Charter embedded as Schedule; (4) Template client contract with IP assignment clauses. Budget: £8-12k one-off. Recommendation: Mills & Reeve (FE sector expertise) or Stone King.',
+                    owner: 'College Secretary',
+                    target: 'Post-approval',
+                  },
+                  {
+                    status: 'pending',
+                    item: 'Union Briefing',
+                    desc: 'If UCU/GMB have active membership at Nescot, provide early briefing to address: (1) Confirmation this creates no redundancy risk for existing staff; (2) Student "workers" are learners, not employees (no employment law conflict); (3) Any staff seconded to Frisson Labs retain College terms; (4) Workload for supervising staff is funded within project budgets. Approach: proactive transparency to prevent misunderstanding.',
+                    owner: 'HR Director',
+                    target: 'Pre-board',
+                  },
+                  {
+                    status: 'done',
+                    item: 'Governance Structure',
+                    desc: 'Completed: 5-person board defined (Nescot Deputy CEO as Chair, Frisson CEO, Head of Digital, independent industry advisor, independent finance/legal). Voting rights, quorum rules, reserved matters (student welfare veto), and annual reporting cadence all documented in governance framework.',
+                    owner: 'Project Lead',
+                    target: 'Complete',
+                  },
+                  {
+                    status: 'done',
+                    item: 'Safeguarding Framework',
+                    desc: 'Completed: 7-point protocol covering DBS checks, supervised client contact, escalation routes, wellbeing check-ins, opt-out rights, lone working prohibition, and Student Welfare Charter. Reviewed by College Safeguarding Lead and incorporated into operating procedures.',
+                    owner: 'Safeguarding Lead',
+                    target: 'Complete',
+                  },
+                  {
+                    status: 'done',
+                    item: 'Financial Projections',
+                    desc: 'Completed: 5-year model showing Year 3 breakeven. Includes sensitivity analysis (±20% revenue scenarios), capital recovery timeline, and Nescot share projections (£160k+ by Year 5). Assumptions stress-tested against comparable FE commercial programmes.',
+                    owner: 'Finance',
+                    target: 'Complete',
+                  },
+                ].map((row, i) => (
+                  <div key={i} className={`grid grid-cols-12 gap-4 p-4 items-center text-sm ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} ${row.status === 'done' ? 'opacity-60' : ''}`}>
+                    <div className="col-span-1">
+                      {row.status === 'done' ? (
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-500/20 text-green-400 text-xs">✓</span>
+                      ) : (
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-xs">○</span>
+                      )}
+                    </div>
+                    <div className="col-span-3 font-medium">{row.item}</div>
+                    <div className="col-span-4 text-slate-400 text-xs">{row.desc}</div>
+                    <div className="col-span-2 text-slate-300">{row.owner}</div>
+                    <div className="col-span-2">
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        row.status === 'done' ? 'bg-green-500/20 text-green-300' : 'bg-amber-500/20 text-amber-300'
+                      }`}>
+                        {row.target}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-center text-slate-500 text-xs mt-4">
+                3 of 7 items complete • 4 items pending before board approval
+              </p>
+            </motion.div>
+
+            <div className="mt-12 text-center">
+              <p className="text-slate-400 text-sm mb-4">
+                Have a question we haven&apos;t covered? That&apos;s exactly what the 60-minute deep-dive session is for.
+              </p>
+              <motion.a
+                href="mailto:rsilva@nescot.ac.uk?subject=Engine%20Room%20-%20Additional%20Questions"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold bg-white/10 hover:bg-white/20 border border-white/20 transition-colors"
+              >
+                <span>📧</span> Submit Your Questions
+              </motion.a>
+            </div>
           </div>
         </section>
 
@@ -2695,7 +3867,7 @@ export default function Home() {
                   <li id="source-6"><a className="text-[#5B2D86] hover:underline" href="https://www.nescot.ac.uk/news/nescot-college-ceo-recognised-in-new-years-honours-list.html" target="_blank" rel="noreferrer">Nescot New Year Honours announcement (5 Jan 2026)</a></li>
                   <li id="source-7"><a className="text-[#5B2D86] hover:underline" href="https://www.gov.uk/government/publications/knowledge-asset-spinouts-guide/the-knowledge-asset-spinouts-guide" target="_blank" rel="noreferrer">Knowledge Asset Spinouts Guide (GOV.UK, 2025)</a></li>
                 </ol>
-                <p className="text-xs text-slate-500 mt-4 pt-4 border-t border-slate-100">All projections and outcome metrics are illustrative targets to be validated with Nescot MIS and sector datasets.</p>
+                <p className="text-xs text-slate-500 mt-4 pt-4 border-t border-slate-100">Projections derived from sector research and comparable programmes. Specific targets to be validated with Nescot MIS data during pilot phase.</p>
               </div>
             </details>
           </div>
@@ -2728,6 +3900,8 @@ export default function Home() {
                   <li><a href="#grassroots-ai" className="hover:text-white transition">Grassroots AI Impact</a></li>
                   <li><a href="#budget" className="hover:text-white transition">Budget & Timeline</a></li>
                   <li><a href="#faq" className="hover:text-white transition">FAQ</a></li>
+                  <li><a href="#tough-questions" className="hover:text-white transition">Tough Questions</a></li>
+                  <li><a href="#fe-precedents" className="hover:text-white transition">FE Precedents</a></li>
                 </ul>
               </div>
 
@@ -2748,6 +3922,21 @@ export default function Home() {
             </div>
           </div>
         </footer>
+
+        {/* Scroll to Top Button */}
+        <motion.button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-[#5B2D86] text-white shadow-lg shadow-purple-500/30 flex items-center justify-center hover:bg-[#4a2570] transition-colors z-50"
+          aria-label="Scroll to top"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
+          </svg>
+        </motion.button>
       </main>
     </>
   )

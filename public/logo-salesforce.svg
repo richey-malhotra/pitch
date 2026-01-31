@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40">
+  <defs>
+    <linearGradient id="sfGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00A1E0"/>
+      <stop offset="100%" style="stop-color:#1798C1"/>
+    </linearGradient>
+  </defs>
+  <!-- Salesforce cloud mark -->
+  <g transform="translate(3, 8)">
+    <path d="M8 18 Q4 18, 4 14 Q4 10, 8 10 Q8 6, 14 6 Q18 6, 20 10 Q24 8, 28 12 Q30 12, 30 16 Q30 20, 26 20 L10 20 Q6 20, 6 16 Q6 14, 8 14" fill="url(#sfGrad)"/>
+  </g>
+  <!-- Text -->
+  <text x="38" y="26" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="12" fill="#00A1E0">salesforce</text>
+</svg>
