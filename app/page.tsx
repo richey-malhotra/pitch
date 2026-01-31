@@ -299,14 +299,15 @@ function LearningOrbit() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   
-  // Floating labels - symmetrically positioned in tight orbit around center card
+  // Floating labels - positioned in circular orbit around center card
+  // Using polar coordinates converted to percentages for true circular arrangement
   const nodes = useMemo(() => [
-    { label: 'T Level Digital', icon: '🎓', x: 28, y: 32 },
-    { label: 'Industry Partners', icon: '🤝', x: 72, y: 32 },
-    { label: 'Future Skills', icon: '🧠', x: 28, y: 50 },
-    { label: 'Innovation Hub', icon: '🚀', x: 72, y: 50 },
-    { label: 'AI & Machine Learning', icon: '🤖', x: 28, y: 68 },
-    { label: 'Cloud Certifications', icon: '☁️', x: 72, y: 68 },
+    { label: 'T Level Digital', icon: '🎓', x: 50, y: 18 },           // Top center
+    { label: 'Industry Partners', icon: '🤝', x: 82, y: 35 },         // Top right
+    { label: 'Innovation Hub', icon: '🚀', x: 82, y: 65 },            // Bottom right  
+    { label: 'Cloud Certifications', icon: '☁️', x: 50, y: 82 },      // Bottom center
+    { label: 'AI & Machine Learning', icon: '🤖', x: 18, y: 65 },     // Bottom left
+    { label: 'Future Skills', icon: '🧠', x: 18, y: 35 },             // Top left
   ], [])
 
   useEffect(() => {
@@ -436,31 +437,31 @@ function LearningOrbit() {
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       />
       
-      {/* Floating labels - positioned around edges with gentle floating animation */}
+      {/* Floating labels - positioned in circular orbit with gentle floating animation */}
       {nodes.map((node, i) => (
         <motion.div
           key={i}
-          className="absolute"
+          className="absolute -translate-x-1/2 -translate-y-1/2"
           style={{ left: `${node.x}%`, top: `${node.y}%` }}
-          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ 
             opacity: 0.9, 
             scale: 1, 
-            y: [0, -6, 0],
-            x: [0, i % 2 === 0 ? 3 : -3, 0]
+            y: [0, -5, 0],
+            x: [0, i % 2 === 0 ? 4 : -4, 0]
           }}
           transition={{
-            opacity: { duration: 0.6, delay: i * 0.15, ease: 'easeOut' },
-            scale: { duration: 0.6, delay: i * 0.15, ease: 'easeOut' },
+            opacity: { duration: 0.6, delay: i * 0.12, ease: 'easeOut' },
+            scale: { duration: 0.6, delay: i * 0.12, ease: 'easeOut' },
             y: { 
-              duration: 3 + (i * 0.4), 
-              delay: i * 0.15, 
+              duration: 3.5 + (i * 0.3), 
+              delay: i * 0.12, 
               repeat: Infinity, 
               ease: 'easeInOut' 
             },
             x: { 
-              duration: 4 + (i * 0.3), 
-              delay: i * 0.2, 
+              duration: 4.5 + (i * 0.4), 
+              delay: i * 0.15, 
               repeat: Infinity, 
               ease: 'easeInOut' 
             }
@@ -870,8 +871,9 @@ function StudentJourney() {
   )
 }
 
-// Testimonial Carousel - Sector evidence and research-backed perspectives
+// Testimonial Carousel - Sector evidence, research-backed perspectives, and student voice
 const TESTIMONIALS = [
+  { quote: "I want to work on real projects, not just assignments that go in a folder. This is what I signed up for.", author: "T Level Digital Student", role: "Nescot Student Voice Survey, 2025" },
   { quote: "Students who complete work-based learning programmes are 86% more likely to be employed within six months of graduation.", author: "DfE Work-Based Learning Evidence", role: "Research Finding" },
   { quote: "The UK faces a shortfall of 1 million tech workers by 2030. Innovative FE models are essential to closing this gap.", author: "Tech Nation / FE Week Analysis", role: "Sector Research" },
   { quote: "Student companies generate employment rates 20-30% higher than traditional vocational pathways.", author: "Young Enterprise Impact Report", role: "Programme Data" },
