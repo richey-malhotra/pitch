@@ -436,18 +436,34 @@ function LearningOrbit() {
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       />
       
-      {/* Floating labels - positioned around edges */}
+      {/* Floating labels - positioned around edges with gentle floating animation */}
       {nodes.map((node, i) => (
         <motion.div
           key={i}
           className="absolute"
           style={{ left: `${node.x}%`, top: `${node.y}%` }}
           initial={{ opacity: 0, scale: 0.8, y: 10 }}
-          animate={{ opacity: 0.9, scale: 1, y: 0 }}
+          animate={{ 
+            opacity: 0.9, 
+            scale: 1, 
+            y: [0, -6, 0],
+            x: [0, i % 2 === 0 ? 3 : -3, 0]
+          }}
           transition={{
-            duration: 0.6,
-            delay: i * 0.15,
-            ease: 'easeOut'
+            opacity: { duration: 0.6, delay: i * 0.15, ease: 'easeOut' },
+            scale: { duration: 0.6, delay: i * 0.15, ease: 'easeOut' },
+            y: { 
+              duration: 3 + (i * 0.4), 
+              delay: i * 0.15, 
+              repeat: Infinity, 
+              ease: 'easeInOut' 
+            },
+            x: { 
+              duration: 4 + (i * 0.3), 
+              delay: i * 0.2, 
+              repeat: Infinity, 
+              ease: 'easeInOut' 
+            }
           }}
         >
           <div className="flex items-center gap-2.5 rounded-full bg-gradient-to-r from-white/15 to-white/5 border border-white/20 px-4 py-2.5 text-sm text-white backdrop-blur-lg shadow-xl shadow-black/20">
