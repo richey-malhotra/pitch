@@ -301,26 +301,29 @@
     .partners {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      padding: 10px;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 12px;
       background: #f1f5f9;
       border-radius: 8px;
       margin-bottom: 20px;
     }
     
     .partner {
-      font-size: 10px;
-      font-weight: 700;
-      color: #64748b;
+      background: white;
+      border-radius: 8px;
+      padding: 6px 10px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
       display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: center;
     }
     
-    .partner .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+    .partner img {
+      height: 20px;
+      width: auto;
+      display: block;
     }
     
     /* CTA */
@@ -376,6 +379,14 @@
       font-size: 9px;
       color: #94a3b8;
     }
+
+    .sources {
+      text-align: center;
+      font-size: 8px;
+      color: #94a3b8;
+      margin-top: 10px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
@@ -389,26 +400,26 @@
       </div>
       <div class="tagline">
         <strong>Strategic Proposal 2026</strong>
-        UK's First AI-Focused FE Venture
+        Among the UK's First AI-Focused FE Ventures
       </div>
     </header>
     
     <!-- Hero -->
     <section class="hero">
       <h1>The Engine Room</h1>
-      <p>A public-private partnership that transforms T Level education into a revenue-generating AI innovation engine — delivering grassroots AI transformation for local businesses whilst creating a nationally-recognised model for skills development.</p>
+      <p>A public-private partnership that transforms T Level education into a revenue-generating AI innovation engine — delivering grassroots AI transformation for local businesses whilst creating a nationally-recognised model for skills development. An aspirational wrapper that attracts students, staff, employers, and partners.</p>
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="value">£178bn</div>
-          <div class="label">UK Digital Economy</div>
+          <div class="value">£161bn</div>
+          <div class="label">UK Digital Sector GVA (2023)</div>
         </div>
         <div class="hero-stat">
-          <div class="value">9,400+</div>
-          <div class="label">Surrey SMEs Need AI</div>
+          <div class="value">62k+</div>
+          <div class="label">Surrey enterprises (2024)</div>
         </div>
         <div class="hero-stat">
-          <div class="value">1st</div>
-          <div class="label">AI-Focused FE Venture</div>
+          <div class="value">1 of few</div>
+          <div class="label">AI-Focused FE Ventures</div>
         </div>
         <div class="hero-stat">
           <div class="value">50/50</div>
@@ -435,6 +446,7 @@
           <li>Internal AI/software company staffed by T Level students</li>
           <li>Real client projects at affordable SME pricing</li>
           <li>Industry certifications (AWS, Azure, Google Cloud)</li>
+          <li>Adult certification bootcamps & employer-funded upskilling</li>
           <li>800+ hours commercial experience per student</li>
         </ul>
       </div>
@@ -496,11 +508,11 @@
     
     <!-- Partners -->
     <div class="partners">
-      <div class="partner"><span class="dot" style="background: #FF9900;"></span> AWS</div>
-      <div class="partner"><span class="dot" style="background: #0078D4;"></span> Microsoft Azure</div>
-      <div class="partner"><span class="dot" style="background: #4285F4;"></span> Google Cloud AI</div>
-      <div class="partner"><span class="dot" style="background: #FF3621;"></span> Databricks</div>
-      <div class="partner"><span class="dot" style="background: #10A37F;"></span> OpenAI</div>
+      <div class="partner"><img src="logo-aws.svg" alt="AWS logo"></div>
+      <div class="partner"><img src="logo-azure.svg" alt="Microsoft Azure logo"></div>
+      <div class="partner"><img src="logo-google-cloud.svg" alt="Google Cloud logo"></div>
+      <div class="partner"><img src="logo-databricks.svg" alt="Databricks logo"></div>
+      <div class="partner"><img src="logo-openai.svg" alt="OpenAI logo"></div>
     </div>
     
     <!-- Investment -->
@@ -545,25 +557,27 @@
         <div class="cta-contact">
           <div class="icon">📧</div>
           <div class="label">Email</div>
-          <div class="value">rmalhotra@nescot.ac.uk</div>
+          <div class="value">rsilva@nescot.ac.uk</div>
         </div>
         <div class="cta-contact">
           <div class="icon">💬</div>
-          <div class="label">Teams</div>
-          <div class="value">@FrissonLabs</div>
-        </div>
-        <div class="cta-contact">
-          <div class="icon">📍</div>
-          <div class="label">Location</div>
-          <div class="value">Nescot College, Epsom</div>
+          <div class="label">Microsoft Teams</div>
+          <div class="value">FrissonLabs</div>
         </div>
       </div>
     </section>
     
+    <div class="sources">
+      Sources: Skills England Report (2024); Employer Skills Survey (2024); DfE T Level industry placement guidance; DCMS Digital Sector Economic Estimates (2023); ONS Business Counts via Surrey-i (2024).
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
-      © 2026 Nescot College × Frisson Labs | Confidential Strategic Proposal | UK's First AI-Focused FE Venture
+      © <span id="year"></span> Frisson Labs | Confidential Strategic Proposal | Among the UK's First AI-Focused FE Ventures
     </footer>
   </div>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

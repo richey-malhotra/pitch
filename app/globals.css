@@ -14,17 +14,186 @@
   --color-nescot-purple: var(--nescot-purple);
   --color-nescot-teal: var(--nescot-teal);
   --color-nescot-dark: var(--nescot-dark);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
 html {
   scroll-behavior: smooth;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium typography hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem); line-height: 1.1; }
+h2 { font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem); line-height: 1.15; }
+h3 { font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2rem); line-height: 1.25; }
+
+.font-display {
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+}
+
+/* Enhanced text rendering */
+p, li {
+  text-wrap: pretty;
+}
+
+.lead {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #64748b;
+}
+
+/* Section textures with improved gradients */
+.section-texture {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-texture::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% 20%, rgba(20, 184, 166, 0.15), transparent 50%),
+    radial-gradient(ellipse 60% 80% at 85% 15%, rgba(91, 45, 134, 0.18), transparent 45%),
+    radial-gradient(ellipse 70% 50% at 75% 80%, rgba(20, 184, 166, 0.1), transparent 40%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 50%);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.section-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Premium lifted card with depth */
+.card-lift {
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 4px 6px rgba(15, 23, 42, 0.04),
+    0 12px 24px rgba(15, 23, 42, 0.06),
+    0 24px 48px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.04);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 2px 4px rgba(15, 23, 42, 0.04),
+    0 8px 12px rgba(15, 23, 42, 0.06),
+    0 20px 36px rgba(15, 23, 42, 0.1),
+    0 32px 64px rgba(15, 23, 42, 0.12);
+}
+
+/* Embossed/debossed card effect */
+.card-emboss {
+  background: linear-gradient(145deg, #ffffff, #f1f5f9);
+  border-radius: 1.25rem;
+  box-shadow:
+    8px 8px 20px rgba(15, 23, 42, 0.08),
+    -8px -8px 20px rgba(255, 255, 255, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Inset/pressed card */
+.card-inset {
+  background: linear-gradient(145deg, #e8ecf2, #f8fafc);
+  border-radius: 1.25rem;
+  box-shadow:
+    inset 4px 4px 12px rgba(15, 23, 42, 0.06),
+    inset -4px -4px 12px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(15, 23, 42, 0.03);
+}
+
+/* Glass card for dark backgrounds */
+.card-glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Premium stat card */
+.stat-card {
+  background: linear-gradient(135deg, white 0%, #f8fafc 100%);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow:
+    0 4px 6px rgba(15, 23, 42, 0.03),
+    0 10px 20px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  border: 1px solid rgba(15, 23, 42, 0.04);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 8px 12px rgba(15, 23, 42, 0.05),
+    0 16px 32px rgba(15, 23, 42, 0.1);
+}
+
+.mermaid {
+  width: 100%;
+  max-width: 100%;
+}
+
+.mermaid svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Mermaid diagram text visibility */
+.mermaid-container svg text,
+.mermaid-container svg .nodeLabel,
+.mermaid-container svg .label,
+.mermaid-container svg tspan {
+  fill: #1e293b !important;
+  color: #1e293b !important;
+}
+
+.mermaid-container svg .node rect,
+.mermaid-container svg .node polygon {
+  fill: #e0d4f0 !important;
+  stroke: #5B2D86 !important;
+}
+
+.mermaid-container svg .edgePath path {
+  stroke: #14B8A6 !important;
+}
+
+.mermaid-container svg marker path {
+  fill: #14B8A6 !important;
 }
 
 /* Focus states for accessibility */
