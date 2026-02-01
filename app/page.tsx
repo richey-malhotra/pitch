@@ -196,84 +196,187 @@ function ParticleField() {
     
     let animationId: number
     let time = 0
-    
-    // Minimal geometric shapes - slow, elegant rotation
-    const shapes = [
-      { x: width * 0.15, y: height * 0.2, size: 80, rotation: 0, sides: 6, alpha: 0.06 },
-      { x: width * 0.85, y: height * 0.15, size: 60, rotation: Math.PI / 4, sides: 4, alpha: 0.05 },
-      { x: width * 0.1, y: height * 0.8, size: 50, rotation: 0, sides: 3, alpha: 0.04 },
-      { x: width * 0.9, y: height * 0.75, size: 70, rotation: Math.PI / 6, sides: 5, alpha: 0.05 },
-      { x: width * 0.5, y: height * 0.1, size: 40, rotation: 0, sides: 6, alpha: 0.03 },
-    ]
-    
-    const drawPolygon = (x: number, y: number, size: number, sides: number, rotation: number, alpha: number) => {
-      ctx.beginPath()
-      for (let i = 0; i <= sides; i++) {
-        const angle = (i * 2 * Math.PI / sides) + rotation
-        const px = x + size * Math.cos(angle)
-        const py = y + size * Math.sin(angle)
-        if (i === 0) ctx.moveTo(px, py)
-        else ctx.lineTo(px, py)
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const mulberry32 = (seed: number) => {
+      let t = seed
+      return () => {
+        t += 0x6D2B79F5
+        let r = t
+        r = Math.imul(r ^ (r >>> 15), r | 1)
+        r ^= r + Math.imul(r ^ (r >>> 7), r | 61)
+        return ((r ^ (r >>> 14)) >>> 0) / 4294967296
       }
+    }
+
+    const rand = mulberry32(9314)
+    const spacing = Math.max(120, Math.min(width, height) / 5.5)
+    const jitter = spacing * 0.35
+
+    const shapes = Array.from({ length: Math.ceil(width / spacing) * Math.ceil(height / spacing) })
+      .map((_, i) => {
+        const col = i % Math.ceil(width / spacing)
+        const row = Math.floor(i / Math.ceil(width / spacing))
+        const x = col * spacing + (rand() - 0.5) * jitter + spacing * 0.2
+        const y = row * spacing + (rand() - 0.5) * jitter + spacing * 0.2
+        if (rand() < 0.42) return null
+        const isAccent = rand() < 0.2
+        return {
+          x,
+          y,
+          size: 10 + rand() * 14,
+          rotation: rand() * Math.PI,
+          rotSpeed: (rand() - 0.5) * 0.0005,
+          drift: 1.5 + rand() * 2.5,
+          phase: rand() * Math.PI * 2,
+          alpha: isAccent ? 0.08 : 0.045,
+          color: isAccent ? '20, 184, 166' : '255, 255, 255',
+          type: rand() < 0.65 ? 'cube' : 'diamond',
+          node: isAccent && rand() < 0.35
+        }
+      })
+      .filter(Boolean) as Array<{
+        x: number
+        y: number
+        size: number
+        rotation: number
+        rotSpeed: number
+        drift: number
+        phase: number
+        alpha: number
+        color: string
+        type: 'cube' | 'diamond'
+        node: boolean
+      }>
+
+    const drawIsoDiamond = (x: number, y: number, size: number, rotation: number, color: string, alpha: number) => {
+      const dx = size
+      const dy = size * 0.6
+      ctx.save()
+      ctx.translate(x, y)
+      ctx.rotate(rotation)
+      ctx.beginPath()
+      ctx.moveTo(0, -dy)
+      ctx.lineTo(dx, 0)
+      ctx.lineTo(0, dy)
+      ctx.lineTo(-dx, 0)
       ctx.closePath()
-      ctx.strokeStyle = `rgba(20, 184, 166, ${alpha})`
+      ctx.strokeStyle = `rgba(${color}, ${alpha})`
       ctx.lineWidth = 1
       ctx.stroke()
+      ctx.restore()
     }
-    
-    const animate = () => {
-      time += 0.003
-      ctx.clearRect(0, 0, width, height)
-      
-      // Draw rotating geometric shapes
-      shapes.forEach((shape, i) => {
-        const rotationSpeed = (i % 2 === 0 ? 1 : -1) * 0.0003
-        shape.rotation += rotationSpeed
-        
-        // Subtle floating motion
-        const floatY = Math.sin(time + i) * 5
-        const floatX = Math.cos(time * 0.7 + i) * 3
-        
-        drawPolygon(
-          shape.x + floatX,
-          shape.y + floatY,
-          shape.size,
-          shape.sides,
-          shape.rotation,
-          shape.alpha
-        )
-        
-        // Draw a second, larger, more transparent version
-        drawPolygon(
-          shape.x + floatX,
-          shape.y + floatY,
-          shape.size * 1.5,
-          shape.sides,
-          shape.rotation * -0.5,
-          shape.alpha * 0.4
-        )
-      })
-      
-      // Subtle gradient orbs
-      const orbs = [
-        { x: width * 0.2, y: height * 0.3, size: 150, color: '20, 184, 166' },
-        { x: width * 0.8, y: height * 0.7, size: 200, color: '139, 92, 246' },
+
+    const drawIsoCube = (x: number, y: number, size: number, rotation: number, color: string, alpha: number) => {
+      const dx = size
+      const dy = size * 0.6
+      const depth = size * 0.85
+      ctx.save()
+      ctx.translate(x, y)
+      ctx.rotate(rotation)
+
+      const top = [
+        { x: 0, y: -dy },
+        { x: dx, y: 0 },
+        { x: 0, y: dy },
+        { x: -dx, y: 0 }
       ]
-      
-      orbs.forEach((orb, i) => {
-        const pulse = Math.sin(time * 0.5 + i) * 0.2 + 0.8
-        const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.size * pulse)
-        gradient.addColorStop(0, `rgba(${orb.color}, 0.03)`)
-        gradient.addColorStop(1, `rgba(${orb.color}, 0)`)
+      const bottom = top.map((p) => ({ x: p.x, y: p.y + depth }))
+
+      ctx.beginPath()
+      ctx.moveTo(top[0].x, top[0].y)
+      top.slice(1).forEach((p) => ctx.lineTo(p.x, p.y))
+      ctx.closePath()
+      ctx.strokeStyle = `rgba(${color}, ${alpha})`
+      ctx.lineWidth = 1
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.moveTo(bottom[0].x, bottom[0].y)
+      bottom.slice(1).forEach((p) => ctx.lineTo(p.x, p.y))
+      ctx.closePath()
+      ctx.strokeStyle = `rgba(${color}, ${alpha * 0.5})`
+      ctx.stroke()
+
+      for (let i = 0; i < 4; i += 1) {
         ctx.beginPath()
-        ctx.arc(orb.x, orb.y, orb.size * pulse, 0, Math.PI * 2)
+        ctx.moveTo(top[i].x, top[i].y)
+        ctx.lineTo(bottom[i].x, bottom[i].y)
+        ctx.strokeStyle = `rgba(${color}, ${alpha * 0.6})`
+        ctx.stroke()
+      }
+
+      ctx.restore()
+    }
+
+    const drawIsoGrid = () => {
+      const gridSpacing = spacing * 1.1
+      const slope = 0.6
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)'
+      ctx.lineWidth = 1
+      for (let i = -height; i < width + height; i += gridSpacing) {
+        ctx.beginPath()
+        ctx.moveTo(i, 0)
+        ctx.lineTo(i + height * slope, height)
+        ctx.stroke()
+      }
+      for (let i = 0; i < width + height; i += gridSpacing) {
+        ctx.beginPath()
+        ctx.moveTo(i, 0)
+        ctx.lineTo(i - height * slope, height)
+        ctx.stroke()
+      }
+    }
+
+    const drawSoftGlows = () => {
+      const glows = [
+        { x: width * 0.18, y: height * 0.3, size: 180, color: '20, 184, 166', alpha: 0.03 },
+        { x: width * 0.82, y: height * 0.7, size: 220, color: '139, 92, 246', alpha: 0.025 }
+      ]
+      glows.forEach((glow, i) => {
+        const pulse = Math.sin(time * 0.4 + i) * 0.12 + 0.88
+        const gradient = ctx.createRadialGradient(glow.x, glow.y, 0, glow.x, glow.y, glow.size * pulse)
+        gradient.addColorStop(0, `rgba(${glow.color}, ${glow.alpha})`)
+        gradient.addColorStop(1, `rgba(${glow.color}, 0)`)
+        ctx.beginPath()
+        ctx.arc(glow.x, glow.y, glow.size * pulse, 0, Math.PI * 2)
         ctx.fillStyle = gradient
         ctx.fill()
       })
-      
-      animationId = requestAnimationFrame(animate)
     }
-    
+
+    const animate = () => {
+      time += 0.003
+      ctx.clearRect(0, 0, width, height)
+
+      drawIsoGrid()
+      drawSoftGlows()
+
+      shapes.forEach((shape, i) => {
+        const floatX = Math.cos(time * 0.6 + shape.phase) * shape.drift
+        const floatY = Math.sin(time * 0.5 + shape.phase) * (shape.drift * 0.7)
+        const rotation = shape.rotation + time * shape.rotSpeed
+        const x = shape.x + floatX
+        const y = shape.y + floatY
+
+        if (shape.type === 'cube') {
+          drawIsoCube(x, y, shape.size, rotation, shape.color, shape.alpha)
+        } else {
+          drawIsoDiamond(x, y, shape.size, rotation, shape.color, shape.alpha)
+        }
+
+        if (shape.node) {
+          ctx.beginPath()
+          ctx.arc(x, y, 1.4, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(20, 184, 166, ${shape.alpha * 1.2})`
+          ctx.fill()
+        }
+      })
+
+      if (!reduceMotion) animationId = requestAnimationFrame(animate)
+    }
+
     animate()
     return () => cancelAnimationFrame(animationId)
   }, [dimensions])
