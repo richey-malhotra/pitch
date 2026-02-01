@@ -211,8 +211,8 @@ function ParticleField() {
     const rand = mulberry32(9314)
     const spacing = Math.max(90, Math.min(width, height) / 6)
     const jitter = spacing * 0.4
-    const baseAlpha = 0.065
-    const accentAlpha = 0.12
+    const baseAlpha = 0.085
+    const accentAlpha = 0.15
 
     const shapes = Array.from({ length: Math.ceil(width / spacing) * Math.ceil(height / spacing) })
       .map((_, i) => {
@@ -221,14 +221,14 @@ function ParticleField() {
         const x = col * spacing + (rand() - 0.5) * jitter + spacing * 0.2
         const y = row * spacing + (rand() - 0.5) * jitter + spacing * 0.2
         if (rand() < 0.22) return null
-        const isAccent = rand() < 0.2
+        const isAccent = rand() < 0.22
         return {
           x,
           y,
           size: 12 + rand() * 16,
           rotation: rand() * Math.PI,
-          rotSpeed: (rand() - 0.5) * 0.0005,
-          drift: 1.5 + rand() * 2.5,
+          rotSpeed: (rand() - 0.5) * 0.001,
+          drift: 2.5 + rand() * 4.5,
           phase: rand() * Math.PI * 2,
           alpha: isAccent ? accentAlpha : baseAlpha,
           color: isAccent ? '20, 184, 166' : '255, 255, 255',
@@ -310,21 +310,23 @@ function ParticleField() {
       ctx.restore()
     }
 
-    const drawIsoGrid = () => {
+    const drawIsoGrid = (offset: number) => {
       const gridSpacing = spacing * 1.1
       const slope = 0.6
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)'
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.045)'
       ctx.lineWidth = 1
       for (let i = -height; i < width + height; i += gridSpacing) {
+        const start = i + offset
         ctx.beginPath()
-        ctx.moveTo(i, 0)
-        ctx.lineTo(i + height * slope, height)
+        ctx.moveTo(start, 0)
+        ctx.lineTo(start + height * slope, height)
         ctx.stroke()
       }
       for (let i = 0; i < width + height; i += gridSpacing) {
+        const start = i - offset
         ctx.beginPath()
-        ctx.moveTo(i, 0)
-        ctx.lineTo(i - height * slope, height)
+        ctx.moveTo(start, 0)
+        ctx.lineTo(start - height * slope, height)
         ctx.stroke()
       }
     }
@@ -347,10 +349,10 @@ function ParticleField() {
     }
 
     const animate = () => {
-      time += 0.003
+      time += 0.004
       ctx.clearRect(0, 0, width, height)
 
-      drawIsoGrid()
+      drawIsoGrid((time * 12) % (spacing * 1.1))
       ctx.save()
       ctx.globalCompositeOperation = 'screen'
       drawSoftGlows()
