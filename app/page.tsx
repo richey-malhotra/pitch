@@ -227,7 +227,8 @@ function ParticleField() {
           y,
           size: 12 + rand() * 16,
           rotation: rand() * Math.PI,
-          rotSpeed: (rand() - 0.5) * 0.001,
+          // Slightly faster rotation so motion is perceptible at typical frame rates
+          rotSpeed: (rand() - 0.5) * 0.01,
           drift: 2.5 + rand() * 4.5,
           phase: rand() * Math.PI * 2,
           alpha: isAccent ? accentAlpha : baseAlpha,
@@ -361,7 +362,9 @@ function ParticleField() {
       shapes.forEach((shape, i) => {
         const floatX = Math.cos(time * 0.6 + shape.phase) * shape.drift
         const floatY = Math.sin(time * 0.5 + shape.phase) * (shape.drift * 0.7)
-        const rotation = shape.rotation + time * shape.rotSpeed
+        // Update each shape's rotation incrementally so small rotSpeed values accumulate
+        shape.rotation += shape.rotSpeed
+        const rotation = shape.rotation
         const x = shape.x + floatX
         const y = shape.y + floatY
 
