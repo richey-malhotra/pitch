@@ -222,19 +222,24 @@ function ParticleField() {
         const y = row * spacing + (rand() - 0.5) * jitter + spacing * 0.2
         if (rand() < 0.22) return null
         const isAccent = rand() < 0.22
+        const isFast = rand() < 0.12 // ~12% of shapes rotate/pulse faster
         return {
           x,
           y,
           size: 12 + rand() * 16,
           rotation: rand() * Math.PI,
-          // Slightly faster rotation so motion is perceptible at typical frame rates
-          rotSpeed: (rand() - 0.5) * 0.01,
+          // Slightly faster base rotation; fast shapes get a larger rotSpeed
+          rotSpeed: ((rand() - 0.5) * 0.01) * (isFast ? 3.5 : 1),
           drift: 2.5 + rand() * 4.5,
           phase: rand() * Math.PI * 2,
+          // Per-shape gentle pulse parameters
+          pulseAmp: isFast ? 0.14 + rand() * 0.06 : 0.06 + rand() * 0.05,
+          pulseSpeed: isFast ? 1.6 + rand() * 0.8 : 0.9 + rand() * 0.6,
           alpha: isAccent ? accentAlpha : baseAlpha,
           color: isAccent ? '20, 184, 166' : '255, 255, 255',
           type: rand() < 0.6 ? 'cube' : 'diamond',
-          node: isAccent && rand() < 0.35
+          node: isAccent && rand() < 0.35,
+          fast: isFast,
         }
       })
       .filter(Boolean) as Array<{
@@ -246,10 +251,17 @@ function ParticleField() {
         drift: number
         phase: number
         alpha: number
+        // pulsing parameters
+        pulseAmp: number
+        pulseSpeed: number
+        // color / rendering
         color: string
         type: 'cube' | 'diamond'
         node: boolean
+        // fast selector for subset
+        fast: boolean
       }>
+
 
     const drawIsoDiamond = (x: number, y: number, size: number, rotation: number, color: string, alpha: number) => {
       const dx = size
@@ -368,16 +380,21 @@ function ParticleField() {
         const x = shape.x + floatX
         const y = shape.y + floatY
 
+        // Gentle pulsing: modulate size and alpha per shape
+        const pulse = 1 + Math.sin(time * shape.pulseSpeed + shape.phase) * shape.pulseAmp
+        const drawSize = shape.size * pulse
+        const drawAlpha = Math.max(0.02, shape.alpha * (shape.fast ? Math.min(1.6, pulse) : Math.min(1.25, pulse)))
+
         if (shape.type === 'cube') {
-          drawIsoCube(x, y, shape.size, rotation, shape.color, shape.alpha)
+          drawIsoCube(x, y, drawSize, rotation, shape.color, drawAlpha)
         } else {
-          drawIsoDiamond(x, y, shape.size, rotation, shape.color, shape.alpha)
+          drawIsoDiamond(x, y, drawSize, rotation, shape.color, drawAlpha)
         }
 
         if (shape.node) {
           ctx.beginPath()
-          ctx.arc(x, y, 1.4, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(20, 184, 166, ${shape.alpha * 1.2})`
+          ctx.arc(x, y, 1.2 * (shape.fast ? 1.6 : 1) * pulse, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(20, 184, 166, ${shape.alpha * 1.2 * pulse})`
           ctx.fill()
         }
       })
