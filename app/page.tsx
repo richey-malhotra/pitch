@@ -2987,7 +2987,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mt-20"
+              className="mt-20 bg-gradient-to-br from-lime-50 to-emerald-50 rounded-3xl p-8 md:p-12"
             >
               <div className="text-center mb-10">
                 <span className="inline-block px-4 py-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-600 rounded-full text-sm font-bold mb-4 border border-amber-500/30">
