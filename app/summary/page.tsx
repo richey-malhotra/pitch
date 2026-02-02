@@ -221,28 +221,28 @@ export default function ExecutiveSummaryPDF() {
             </div>
           </section>
 
-          {/* Your Joint Venture Partner */}
+          {/* Executive Leadership Standards */}
           <section className="mb-6 bg-slate-900 text-white rounded-xl p-5">
-            <h2 className="text-lg font-bold mb-3">Your Joint Venture Partner</h2>
+            <h2 className="text-lg font-bold mb-3">Executive Leadership Standards</h2>
             <p className="text-sm text-white/80 mb-3">
-              Frisson Labs is led by <strong className="text-white">Richey Malhotra</strong> — a rare combination of deep technical expertise, qualified teacher status, and commercial startup experience.
+              The CEO role demands <strong className="text-white">exceptional technical leadership, educational expertise, and commercial acumen</strong> — operating at the highest levels of both industry and academia to scale innovation while developing the next generation of technologists.
             </p>
             <div className="grid grid-cols-4 gap-3 text-center text-xs">
               <div className="bg-white/10 rounded-lg p-2">
-                <p className="text-lg font-bold text-[#14B8A6]">20+</p>
-                <p className="text-white/70">Years Industry</p>
+                <p className="text-lg font-bold text-[#14B8A6]">25+</p>
+                <p className="text-white/70">Years Leadership</p>
               </div>
               <div className="bg-white/10 rounded-lg p-2">
-                <p className="text-lg font-bold text-[#14B8A6]">4</p>
-                <p className="text-white/70">Computing Degrees</p>
+                <p className="text-lg font-bold text-[#14B8A6]">Advanced</p>
+                <p className="text-white/70">Degrees</p>
               </div>
               <div className="bg-white/10 rounded-lg p-2">
-                <p className="text-lg font-bold text-[#14B8A6]">PGCE</p>
-                <p className="text-white/70">Qualified Teacher</p>
+                <p className="text-lg font-bold text-[#14B8A6]">Enterprise</p>
+                <p className="text-white/70">AI Architecture</p>
               </div>
               <div className="bg-white/10 rounded-lg p-2">
-                <p className="text-lg font-bold text-[#14B8A6]">3+</p>
-                <p className="text-white/70">Startups Founded</p>
+                <p className="text-lg font-bold text-[#14B8A6]">Multiple</p>
+                <p className="text-white/70">Exits</p>
               </div>
             </div>
           </section>

@@ -2139,7 +2139,7 @@ export default function Home() {
         </section>
 
         {/* ═══ SOLUTION ═══ */}
-        <section id="solution" className="py-24 md:py-32">
+        <section id="solution" className="py-24 md:py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -2533,7 +2533,7 @@ export default function Home() {
         </section>
 
         {/* ═══ STUDENT JOURNEY ═══ */}
-        <section id="journey" className="py-24 md:py-32">
+        <section id="journey" className="py-24 md:py-32 bg-slate-50">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0 }}
@@ -3568,7 +3568,7 @@ export default function Home() {
         </section>
 
         {/* ═══ BUDGET & TIMELINE ═══ */}
-        <section id="budget" className="py-24 md:py-32">
+        <section id="budget" className="py-24 md:py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -3767,14 +3767,14 @@ export default function Home() {
               className="text-center mb-12"
             >
               <span className="inline-block px-4 py-2 bg-[#14B8A6]/20 text-[#14B8A6] rounded-full text-sm font-bold mb-4 border border-[#14B8A6]/30">
-                Leadership
+                Leadership Requirements
               </span>
-              <h2 className="text-3xl md:text-4xl font-black mb-4">Your Joint Venture Partner</h2>
-              <p className="text-white/70 max-w-2xl mx-auto">Frisson Labs is led by an experienced technologist and educator uniquely positioned to bridge industry and academia</p>
+              <h2 className="text-3xl md:text-4xl font-black mb-4">Executive Leadership Standards</h2>
+              <p className="text-white/70 max-w-2xl mx-auto">The CEO role demands exceptional technical leadership, educational expertise, and commercial acumen to bridge industry and academia at this scale</p>
             </motion.div>
 
             <div className="grid lg:grid-cols-2 gap-8 items-center">
-              {/* Credentials */}
+              {/* Leadership Qualifications */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -3783,10 +3783,10 @@ export default function Home() {
               >
                 <div className="grid sm:grid-cols-2 gap-4">
                   {[
-                    { icon: '💼', stat: '20+', label: 'Years Industry Experience', desc: 'Enterprise software, startups, and consultancy' },
-                    { icon: '🎓', stat: '4', label: 'Computing Degrees', desc: 'Including PGCE for qualified teacher status' },
-                    { icon: '🤖', stat: 'AI', label: 'Solution Delivery Expert', desc: 'ML pipelines, LLMs, automation at scale' },
-                    { icon: '🚀', stat: '3+', label: 'Startups Founded', desc: 'From ideation to acquisition' },
+                    { icon: '💼', stat: '25+', label: 'Years Technology Leadership', desc: 'Enterprise-scale software delivery and transformation' },
+                    { icon: '🎓', stat: 'Advanced', label: 'Computing & Education Degrees', desc: 'Including qualified teacher status and postgraduate credentials' },
+                    { icon: '🤖', stat: 'Enterprise', label: 'AI Solution Architecture', desc: 'Large-scale ML deployment, LLM integration, and automation frameworks' },
+                    { icon: '🚀', stat: 'Multiple', label: 'Successful Startup Exits', desc: 'From seed to acquisition with proven scaling methodologies' },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
@@ -3805,7 +3805,7 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Teaching & Training Experience */}
+              {/* Educational Leadership Standards */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -3813,26 +3813,26 @@ export default function Home() {
                 className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
               >
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                  <span className="text-2xl">📚</span> Education & Training Expertise
+                  <span className="text-2xl">📚</span> Educational Leadership Requirements
                 </h3>
                 <div className="space-y-3">
                   {[
-                    { level: 'KS3-KS5', desc: 'Secondary & sixth form computing curriculum' },
-                    { level: 'Post-16 / FE', desc: 'T Level & BTEC digital pathways' },
-                    { level: 'Undergraduate', desc: 'University guest lectures and project supervision' },
-                    { level: 'Postgraduate', desc: 'MSc AI and software engineering modules' },
-                    { level: 'Adult Learners', desc: 'Employability bootcamps and corporate upskilling' },
+                    { level: 'Secondary', desc: 'KS3-KS5 computing curriculum design and delivery excellence' },
+                    { level: 'Further Education', desc: 'T Level, BTEC, and vocational pathway development' },
+                    { level: 'Higher Education', desc: 'University-level AI and software engineering program leadership' },
+                    { level: 'Postgraduate', desc: 'MSc/PhD level advanced computing and AI curriculum' },
+                    { level: 'Industry Training', desc: 'Corporate upskilling programs and executive education' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-3 text-sm">
-                      <span className="w-24 shrink-0 text-[#14B8A6] font-bold text-xs bg-[#14B8A6]/10 px-2 py-1 rounded">{item.level}</span>
+                      <span className="w-32 shrink-0 text-[#14B8A6] font-bold text-xs bg-[#14B8A6]/10 px-2 py-1 rounded">{item.level}</span>
                       <span className="text-white/70">{item.desc}</span>
                     </div>
                   ))}
                 </div>
                 <div className="mt-6 pt-4 border-t border-white/10">
                   <p className="text-sm text-white/70">
-                    <strong className="text-white">The rare combination:</strong> Deep technical expertise + qualified teacher + commercial acumen + startup experience. 
-                    This isn&apos;t an academic exercise — it&apos;s a practitioner-led initiative built on real delivery.
+                    <strong className="text-white">The gold standard:</strong> Technical excellence meets educational mastery meets commercial leadership. 
+                    This role requires someone who has operated at the highest levels of both industry and academia — not a novice, but a proven leader who can scale innovation while developing the next generation of technologists.
                   </p>
                 </div>
               </motion.div>
