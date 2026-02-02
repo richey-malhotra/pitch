@@ -99,7 +99,7 @@ export default function ExecutiveSummaryPDF() {
               {[
                 { label: 'Investment Required', value: '£200k', sub: 'Indicative capital bid' },
                 { label: 'Break-even Point', value: 'Year 3', sub: 'Projected self-sustaining' },
-                { label: "Nescot's 50% Share (Yr 5)", value: '£160k+', sub: 'Annual revenue share' },
+                { label: "Nescot's 50% Share (Yr 5)", value: '£136k+', sub: 'Annual revenue share' },
                 { label: 'Student Capacity', value: '30+', sub: 'Target by full operation' },
               ].map((item, i) => (
                 <div key={i} className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
@@ -160,7 +160,7 @@ export default function ExecutiveSummaryPDF() {
                 <h3 className="font-bold text-amber-700 mb-2">📊 Base (Expected)</h3>
                 <ul className="space-y-1 text-slate-700">
                   <li>✓ Everything in Floor, plus...</li>
-                  <li>✓ £160k+ annual revenue (Yr 5)</li>
+                  <li>✓ £136k+ annual revenue (Yr 5)</li>
                   <li>✓ 50% equity in business</li>
                 </ul>
               </div>
@@ -177,16 +177,15 @@ export default function ExecutiveSummaryPDF() {
 
           {/* Revenue Streams */}
           <section className="mb-6">
-            <h2 className="text-lg font-bold text-slate-900 mb-3">7 Revenue Streams</h2>
-            <div className="grid grid-cols-4 gap-2 text-xs">
+            <h2 className="text-lg font-bold text-slate-900 mb-3">6 Revenue Streams</h2>
+            <div className="grid grid-cols-3 gap-2 text-xs">
               {[
-                { name: 'SME AI Projects', range: '£80-150k/yr', icon: '💼' },
-                { name: 'Adult Bootcamps', range: '£30-60k/yr', icon: '🎓' },
-                { name: 'Certification Fees', range: '£15-30k/yr', icon: '📜' },
-                { name: 'Innovation Grants', range: '£50-100k', icon: '🏆' },
-                { name: 'Platform Licensing', range: '£20-50k/yr', icon: '🔧' },
-                { name: 'Corporate Training', range: '£25-50k/yr', icon: '🏢' },
-                { name: 'Recruitment Savings', range: '£40-100k/yr', icon: '👥' },
+                { name: 'Project Delivery', range: '£2-15k/project', icon: '🎯' },
+                { name: 'Resource Augmentation', range: '£200-400/day', icon: '👥' },
+                { name: 'Graduate Placement', range: '10-15% salary', icon: '🎓' },
+                { name: 'Adult Upskilling', range: '£500-2k/cohort', icon: '📚' },
+                { name: 'Enterprise Training', range: '£5-20k/programme', icon: '🏆' },
+                { name: 'Recruitment Savings', range: '£40-100k/yr*', icon: '🔍' },
               ].map((stream, i) => (
                 <div key={i} className="flex items-center gap-2 bg-slate-50 rounded-lg p-2 border border-slate-200">
                   <span className="text-base">{stream.icon}</span>
