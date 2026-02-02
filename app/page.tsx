@@ -2358,6 +2358,7 @@ export default function Home() {
                             { icon: '🪟', title: 'Glass Walls & Visibility', desc: 'Internal and external glass walls for transparency, modernness, and an inviting, cutting-edge atmosphere' },
                             { icon: '🤖', title: 'AI & Cloud Stack', desc: 'AWS SageMaker, Azure ML, OpenAI API, Databricks — real AI tools, real certifications' },
                             { icon: '🔒', title: 'Client Meeting Room', desc: 'Professional space for client presentations and reviews' },
+                            { icon: '📳', title: 'Security & Access', desc: 'Keycard entry, CCTV monitoring, secure storage for client materials' },
                           ].map((item, i) => (
                             <motion.div
                               key={i}
@@ -2593,6 +2594,7 @@ export default function Home() {
                   { time: '12:00', activity: 'Lunch & Learn', desc: 'Skill workshop' },
                   { time: '13:30', activity: 'Code Review', desc: 'Peer feedback' },
                   { time: '15:00', activity: 'Client Demo', desc: 'Progress showcase' },
+                  { time: '16:30', activity: 'Day Close', desc: 'Retro & planning' },
                 ].map((item, i) => (
                   <motion.div
                     key={i}
@@ -2790,6 +2792,13 @@ export default function Home() {
                   desc: 'Students create and run real companies for a year. Over 100 FE colleges participate. Alumni include founders of successful startups.',
                   link: 'https://www.young-enterprise.org.uk/programmes/company-programme/',
                   relevance: 'Validates student company model in FE',
+                },
+                {
+                  name: 'University Technical Colleges (UTCs)',
+                  type: 'Technical Education',
+                  desc: 'Employer-sponsored technical schools for 14-19 year olds. Major employers like JCB and Rolls-Royce co-design curriculum and provide real project briefs.',
+                  link: 'https://www.utcolleges.org/',
+                  relevance: 'Employer co-creation in technical education',
                 },
                 {
                   name: 'University Spin-outs (Russell Group)',
@@ -4031,6 +4040,12 @@ export default function Home() {
                   q: 'What\'s Nescot\'s guaranteed minimum if the venture fails?',
                   a: 'A modernised computing facility that addresses long-standing infrastructure needs. Enhanced T-Level DSD delivery environment with industry-standard tools. Internal software development capability for Nescot departments. All equipment transfers at book value and IP reverts to college. The space is Nescot\'s entry stake — commercial failure still leaves the college better than today.',
                   risk: 'Protected',
+                },
+                {
+                  icon: '🔐',
+                  q: 'How do we handle client data and GDPR compliance?',
+                  a: 'Robust data governance: (1) All student work uses anonymised or synthetic datasets where possible; (2) For live client data, students sign NDAs and complete mandatory data protection training; (3) All processing happens on secure, audited infrastructure (AWS/Azure with enterprise security); (4) Data Processing Agreements in place with all clients; (5) Designated Data Protection Lead within Frisson Labs reports to Nescot\'s DPO. We treat data security as a competitive advantage, not a compliance burden.',
+                  risk: 'Mitigated',
                 },
               ].map((item, i) => (
                 <motion.div
