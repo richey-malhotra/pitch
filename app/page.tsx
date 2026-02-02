@@ -1863,9 +1863,9 @@ export default function Home() {
           <ParticleField />
           <div className="max-w-7xl mx-auto px-6 py-32 grid lg:grid-cols-2 gap-16 items-center relative z-10">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: 'easeOut' }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="text-white"
             >
               <div
@@ -1930,15 +1930,15 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
+              transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="relative lg:translate-x-4 lg:-translate-y-8"
             >
               <div className="aspect-square rounded-3xl bg-gradient-to-br from-[#2d1f4e] via-[#3a2866] to-[#4a2570] border border-white/20 p-8 relative overflow-hidden shadow-2xl">
                 {/* Animated gradient orbs */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#14B8A6]/20 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#5B2D86]/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute bottom-0 left-0 w-56 h-56 bg-[#5B2D86]/40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
                 
                 {/* Top shine line */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
@@ -1949,9 +1949,9 @@ export default function Home() {
                 
                 {/* Badges - repositioned for better visual balance */}
                 <motion.div 
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 }}
+                  initial={{ opacity: 0, x: 30, scale: 0.8 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                   className="absolute top-4 right-4 bg-gradient-to-r from-[#14B8A6] to-[#0d9488] text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-[#14B8A6]/30 z-20 flex items-center gap-2 whitespace-nowrap"
                 >
                   <span className="relative flex h-2 w-2">
