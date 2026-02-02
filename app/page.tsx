@@ -2981,13 +2981,17 @@ export default function Home() {
             >
               <TestimonialCarousel />
             </motion.div>
+          </div>
+        </section>
 
+        {/* ═══ SOCIAL MOBILITY ACCELERATOR ═══ */}
+        <section className="py-24 md:py-32 bg-gradient-to-br from-lime-50 to-emerald-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Enterprise Skills Accelerator - Social Mobility */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mt-20 bg-gradient-to-br from-lime-50 to-emerald-50 rounded-3xl p-8 md:p-12"
             >
               <div className="text-center mb-10">
                 <span className="inline-block px-4 py-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-600 rounded-full text-sm font-bold mb-4 border border-amber-500/30">
