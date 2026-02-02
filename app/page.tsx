@@ -2108,8 +2108,8 @@ export default function Home() {
             <div className="grid md:grid-cols-4 gap-6 mb-16">
               {[
                 { icon: '📉', stat: '7.5m', title: 'Adults Lacking Basic Digital Skills', desc: <>Working-age estimate<sup><a href="#source-1">[1]</a></sup></>, color: 'red' },
-                { icon: '⚠️', stat: '27%', title: 'Skill-Shortage Vacancies', desc: <>Share of vacancies (2024)<sup><a href="#source-2">[2]</a></sup></>, color: 'orange' },
-                { icon: '🧭', stat: '315 hrs', title: 'T Level Placement Requirement', desc: <>Minimum industry placement<sup><a href="#source-3">[3]</a></sup></>, color: 'red' },
+                { icon: '⚠️', stat: '27%', title: 'Skill-Shortage Vacancies', desc: <>Share of vacancies (2024)<sup><a href="#source-2">[2]</a></sup></>, color: 'red' },
+                { icon: '🧭', stat: '315 hrs', title: 'T Level Placement Requirement', desc: <>Minimum industry placement<sup><a href="#source-3">[3]</a></sup></>, color: 'purple' },
                 { icon: '💷', stat: '£161bn', title: 'UK Digital Sector GVA', desc: <>2023 estimate (2022 prices)<sup><a href="#source-4">[4]</a></sup></>, color: 'purple' },
               ].map((card, i) => (
                 <motion.div
@@ -2122,7 +2122,7 @@ export default function Home() {
                   className="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 card-lift"
                 >
                   <div className="text-4xl mb-3">{card.icon}</div>
-                  <p className={`text-3xl font-black mb-1 ${card.color === 'red' ? 'text-red-500' : card.color === 'orange' ? 'text-orange-500' : 'text-purple-600'}`}>{card.stat}</p>
+                  <p className={`text-3xl font-black mb-1 ${card.color === 'red' ? 'text-red-500' : 'text-[#5B2D86]'}`}>{card.stat}</p>
                   <h3 className="font-bold mb-2">{card.title}</h3>
                   <p className="text-slate-500 text-sm">{card.desc}</p>
                 </motion.div>
@@ -2554,7 +2554,7 @@ export default function Home() {
         </section>
 
         {/* ═══ STUDENT JOURNEY ═══ */}
-        <section id="journey" className="py-24 md:py-32 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <section id="journey" className="py-24 md:py-32 bg-gradient-to-br from-purple-50 to-violet-50">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0 }}
@@ -2710,7 +2710,7 @@ export default function Home() {
                       <span className="text-white/60 text-xs">{solution.tech}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-amber-400 text-xs font-bold">DELIVERY:</span>
+                      <span className="text-[#14B8A6] text-xs font-bold">DELIVERY:</span>
                       <span className="text-white/60 text-xs">{solution.time}</span>
                     </div>
                   </div>
@@ -2780,7 +2780,7 @@ export default function Home() {
         </section>
 
         {/* ═══ FE PRECEDENTS ═══ */}
-        <section id="fe-precedents" className="py-16 md:py-20 bg-gradient-to-br from-emerald-50 to-teal-50">
+        <section id="fe-precedents" className="py-16 md:py-20 bg-gradient-to-br from-teal-50 to-[#14B8A6]/5">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-8">
               <span className="inline-block px-4 py-2 bg-[#14B8A6]/10 text-[#14B8A6] rounded-full text-sm font-bold mb-4">
@@ -2852,7 +2852,7 @@ export default function Home() {
         </section>
 
         {/* ═══ EVIDENCE ═══ */}
-        <section id="evidence" className="py-24 md:py-32 bg-gradient-to-br from-amber-50 to-orange-50">
+        <section id="evidence" className="py-24 md:py-32 bg-gradient-to-br from-slate-100 to-slate-50">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -2954,8 +2954,8 @@ export default function Home() {
                   <p className="font-bold text-[#5B2D86] mb-1">Embedded, Not Bolted-On</p>
                   <p className="text-slate-600">Hours are distributed throughout the curriculum, not a single block placement — reinforcing learning continuously.</p>
                 </div>
-                <div className="bg-amber-500/10 p-4 rounded-xl border border-amber-500/20">
-                  <p className="font-bold text-amber-600 mb-1">Evidence-Based Cadence</p>
+                <div className="bg-[#5B2D86]/10 p-4 rounded-xl border border-[#5B2D86]/20">
+                  <p className="font-bold text-[#5B2D86] mb-1">Evidence-Based Cadence</p>
                   <p className="text-slate-600">Year 2 hours increase as students gain competence — scaffolded responsibility mirrors industry graduate programmes.</p>
                 </div>
               </div>
@@ -3006,7 +3006,7 @@ export default function Home() {
         </section>
 
         {/* ═══ SOCIAL MOBILITY ACCELERATOR ═══ */}
-        <section className="py-24 md:py-32 bg-gradient-to-br from-teal-50 via-cyan-50 to-sky-50">
+        <section className="py-24 md:py-32 bg-gradient-to-br from-teal-50 via-[#14B8A6]/5 to-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Enterprise Skills Accelerator - Social Mobility */}
             <motion.div
@@ -3015,7 +3015,7 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <div className="text-center mb-10">
-                <span className="inline-block px-4 py-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-600 rounded-full text-sm font-bold mb-4 border border-amber-500/30">
+                <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#14B8A6]/20 to-[#14B8A6]/10 text-[#14B8A6] rounded-full text-sm font-bold mb-4 border border-[#14B8A6]/30">
                   🚀 Social Mobility Accelerator
                 </span>
                 <h3 className="text-3xl font-black mb-4">Enterprise Platform Skills = Career Transformation</h3>
@@ -3041,7 +3041,7 @@ export default function Home() {
                     rate: '£550–750/day',
                     desc: 'Low-code automation platform used by government, NHS, and financial services. Acute skills shortage — certified developers are immediately employable.',
                     demand: 'Critical shortage',
-                    color: 'from-blue-500 to-blue-600',
+                    color: 'from-[#5B2D86] to-[#4a2570]',
                   },
                   {
                     platform: 'Informatica IDMC',
@@ -3049,7 +3049,7 @@ export default function Home() {
                     rate: '£600–900/day',
                     desc: 'Enterprise data integration and management. Powers data lakes at FTSE 100 companies. Complex enough to deter casual learners — goldmine for certified specialists.',
                     demand: 'Very high demand',
-                    color: 'from-orange-500 to-red-500',
+                    color: 'from-[#3b1d5a] to-[#5B2D86]',
                   },
                   {
                     platform: 'Salesforce',
@@ -3057,7 +3057,7 @@ export default function Home() {
                     rate: '£450–700/day',
                     desc: 'World\'s #1 CRM platform. Free training via Trailhead, but real project experience is rare. Frisson Labs provides both — certified AND battle-tested.',
                     demand: 'Evergreen demand',
-                    color: 'from-cyan-500 to-blue-500',
+                    color: 'from-[#14B8A6] to-[#0d9488]',
                   },
                   {
                     platform: 'ServiceNow',
@@ -3065,7 +3065,7 @@ export default function Home() {
                     rate: '£500–800/day',
                     desc: 'IT service management platform dominating enterprise IT. Every large organisation runs ServiceNow — certified developers walk into £60k+ roles.',
                     demand: 'Growing fast',
-                    color: 'from-emerald-500 to-teal-500',
+                    color: 'from-[#0d9488] to-[#14B8A6]',
                   },
                 ].map((item, i) => (
                   <motion.div
@@ -3493,7 +3493,7 @@ export default function Home() {
         </section>
 
         {/* ═══ STRATEGIC ALIGNMENT ═══ */}
-        <section className="py-20 md:py-24 bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 relative overflow-hidden section-texture">
+        <section className="py-20 md:py-24 bg-gradient-to-br from-[#0d9488] via-[#14B8A6] to-[#0f766e] relative overflow-hidden section-texture">
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             <motion.div
               initial={{ opacity: 0 }}
@@ -3583,7 +3583,7 @@ export default function Home() {
         </section>
 
         {/* ═══ BUDGET & TIMELINE ═══ */}
-        <section id="budget" className="py-24 md:py-32 bg-gradient-to-br from-rose-50 to-pink-50">
+        <section id="budget" className="py-24 md:py-32 bg-gradient-to-br from-purple-50 to-fuchsia-50">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -3727,8 +3727,8 @@ export default function Home() {
                         </ul>
                       </td>
                     </tr>
-                    <tr className="bg-amber-50 border-b border-slate-200">
-                      <td className="p-4 font-bold text-amber-700">📊 Base<br/><span className="text-xs font-normal text-amber-600">(Expected)</span></td>
+                    <tr className="bg-[#14B8A6]/10 border-b border-slate-200">
+                      <td className="p-4 font-bold text-[#0d9488]">📊 Base<br/><span className="text-xs font-normal text-[#14B8A6]">(Expected)</span></td>
                       <td className="p-4 text-slate-600">Steady growth. 5-8 clients/year. Break-even by Year 3.</td>
                       <td className="p-4 text-slate-700">
                         <ul className="space-y-1">
@@ -3739,8 +3739,8 @@ export default function Home() {
                         </ul>
                       </td>
                     </tr>
-                    <tr className="bg-green-50">
-                      <td className="p-4 font-bold text-green-700">🚀 Upside<br/><span className="text-xs font-normal text-green-600">(Best Case)</span></td>
+                    <tr className="bg-[#14B8A6]/10">
+                      <td className="p-4 font-bold text-[#0d9488]">🚀 Upside<br/><span className="text-xs font-normal text-[#14B8A6]">(Best Case)</span></td>
                       <td className="p-4 text-slate-600">Strong traction. Grant success. Product IP. Potential exit.</td>
                       <td className="p-4 text-slate-700">
                         <ul className="space-y-1">
@@ -3874,7 +3874,7 @@ export default function Home() {
         </section>
 
         {/* ═══ FAQ ═══ */}
-        <section id="faq" className="py-24 md:py-32 bg-gradient-to-br from-cyan-50 to-sky-50">
+        <section id="faq" className="py-24 md:py-32 bg-gradient-to-br from-slate-50 to-slate-100">
           <div className="max-w-4xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -4089,7 +4089,7 @@ export default function Home() {
                   <div className="flex items-start justify-between mb-3">
                     <span className="text-3xl">{item.icon}</span>
                     <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                      item.risk === 'Low' ? 'bg-green-500/20 text-green-300' :
+                      item.risk === 'Low' ? 'bg-[#14B8A6]/20 text-[#14B8A6]' :
                       item.risk === 'Mitigated' ? 'bg-yellow-500/20 text-yellow-300' :
                       item.risk === 'Aligned' ? 'bg-[#14B8A6]/20 text-[#14B8A6]' :
                       item.risk === 'Protected' ? 'bg-blue-500/20 text-blue-300' :
@@ -4113,7 +4113,7 @@ export default function Home() {
               className="mt-16"
             >
               <div className="text-center mb-8">
-                <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-xs font-bold mb-3">
+                <span className="inline-block px-3 py-1 bg-[#14B8A6]/20 text-[#14B8A6] rounded-full text-xs font-bold mb-3">
                   📋 Pre-Approval Checklist
                 </span>
                 <h3 className="text-2xl font-bold">What We Still Need To Do</h3>
@@ -4174,9 +4174,9 @@ export default function Home() {
                   <div key={i} className={`grid grid-cols-12 gap-4 p-4 items-center text-sm ${i % 2 === 0 ? 'bg-white/[0.02]' : ''} ${row.status === 'done' ? 'opacity-60' : ''}`}>
                     <div className="col-span-1">
                       {row.status === 'done' ? (
-                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-500/20 text-green-400 text-xs">✓</span>
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#14B8A6]/20 text-[#14B8A6] text-xs">✓</span>
                       ) : (
-                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-xs">○</span>
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-white/10 text-white/60 text-xs">○</span>
                       )}
                     </div>
                     <div className="col-span-4 font-medium">{row.item}</div>
