@@ -3406,23 +3406,30 @@ export default function Home() {
     Clients["🏢 SME Clients"]
     Students["🎓 T Level Students"]
     Partners["🤝 Industry Partners"]
+    Curriculum["📋 Course Leader"]
   end
   subgraph Engine["⚙️ The Engine Room"]
     Labs["Frisson Labs"]
     Delivery["AI Project Delivery"]
     Training["Training & Certs"]
+    Teaching["T Level Teaching"]
   end
   subgraph Outputs["📤 Outputs"]
     Revenue["💰 Revenue"]
     Skills["🧠 Job-Ready Skills"]
     Innovation["🚀 Regional Innovation"]
+    Quals["🎓 T Level Qualifications"]
   end
   Clients --> Labs
   Students --> Labs
+  Students --> Teaching
+  Curriculum --> Teaching
   Partners --> Training
   Labs --> Delivery
   Delivery --> Revenue
   Training --> Skills
+  Teaching --> Quals
+  Teaching --> Skills
   Labs --> Innovation
   Revenue -->|50%| Nescot["Nescot"]
   Revenue -->|50%| CEO["CEO"]`}
