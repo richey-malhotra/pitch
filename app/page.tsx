@@ -75,7 +75,7 @@ function ProgressBar({ value, label, color = '#14B8A6' }: { value: number; label
 }
 
 // Interactive Tabs with auto-cycling
-function Tabs({ tabs, autoPlay = true, interval = 5000 }: { tabs: { label: string; content: React.ReactNode }[]; autoPlay?: boolean; interval?: number }) {
+function Tabs({ tabs, autoPlay = true, interval = 10000 }: { tabs: { label: string; content: React.ReactNode }[]; autoPlay?: boolean; interval?: number }) {
   const [active, setActive] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const inViewRef = useRef<HTMLDivElement>(null)
@@ -92,9 +92,7 @@ function Tabs({ tabs, autoPlay = true, interval = 5000 }: { tabs: { label: strin
 
   const handleTabClick = (index: number) => {
     setActive(index)
-    setIsPaused(true) // Pause auto-cycling on user interaction
-    // Resume after 15 seconds of inactivity
-    setTimeout(() => setIsPaused(false), 15000)
+    setIsPaused(true) // Pause auto-cycling permanently on user interaction
   }
 
   return (
@@ -746,15 +744,13 @@ function Timeline({ items }: { items: { date: string; title: string; desc: strin
     if (!inView || hasUserInteracted) return
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % items.length)
-    }, 2500)
+    }, 5000)
     return () => clearInterval(timer)
   }, [inView, hasUserInteracted, items.length])
 
   const handleItemClick = (index: number) => {
     setActiveIndex(index)
-    setHasUserInteracted(true)
-    // Resume auto-cycling after 10 seconds of inactivity
-    setTimeout(() => setHasUserInteracted(false), 10000)
+    setHasUserInteracted(true) // Pause auto-cycling permanently on user interaction
   }
 
   return (
@@ -1083,7 +1079,7 @@ function TestimonialCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((c) => (c + 1) % TESTIMONIALS.length)
-    }, 6000)
+    }, 12000)
     return () => clearInterval(timer)
   }, [])
 
