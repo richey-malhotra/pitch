@@ -1972,7 +1972,7 @@ export default function Home() {
                   {/* Key stats row */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-sm md:max-w-md mb-8">
                     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                      <p className="text-2xl font-black text-[#14B8A6]">£320k</p>
+                      <p className="text-2xl font-black text-[#14B8A6]">£272k</p>
                       <p className="text-xs text-white/70 uppercase tracking-wide">Target revenue Yr 5</p>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
@@ -3170,15 +3170,6 @@ export default function Home() {
                           <p className="text-sm text-slate-600">Post-qualification, students transition to permanent roles with partner employers — with Frisson Labs earning a placement fee</p>
                         </div>
                       </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[#14B8A6]/10 flex items-center justify-center text-[#14B8A6] shrink-0">
-                          <span>3</span>
-                        </div>
-                        <div>
-                          <p className="font-bold text-slate-800">Managed Team Delivery</p>
-                          <p className="text-sm text-slate-600">Clients hire a dedicated student pod (3-4 students + supervisor) for ongoing development work at competitive rates</p>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <div className="md:w-1/2 bg-gradient-to-br from-[#5B2D86] to-[#3b1d5a] rounded-2xl p-6 text-white">
@@ -3204,13 +3195,6 @@ export default function Home() {
                           <span className="font-bold text-[#14B8A6]">10-15% salary</span>
                         </div>
                         <p className="text-xs text-white/60">One-time fee when student hired permanently</p>
-                      </div>
-                      <div className="bg-white/10 rounded-xl p-4">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-white/80">Managed Team (Pod)</span>
-                          <span className="font-bold text-[#14B8A6]">£3-5k/month</span>
-                        </div>
-                        <p className="text-xs text-white/60">3-4 students + supervision, ongoing capacity</p>
                       </div>
                     </div>
                     <div className="mt-6 pt-4 border-t border-white/20">
@@ -3244,7 +3228,7 @@ export default function Home() {
                 💰 Revenue Model Overview
               </span>
               <h2 className="text-4xl md:text-5xl font-black mb-6">
-                Seven Revenue Streams
+                Six Revenue Streams
               </h2>
               <p className="text-xl text-white/70">
                 Frisson Labs generates income through <strong className="text-white">diversified channels</strong>, 
@@ -3265,8 +3249,8 @@ export default function Home() {
                   { year: 'Y1', revenue: 25, label: '£25k', desc: 'Pilot phase' },
                   { year: 'Y2', revenue: 80, label: '£80k', desc: 'First clients' },
                   { year: 'Y3', revenue: 160, label: '£160k', desc: 'Breakeven' },
-                  { year: 'Y4', revenue: 240, label: '£240k', desc: 'Scale up' },
-                  { year: 'Y5', revenue: 320, label: '£320k', desc: 'Full capacity' },
+                  { year: 'Y4', revenue: 210, label: '£210k', desc: 'Scale up' },
+                  { year: 'Y5', revenue: 272, label: '£272k', desc: 'Full capacity' },
                 ].map((item, i) => (
                   <motion.div
                     key={i}
@@ -3301,31 +3285,31 @@ export default function Home() {
                     CAGR
                     <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white/20 text-[10px] font-bold">?</span>
                   </p>
-                  <p className="font-bold text-white">~90%</p>
+                  <p className="font-bold text-white">~60%</p>
                   {/* CAGR Explanation Tooltip */}
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-4 bg-slate-900 rounded-xl shadow-2xl border border-white/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <p className="text-[#14B8A6] font-bold text-sm mb-2">Compound Annual Growth Rate</p>
                     <p className="text-white/80 text-xs leading-relaxed mb-3">
                       CAGR measures the average yearly growth rate over a period, smoothing out fluctuations. 
-                      Our ~90% CAGR reflects rapid early-stage growth typical of startup ventures.
+                      Our ~60% CAGR reflects rapid early-stage growth typical of startup ventures.
                     </p>
                     <div className="bg-white/10 rounded-lg p-2 text-xs font-mono">
                       <p className="text-white/60 mb-1">Formula:</p>
                       <p className="text-white">(End Value ÷ Start Value)<sup>1/years</sup> - 1</p>
-                      <p className="text-white/60 mt-2">(£320k ÷ £25k)<sup>1/5</sup> - 1 = ~66%*</p>
+                      <p className="text-white/60 mt-2">(£272k ÷ £25k)<sup>1/5</sup> - 1 = ~60%</p>
                     </div>
-                    <p className="text-white/50 text-[10px] mt-2">*Adjusted for Year 0 ramp-up period</p>
+                    <p className="text-white/50 text-[10px] mt-2">*Conservative estimate assumes steady growth</p>
                     <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 rotate-45 border-r border-b border-white/20"></div>
                   </div>
                 </div>
                 <div>
                   <p className="text-white/60">Nescot Y5 Share</p>
-                  <p className="font-bold text-[#14B8A6]">£160k</p>
+                  <p className="font-bold text-[#14B8A6]">£136k</p>
                 </div>
               </div>
             </motion.div>
 
-            <h3 className="text-2xl font-bold text-center mb-8">Seven Revenue Streams</h3>
+            <h3 className="text-2xl font-bold text-center mb-8">Six Revenue Streams</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               {[
                 {
@@ -3354,15 +3338,6 @@ export default function Home() {
                   examples: 'Direct hires by project clients, employer network referrals',
                   year5: '£30k',
                   math: '6 placements × £35k × 12%',
-                },
-                {
-                  icon: '🏢',
-                  title: 'Managed Team Pods',
-                  range: '£3k – £5k/month',
-                  desc: 'Dedicated student team (3-4 students + supervisor) for ongoing development capacity.',
-                  examples: 'Retainer clients, long-term partnerships, overflow capacity',
-                  year5: '£48k',
-                  math: '2 pods × £4k × 6 months',
                 },
                 {
                   icon: '📚',
@@ -3463,11 +3438,11 @@ export default function Home() {
             >
               <div className="grid md:grid-cols-4 gap-6 text-center">
                 <div>
-                  <p className="text-4xl font-black text-[#14B8A6]">£320k+</p>
+                  <p className="text-4xl font-black text-[#14B8A6]">£272k+</p>
                   <p className="text-white/60 text-sm">Projected Year 5 Revenue</p>
                 </div>
                 <div>
-                  <p className="text-4xl font-black text-white">7</p>
+                  <p className="text-4xl font-black text-white">6</p>
                   <p className="text-white/60 text-sm">Distinct Revenue Streams</p>
                 </div>
                 <div>
