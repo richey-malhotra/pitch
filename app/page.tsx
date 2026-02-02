@@ -1738,7 +1738,7 @@ export default function Home() {
               Access Presentation →
             </motion.button>
           </form>
-          <p className="text-xs text-white/40 mt-6 text-center">Prepared for Julie Kapsalis MBE, CEO</p>
+          <p className="text-xs text-white/60 mt-6 text-center">Prepared for Julie Kapsalis MBE, CEO</p>
         </motion.div>
       </main>
     )
@@ -2448,7 +2448,7 @@ export default function Home() {
                           <div className="mt-8 p-4 bg-white/10 rounded-xl">
                             <p className="text-sm text-white/60 mb-2">Estimated Fit-out & Setup Cost (indicative)</p>
                             <p className="text-3xl font-bold">£150,000 - £200,000</p>
-                            <p className="text-xs text-white/50">Including equipment, furniture, technology infrastructure</p>
+                            <p className="text-xs text-white/70">Including equipment, furniture, technology infrastructure</p>
                           </div>
                         </div>
                       </div>
@@ -2651,11 +2651,11 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-black mb-6">
                 AI for <span className="text-[#14B8A6]">Every</span> Local Business
               </h2>
-              <p className="text-xl text-white/70">
+              <p className="text-xl text-white/80">
                 Big consultancies charge £50k+ for AI projects. Frisson Labs delivers <strong className="text-white">high-impact AI transformations</strong> for 
                 Surrey&apos;s SMEs at a fraction of the cost. Students learn cutting-edge AI; local businesses get world-class technology.
               </p>
-              <p className="text-xs text-white/50 mt-4">
+              <p className="text-xs text-white/70 mt-4">
                 Impact figures based on industry case studies. Typical delivery: 4-10 weeks.
               </p>
             </motion.div>
@@ -3147,7 +3147,7 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-                    <p className="text-xs text-white/50 mt-4">Contractor rates from ITJobsWatch and LinkedIn Jobs data, Jan 2026</p>
+                    <p className="text-xs text-white/70 mt-4">Contractor rates from ITJobsWatch and LinkedIn Jobs data, Jan 2026</p>
                   </div>
                 </div>
               </div>
@@ -3319,7 +3319,7 @@ export default function Home() {
                       <p className="text-white">(End Value ÷ Start Value)<sup>1/years</sup> - 1</p>
                       <p className="text-white/60 mt-2">(£272k ÷ £25k)<sup>1/5</sup> - 1 = ~60%</p>
                     </div>
-                    <p className="text-white/50 text-[10px] mt-2">*Conservative estimate assumes steady growth</p>
+                    <p className="text-white/70 text-[10px] mt-2">*Conservative estimate assumes steady growth</p>
                     <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 rotate-45 border-r border-b border-white/20"></div>
                   </div>
                 </div>
@@ -3402,9 +3402,9 @@ export default function Home() {
                   </div>
                   <h4 className="font-bold text-lg mb-2">{stream.title}</h4>
                   <p className="text-[#14B8A6] font-bold text-sm mb-2">{stream.range}</p>
-                  <p className="text-xs text-white/40 mb-3 font-mono">{stream.math}</p>
-                  <p className="text-white/70 text-sm mb-3">{stream.desc}</p>
-                  <p className="text-xs text-white/50"><strong>Examples:</strong> {stream.examples}</p>
+                  <p className="text-xs text-white/60 mb-3 font-mono">{stream.math}</p>
+                  <p className="text-white/80 text-sm mb-3">{stream.desc}</p>
+                  <p className="text-xs text-white/70"><strong>Examples:</strong> {stream.examples}</p>
                 </motion.div>
               ))}
             </div>
@@ -3557,8 +3557,8 @@ export default function Home() {
                 >
                   <span className="text-4xl">{item.icon}</span>
                   <h3 className="text-xl font-bold text-white mt-3 mb-2">{item.title}</h3>
-                  <p className="text-white/70 text-sm mb-3">{item.desc}</p>
-                  <span className="text-xs font-bold text-[#14B8A6] bg-white/20 px-3 py-1 rounded-full">{item.highlight}</span>
+                  <p className="text-white/80 text-sm mb-3">{item.desc}</p>
+                  <span className="text-xs font-bold text-white bg-white/20 px-3 py-1 rounded-full">{item.highlight}</span>
                 </motion.div>
               ))}
             </div>
@@ -3832,7 +3832,7 @@ export default function Home() {
                       <span className="text-2xl">{item.icon}</span>
                       <p className="text-2xl font-black text-[#14B8A6] mt-2">{item.stat}</p>
                       <p className="font-semibold text-sm">{item.label}</p>
-                      <p className="text-xs text-white/50">{item.desc}</p>
+                      <p className="text-xs text-white/70">{item.desc}</p>
                     </motion.div>
                   ))}
                 </div>
