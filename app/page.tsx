@@ -2034,6 +2034,18 @@ export default function Home() {
                 <li className="flex items-start gap-2"><span className="text-[#14B8A6] font-bold">3.</span> <span><strong className="text-white">Worst case:</strong> Nescot owns industry-standard facilities showcasing best practice (the investment you need anyway)</span></li>
                 <li className="flex items-start gap-2"><span className="text-[#14B8A6] font-bold">4.</span> <span><strong className="text-white">Best case:</strong> Nescot owns 50% of a revenue-generating software company + national recognition as an AI-focused FE pioneer</span></li>
               </ul>
+              
+              {/* Strategic Choice Callout */}
+              <div className="mt-8 border-t border-white/20 pt-6">
+                <div className="bg-gradient-to-r from-[#14B8A6]/20 to-[#5B2D86]/20 rounded-xl p-5 border border-[#14B8A6]/30">
+                  <p className="text-lg font-bold text-white mb-2">Same Investment. Different Outcome.</p>
+                  <p className="text-sm text-slate-300">
+                    The computing department capital bid is justified on educational merit alone. The only question: 
+                    <span className="text-white"> modernised facilities</span>, or 
+                    <span className="text-[#14B8A6]"> modernised facilities + revenue engine + national recognition</span>?
+                  </p>
+                </div>
+              </div>
             </motion.div>
 
             <motion.div
@@ -3621,6 +3633,24 @@ export default function Home() {
               <p className="text-sm text-slate-400 mt-6 text-center">
                 Potential supplementary funding (DfE grants, industry sponsorships) could reduce capital requirement — but is not relied upon.
               </p>
+              
+              {/* Asymmetric Opportunity Callout */}
+              <div className="mt-8 bg-gradient-to-r from-[#14B8A6]/10 to-emerald-500/10 rounded-xl p-6 border border-[#14B8A6]/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xl">⚖️</span>
+                  <p className="text-lg font-bold text-white">Asymmetric Opportunity</p>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4 text-sm">
+                  <div className="bg-white/5 rounded-lg p-4">
+                    <p className="text-slate-400 mb-1 font-medium">Protected Downside</p>
+                    <p className="text-white">Modern facilities + enhanced T-Level delivery + internal software capability + recruitment savings</p>
+                  </div>
+                  <div className="bg-white/5 rounded-lg p-4">
+                    <p className="text-[#14B8A6] mb-1 font-medium">Unlimited Upside</p>
+                    <p className="text-white">All of the above + £136k+ annual revenue share + 50% equity in growing enterprise + FE pioneer status</p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
             {/* Budget chart */}
