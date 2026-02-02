@@ -1485,6 +1485,7 @@ export default function Home() {
   const [showTop, setShowTop] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const lastScrollY = useRef(0)
+  const passwordRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1496,6 +1497,14 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Focus the password input when the password gate is visible
+  useEffect(() => {
+    if (!authenticated && !showSplash && passwordRef.current) {
+      // small timeout to wait for animation/paint
+      setTimeout(() => passwordRef.current?.focus(), 50)
+    }
+  }, [authenticated, showSplash])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -1709,6 +1718,9 @@ export default function Home() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               aria-label="Password"
+              ref={passwordRef}
+              autoComplete="current-password"
+              inputMode="numeric"
               type="password"
               value={input}
               onChange={(e) => setInput(e.target.value)}
