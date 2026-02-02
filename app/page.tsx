@@ -2529,7 +2529,7 @@ export default function Home() {
         </section>
 
         {/* ═══ STUDENT JOURNEY ═══ */}
-        <section id="journey" className="py-24 md:py-32 bg-slate-50">
+        <section id="journey" className="py-24 md:py-32 bg-gradient-to-br from-blue-50 to-indigo-50">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0 }}
@@ -2754,7 +2754,7 @@ export default function Home() {
         </section>
 
         {/* ═══ FE PRECEDENTS ═══ */}
-        <section id="fe-precedents" className="py-16 md:py-20 bg-white">
+        <section id="fe-precedents" className="py-16 md:py-20 bg-gradient-to-br from-emerald-50 to-teal-50">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-8">
               <span className="inline-block px-4 py-2 bg-[#14B8A6]/10 text-[#14B8A6] rounded-full text-sm font-bold mb-4">
@@ -2819,7 +2819,7 @@ export default function Home() {
         </section>
 
         {/* ═══ EVIDENCE ═══ */}
-        <section id="evidence" className="py-24 md:py-32 bg-slate-50">
+        <section id="evidence" className="py-24 md:py-32 bg-gradient-to-br from-amber-50 to-orange-50">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -3474,7 +3474,7 @@ export default function Home() {
         </section>
 
         {/* ═══ STRATEGIC ALIGNMENT ═══ */}
-        <section className="py-20 md:py-24 bg-gradient-to-r from-[#5B2D86] to-[#14B8A6] relative overflow-hidden section-texture">
+        <section className="py-20 md:py-24 bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 relative overflow-hidden section-texture">
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             <motion.div
               initial={{ opacity: 0 }}
@@ -3564,7 +3564,7 @@ export default function Home() {
         </section>
 
         {/* ═══ BUDGET & TIMELINE ═══ */}
-        <section id="budget" className="py-24 md:py-32 bg-white">
+        <section id="budget" className="py-24 md:py-32 bg-gradient-to-br from-rose-50 to-pink-50">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -3748,7 +3748,7 @@ export default function Home() {
         </section>
 
         {/* ═══ FOUNDER & LEADERSHIP ═══ */}
-        <section className="py-20 md:py-24 bg-gradient-to-br from-slate-900 via-[#1e1b4b] to-slate-900 text-white relative overflow-hidden">
+        <section className="py-20 md:py-24 bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-10 right-20 w-80 h-80 bg-[#14B8A6] rounded-full blur-[120px]" />
             <div className="absolute bottom-10 left-20 w-64 h-64 bg-[#5B2D86] rounded-full blur-[100px]" />
@@ -3837,7 +3837,7 @@ export default function Home() {
         </section>
 
         {/* ═══ FAQ ═══ */}
-        <section id="faq" className="py-24 md:py-32 bg-slate-50">
+        <section id="faq" className="py-24 md:py-32 bg-gradient-to-br from-cyan-50 to-sky-50">
           <div className="max-w-4xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -3954,7 +3954,7 @@ export default function Home() {
         </section>
 
         {/* ═══ TOUGH QUESTIONS APPENDIX ═══ */}
-        <section id="tough-questions" className="py-16 bg-slate-900 text-white">
+        <section id="tough-questions" className="py-16 bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 text-white">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-12">
               <span className="inline-block px-4 py-2 bg-red-500/20 text-red-300 rounded-full text-sm font-bold mb-4">
